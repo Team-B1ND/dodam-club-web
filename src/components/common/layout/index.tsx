@@ -1,21 +1,14 @@
-import { Container, Wrap } from './style';
-import React from 'react';
+import React from 'react'
+import * as S from './style'
+import { Outlet } from 'react-router-dom'
 
-interface Props {
-  authHideChildren?: React.ReactNode;
-  children: React.ReactNode;
+const Layout = () => {
+  return (
+    <S.main>
+      <S.exampleSidebar />
+      <Outlet/>
+    </S.main>
+  )
 }
 
-const Layout = ({ authHideChildren, children }: Props) => {
-  const pathname = window.location.pathname;
-  return (
-    <>
-      <Container>
-        {pathname !== '/login' && pathname.substring(0, 5) !== '/sign' && authHideChildren}
-        <Wrap isSign={pathname === '/sign' ? false : true}>{children}</Wrap>
-      </Container>
-    </>
-  );
-};
-
-export default Layout;
+export default Layout

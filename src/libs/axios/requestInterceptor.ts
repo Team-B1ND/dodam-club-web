@@ -1,6 +1,6 @@
 import { InternalAxiosRequestConfig } from "axios";
 import token from "../token/token";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, REQUEST_TOKEN_KEY } from "../../constants/token.constants";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, REQUEST_TOKEN_KEY } from "../../constants/token/token.constants";
 
 const requestInterceptor = (config: InternalAxiosRequestConfig, url: string): InternalAxiosRequestConfig => {
   if (typeof window !== "undefined") {

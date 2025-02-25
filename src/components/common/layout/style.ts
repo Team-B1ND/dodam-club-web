@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+export const main = styled.div`
   display: flex;
-  background-color: #f5f5f5;
+  height: 100vh;
+  width: 100vw;
+  padding: 58px 32px;
+  gap: 32px;
+  background-color: ${({ theme }) => theme.backgroundNeutral};
+`
 
-  overflow-y: hidden;
-`;
-
-export const Wrap = styled.div<{ isSign: boolean }>`
-  width: 100%;
+export const exampleSidebar = styled.div`
+  width: 250px;
   height: 100%;
-`;
+  background-color: ${({ theme }) => theme.backgroundNormal};
+`

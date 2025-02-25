@@ -1,10 +1,12 @@
 export interface Club {
-  subject: string;
   name: string;
-  state: string;
+  subject: string;
   description: string;
+  shortDescription: string;
   image: string;
-  isCreativeClub: boolean;
+  type: string;
+  state?: string;
+  studentIds: number[];
 }
 
 export interface ClubProps {

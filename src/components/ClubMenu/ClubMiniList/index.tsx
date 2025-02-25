@@ -1,6 +1,6 @@
 import React from 'react'
 import * as S from './style'
-import ClubMiniItem from '../ClubMiniItem'
+import ClubMiniItem from './ClubMiniItem'
 import { ClubMenuProps } from 'src/types/club/club.type'
 
 const ClubMiniList = ({ name, value } : ClubMenuProps ) => {

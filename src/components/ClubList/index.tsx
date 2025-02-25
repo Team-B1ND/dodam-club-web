@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as S from "./style";
 import { DodamSegmentedButton } from "@b1nd/dds-web";
-import ClubItem from "@components/ClubItem";
+import ClubItem from "./ClubItem";
 import { Club } from "src/types/club/club.type";
 
 const ClubList = () => {
