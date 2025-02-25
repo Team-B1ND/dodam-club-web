@@ -1,5 +1,3 @@
-
-
 export interface Member {
   id: string;
   name: string;
@@ -18,6 +16,8 @@ export interface Student {
   grade: number;
   room: number;
   number: number;
+  code: string;
+  profileImage?: string;
 }
 
 export interface Teacher {

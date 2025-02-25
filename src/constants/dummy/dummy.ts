@@ -15,6 +15,7 @@ export const userDummy : MemberStudent[] = [
         grade: 2,
         room: 4,
         number: 6,
+        code:'asdfff'
     },
     teacher: null,
     createdAt: "2024-03-15T15:51:58.033538",
@@ -34,6 +35,7 @@ export const userDummy : MemberStudent[] = [
         grade: 1,
         room: 3,
         number: 10,
+        code:'asdffd'
     },
     teacher: null,
     createdAt: "2024-03-15T15:51:58.033538",
@@ -53,6 +55,7 @@ export const userDummy : MemberStudent[] = [
         grade: 1,
         room: 1,
         number: 1,
+        code:'asdffa'
     },
     teacher: null,
     createdAt: "2024-03-15T15:51:58.033538",
@@ -72,6 +75,7 @@ export const userDummy : MemberStudent[] = [
         grade: 1,
         room: 2,
         number: 1,
+        code:'asdffq'
     },
     teacher: null,
     createdAt: "2024-03-15T15:51:58.033538",
@@ -91,6 +95,7 @@ export const userDummy : MemberStudent[] = [
         grade: 1,
         room: 3,
         number: 1,
+        code:'asdffe'
     },
     teacher: null,
     createdAt: "2024-03-15T15:51:58.033538",
@@ -110,6 +115,7 @@ export const userDummy : MemberStudent[] = [
         grade: 1,
         room: 2,
         number: 3,
+        code:'asdff3'
     },
     teacher: null,
     createdAt: "2024-03-15T15:51:58.033538",

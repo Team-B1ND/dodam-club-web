@@ -8,7 +8,7 @@ interface UseImageUploadReturn {
   resetImage: () => void;
 }
 
-export const UseImageUpload = () : UseImageUploadReturn => {
+export const useImageUpload = () : UseImageUploadReturn => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
 

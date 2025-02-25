@@ -7,16 +7,18 @@ import { Club } from 'src/types/club/club.type'
 import MDEditor from '@uiw/react-md-editor'
 import { useRecoilValue } from "recoil";
 import { themeModeAtom } from "src/store/theme/themeStore";
-import { UseImageUpload } from 'src/hooks/image/useImageUpload'
+import { useImageUpload } from 'src/hooks/image/useImageUpload'
 import imagePreviewAlt from 'src/assets/imagePreviewAlt.png'
 import clubApi from 'src/api/Club/club.api'
 import { userDummy } from 'src/constants/dummy/dummy'
 import MemberItem from '@components/MemberItem'
+import useGetMember from 'src/hooks/member/useGetMember'
 
 const CreateClubPage = () => {
   const currentTheme = useRecoilValue(themeModeAtom);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { previewUrl, handleImageChange } = UseImageUpload();
+  const { previewUrl, handleImageChange } = useImageUpload();
+  const { memberList } = useGetMember({ type:'SEARCH' })
   const [ searchData, setSearchData ] = useState<string>('')
 
   const {
@@ -74,6 +76,7 @@ const CreateClubPage = () => {
       setValue('image', previewUrl)
     }
   }, [previewUrl])
+
   return (
     <S.CreateClubContainer
       data-color-mode={currentTheme.toLowerCase()}
@@ -285,8 +288,8 @@ const CreateClubPage = () => {
                 placeholder='이름으로 검색'
               />
               <S.CreateClubMemberList>
-                {userDummy
-                .filter((item) => studentIds.indexOf(item.student.id) === -1)
+                {memberList
+                .filter((item) => studentIds.indexOf(item.id) === -1)
                 .filter((item) => item.name.includes(searchData))
                 .map((item) => (
                   <MemberItem
@@ -294,21 +297,21 @@ const CreateClubPage = () => {
                     type='PICKER'
                     pickerStatus={false} 
                     key={item.id}
-                    onClick={() => handleMemberSelect(item.student.id)}
+                    onClick={() => handleMemberSelect(item.id)}
                   />
                 ))}
               </S.CreateClubMemberList>
             </S.CreateClubMemberSearch>
             <S.CreateClubMemberSelected>
-              {userDummy
-              .filter((item) => studentIds.indexOf(item.student.id) !== -1)
+              {memberList
+              .filter((item) => studentIds.indexOf(item.id) !== -1)
               .map((item) => (
                 <MemberItem
                   value={item}
                   type='PICKER'
                   pickerStatus={true} 
                   key={item.id}
-                  onClick={() => handleMemberSelect(item.student.id)}
+                  onClick={() => handleMemberSelect(item.id)}
                 />
               ))}
             </S.CreateClubMemberSelected>

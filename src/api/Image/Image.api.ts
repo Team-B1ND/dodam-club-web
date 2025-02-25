@@ -13,6 +13,6 @@ export const uploadImage = async (imageData: FormData) => {
       return data.data;
     }
   }catch{
-    return '';
+    return false;
   };
 };
