@@ -45,4 +45,5 @@ export const ClubItemDescription = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   ${DodamTypography.Body1.Medium}
+  color: ${({ theme }) => theme.labelNormal};
 `

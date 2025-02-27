@@ -10,7 +10,6 @@ import { themeModeAtom } from "src/store/theme/themeStore";
 import { useImageUpload } from 'src/hooks/image/useImageUpload'
 import imagePreviewAlt from 'src/assets/imagePreviewAlt.png'
 import clubApi from 'src/api/Club/club.api'
-import { userDummy } from 'src/constants/dummy/dummy'
 import MemberItem from '@components/MemberItem'
 import useGetMember from 'src/hooks/member/useGetMember'
 
@@ -18,7 +17,7 @@ const CreateClubPage = () => {
   const currentTheme = useRecoilValue(themeModeAtom);
   const inputRef = useRef<HTMLInputElement>(null);
   const { previewUrl, handleImageChange } = useImageUpload();
-  const { memberList } = useGetMember({ type:'SEARCH' })
+  const { memberList } = useGetMember({ type:['SEARCH', undefined] })
   const [ searchData, setSearchData ] = useState<string>('')
 
   const {

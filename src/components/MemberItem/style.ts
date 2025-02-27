@@ -4,11 +4,9 @@ import styled from "styled-components";
 export const MemberItemContainer = styled.div`
   width: 100%;
   height: 52px;
-  padding: 0 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  cursor: pointer;
 `
 
 export const MemberInfoContainer = styled.div`
@@ -25,4 +23,8 @@ export const MemberGradeAndRoom = styled.div`
 
 export const MemberItemBar = styled.div`
   flex-grow: 1;
+`
+
+export const MemberItemIconContainer = styled.div`
+  display: flex;
 `

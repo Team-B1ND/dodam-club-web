@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { DodamShape, DodamTypography, } from "@b1nd/dds-web";
 
 export const ClubListContainer = styled.div`
-  width: fit-content;
+  flex-grow: 1;
   ${DodamShape.Large};
   display: flex;
   flex-direction: column;

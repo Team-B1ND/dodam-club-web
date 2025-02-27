@@ -83,7 +83,7 @@ export const CreateClubMemberList = styled.div`
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
   background-color: transparent;
   height: 100%;
-  padding: 8px 0;
+  padding: 8px 12px;
 `
 
 export const CreateClubMemberSelected = styled.div`
@@ -94,7 +94,7 @@ export const CreateClubMemberSelected = styled.div`
   background-color: transparent;
   height: 100%;
   width: 50%;
-  padding: 8px 0;
+  padding: 8px 12px;
 `
 
 export const CreateClubTypeSelect = styled.select<{ $isError: boolean; }>`

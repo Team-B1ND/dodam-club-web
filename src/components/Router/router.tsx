@@ -8,6 +8,7 @@ import { useThemes } from "src/hooks/theme/usetheme";
 import { useRecoilValue } from "recoil";
 import { themeModeAtom } from "src/store/theme/themeStore";
 import styled from 'styled-components';
+import ClubDetail from '@components/ClubDetail';
 
 const Router = () => {
   const { handleTheme } = useThemes();
@@ -28,6 +29,7 @@ const Router = () => {
         <Route path='/' element={<Layout/>}>
           <Route index element={<MainPage/>}/>
           <Route path='/create' element={<CreateClubPage/>}/>
+          <Route path='/:id' element={<ClubDetail type='PAGE'/>}/>
         </Route>
       </Routes>
       <Themechange onClick={handleTheme}>{currentTheme}</Themechange>

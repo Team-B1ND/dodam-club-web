@@ -1,16 +1,28 @@
 export interface Club {
   name: string;
-  subject: string;
   description: string;
   shortDescription: string;
+  subject: string;
   image: string;
   type: string;
-  state?: string;
   studentIds: number[];
+  state?: string;
+}
+
+export interface ClubMember {
+  id: number;
+  status: string;
+  permission: string;
+  studentId: number;
+  name: string;
+  grade: number;
+  room: number;
+  number: number;
+  profileImage: string | null;
 }
 
 export interface ClubProps {
-  value: Club;
+  value: ClubResponse;
 }
 
 export interface ClubMenuProps {
@@ -22,3 +34,14 @@ export interface MiniClubProps extends ClubProps {
   type?: string;
 }
 
+export interface ClubResponse {
+  id: number;
+  name: string;
+  description: string;
+  shortDescription: string;
+  subject: string;
+  image: string;
+  type: string;
+  teacher: string;
+  state: string;
+}
