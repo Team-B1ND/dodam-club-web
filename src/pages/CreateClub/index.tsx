@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as S from './style'
-import { DodamFilledButton, DodamFilledTextField } from '@b1nd/dds-web'
+import { Close, DodamFilledButton, DodamFilledTextField } from '@b1nd/dds-web'
 import { useForm, Controller } from 'react-hook-form'
 import { EClub } from 'src/enum/club/club.enum'
 import { Club } from 'src/types/club/club.type'
@@ -12,7 +12,7 @@ import imagePreviewAlt from 'src/assets/imagePreviewAlt.png'
 import clubApi from 'src/api/Club/club.api'
 import MemberItem from '@components/MemberItem'
 import useGetMember from 'src/hooks/member/useGetMember'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const CreateClubPage = () => {
   const currentTheme = useRecoilValue(themeModeAtom);
@@ -87,7 +87,8 @@ const CreateClubPage = () => {
     <S.CreateClubContainer
       data-color-mode={currentTheme.toLowerCase()}
     >
-      동아리 개설
+      <Link to={'/'} style={{display:'flex', width:'24px'}}><Close $svgStyle={{cursor:'pointer'}}/></Link>
+      <S.CreateClubHeader>동아리 개설</S.CreateClubHeader>
       <S.CreateClubForm
         onSubmit={handleSubmit(data => {
           clubApi.postClub(data)

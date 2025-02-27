@@ -1,6 +1,6 @@
 import React from 'react'
 import * as S from './style'
-import Avatar from '@components/Common/Avatar'
+import { Avatar } from '@b1nd/dds-web';
 import { CheckmarkCircleFilled, CheckmarkCircleLine, DodamColor, ExclamationmarkCircle, XmarkCircle } from '@b1nd/dds-web';
 import { useTheme } from 'styled-components';
 import { ClubMember } from 'src/types/club/club.type';
@@ -21,7 +21,7 @@ const MemberItem = ({value, type, pickerStatus, onClick}: MemberItemProps ) => {
   return (
     <S.MemberItemContainer >
       {!profileImage
-      ? <Avatar size={30}/>
+      ? <Avatar size='large'/>
       : <img src={profileImage} alt='동아리 이미지가 없습니다.'/>}
       <S.MemberInfoContainer>
         {name}

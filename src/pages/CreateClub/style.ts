@@ -11,6 +11,10 @@ export const CreateClubContainer = styled.div`
   background-color: ${({ theme }) => theme.backgroundNormal};
   color: ${({ theme }) => theme.labelNormal};
   padding: 24px;
+`
+
+export const CreateClubHeader = styled.p`
+  padding: 12px 12px 0;
   ${DodamTypography.Heading1.Bold}
 `
 
@@ -18,7 +22,7 @@ export const CreateClubForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px 0 60px 0;
+  padding: 16px 12px 60px ;
 `
 
 export const CreateClubSubmit = styled.button`

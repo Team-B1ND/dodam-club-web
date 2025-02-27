@@ -44,13 +44,14 @@ const ClubList = () => {
           : item.type === EClub.SELF_DIRECT_CLUB
         )
         .map((item: ClubResponse) => (
-          // <Link to={`/${item.id}`}>
-          <div onClick={() => setIsopen((prev)=>!prev)} style={{display:'flex'}}>
+          <Link to={`/${item.id}`}>
+          {/* 주석은 모달 테스트용입니다 모달 추가시 이전될 예정.. */}
+          {/* <div onClick={() => setIsopen((prev)=>!prev)} style={{display:'flex'}}> */}
             <ClubItem
               key={item.name}
               value={item}
             />
-            <DodamModal
+            {/* <DodamModal
               isOpen={isOpen}
               close={() => setIsopen((prev) => !prev)}
               background={true}>
@@ -61,9 +62,9 @@ const ClubList = () => {
                 modalId={item.id}
                 close={() => setIsopen((prev) => !prev)}
               />
-              </DodamModal>
-          </div>
-          // </Link>
+              </DodamModal> */}
+          {/* </div> */}
+          </Link>
         ))}
       </S.ClubItemContainer>
 

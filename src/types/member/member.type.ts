@@ -8,9 +8,3 @@ export interface Student {
   profileImage?: string;
   status?: string;
 }
-
-export interface Teacher {
-  id: number;
-  tel: string;
-  position: string;
-}
