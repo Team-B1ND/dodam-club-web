@@ -1,24 +1,11 @@
 import { isAxiosError } from 'axios';
-import React, { useEffect, useState } from 'react'
-import { ErrorResponse } from 'react-router-dom';
+import { useState } from 'react'
 import clubApi from 'src/api/Club/club.api'
-import { ClubMember, ClubResponse } from 'src/types/club/club.type'
+import { ClubResponse } from 'src/types/club/club.type'
 
-interface useGetClubsProps {
-  id?: number;
-  type: "ALL" | "CLUB";
-}
-const useGetClubs = ({ id, type }: useGetClubsProps) => {
+const useGetClubs = () => {
   const [ clubList, setClubList ] = useState<ClubResponse[]>([])
   const [ clubInfo, setClubInfo ] = useState<ClubResponse>()
-
-  useEffect(() => {
-    if(type === "ALL"){
-      getClubList()
-    }else{
-      getClub(id)
-    }
-  }, [])
 
   const getClubList = async () => {
     try {
@@ -35,6 +22,7 @@ const useGetClubs = ({ id, type }: useGetClubsProps) => {
     try {
       const data = await clubApi.getClub(id)
       if( data ) {
+        data.description = `${data.description}`.replace('\n', '\n\n')
         setClubInfo(data)
       }
     }catch(err){
@@ -45,6 +33,8 @@ const useGetClubs = ({ id, type }: useGetClubsProps) => {
   return {
     clubList,
     clubInfo,
+    getClub,
+    getClubList
   }
 }
 

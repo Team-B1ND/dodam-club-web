@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./style";
-import { DodamSegmentedButton } from "@b1nd/dds-web";
+import { DodamModal, DodamSegmentedButton } from "@b1nd/dds-web";
 import ClubItem from "./ClubItem";
 import { ClubResponse } from "src/types/club/club.type";
 import { EClub } from "src/enum/club/club.enum";
 import useGetClubs from "src/hooks/club/useGetClubs";
 import { Link } from "react-router-dom";
+import ClubDetail from "@components/ClubDetail";
 
 const ClubList = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
-  const { clubList } = useGetClubs({ type: "ALL" })
+  const { clubList, getClubList } = useGetClubs()
+  const [ isOpen, setIsopen ] = useState(false)
 
   const changePage = () => {
     setIsCreativeClubPage(prev=>!prev)
   }
-  
+  useEffect(() => {
+    getClubList()
+  }, [])
+
   return (
     <S.ClubListContainer>
       <S.ClubListHead>동아리</S.ClubListHead>
@@ -39,12 +44,26 @@ const ClubList = () => {
           : item.type === EClub.SELF_DIRECT_CLUB
         )
         .map((item: ClubResponse) => (
-          <Link to={`/${item.id}`}>
+          // <Link to={`/${item.id}`}>
+          <div onClick={() => setIsopen((prev)=>!prev)} style={{display:'flex'}}>
             <ClubItem
-            key={item.name}
-            value={item}
+              key={item.name}
+              value={item}
             />
-          </Link>
+            <DodamModal
+              isOpen={isOpen}
+              close={() => setIsopen((prev) => !prev)}
+              background={true}>
+
+              <ClubDetail
+                key={item.id}
+                type="MODAL"
+                modalId={item.id}
+                close={() => setIsopen((prev) => !prev)}
+              />
+              </DodamModal>
+          </div>
+          // </Link>
         ))}
       </S.ClubItemContainer>
 

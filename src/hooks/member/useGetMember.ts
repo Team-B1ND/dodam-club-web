@@ -4,26 +4,11 @@ import ClubApi from 'src/api/Club/club.api'
 import { ClubMember } from 'src/types/club/club.type'
 import { Student } from 'src/types/member/member.type'
 import { ErrorResponse } from 'src/types/response/response.type'
-interface useGetMemberProps {
-  id?: number;
-  type : ['CLUB' | 'SEARCH', 'LEADER' | undefined]
-}
 
-const useGetMember = ({ id, type }: useGetMemberProps) => {
+const useGetMember = () => {
   const [ memberList, setMemberList ] = useState<Student[]>([])
   const [ clubMemberList, setClubMemberList ] = useState<ClubMember[]>([])
   const [ clubLeader, setClubLeader ] = useState<ClubMember>()
-
-  useEffect(() => {
-    if(type.includes("SEARCH")){
-      getMemberList()
-    }else if(type.includes("CLUB")){
-      getAllClubMemberList(id)
-    }
-    if(type.includes("LEADER")){
-      getClubLeader(id)
-    }
-  }, [])
 
   const getClubLeader = async (id: number = 1) => {
     try {
@@ -76,7 +61,11 @@ const useGetMember = ({ id, type }: useGetMemberProps) => {
   return {
     memberList,
     clubMemberList,
-    clubLeader
+    clubLeader,
+    getClubLeader,
+    getClubMemberList,
+    getMemberList,
+    getAllClubMemberList
   }
 }
 

@@ -38,6 +38,10 @@ class ClubApi {
     const data = await customAxios.get<baseResponse<Student[]>>(`/clubs/members`)
     return data.data.data
   }
+
+  // public async getMyClubApply() {
+  //   const data = await customAxios.get<baseResponse>(`/clubs`)
+  // }
 }
 
 export default new ClubApi();

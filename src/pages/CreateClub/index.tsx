@@ -12,13 +12,20 @@ import imagePreviewAlt from 'src/assets/imagePreviewAlt.png'
 import clubApi from 'src/api/Club/club.api'
 import MemberItem from '@components/MemberItem'
 import useGetMember from 'src/hooks/member/useGetMember'
+import { useNavigate } from 'react-router-dom'
 
 const CreateClubPage = () => {
   const currentTheme = useRecoilValue(themeModeAtom);
   const inputRef = useRef<HTMLInputElement>(null);
   const { previewUrl, handleImageChange } = useImageUpload();
-  const { memberList } = useGetMember({ type:['SEARCH', undefined] })
+  const { memberList, getMemberList } = useGetMember()
   const [ searchData, setSearchData ] = useState<string>('')
+  
+  const nav = useNavigate()
+
+  useEffect(() => {
+    getMemberList()
+  }, [])
 
   const {
     handleSubmit,
@@ -82,7 +89,10 @@ const CreateClubPage = () => {
     >
       동아리 개설
       <S.CreateClubForm
-        onSubmit={handleSubmit(data => clubApi.postClub(data))}
+        onSubmit={handleSubmit(data => {
+          clubApi.postClub(data)
+          nav('/')
+        })}
       >
         <Controller
           name="name"

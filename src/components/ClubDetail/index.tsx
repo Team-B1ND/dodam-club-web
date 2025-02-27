@@ -1,31 +1,51 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import * as S from './style'
 import { useRecoilValue } from "recoil";
 import { themeModeAtom } from "src/store/theme/themeStore";
+import { useTheme } from 'styled-components';
 import { Link, useParams } from 'react-router-dom'
 import useGetClubs from 'src/hooks/club/useGetClubs'
 import { EClub, EClubState } from 'src/enum/club/club.enum'
-import { ArrowLeft, CheckmarkCircleFilled, DodamColor, ExclamationmarkCircle, XmarkCircle } from '@b1nd/dds-web'
+import { ArrowLeft, CheckmarkCircleFilled, Close, DodamColor, ExclamationmarkCircle, XmarkCircle } from '@b1nd/dds-web'
 import useGetMember from 'src/hooks/member/useGetMember'
 import MDEditor from '@uiw/react-md-editor'
 import MemberItem from '@components/MemberItem'
-import { useTheme } from 'styled-components';
+import DetailLoading from './DetailLoading';
 
-const ClubDetail = ({ type } : { type : "MODAL" | "PAGE"}) => {
+interface ClubDetailProps {
+  type : "MODAL" | "PAGE";
+  modalId? : number;
+  close?: () => void;
+}
+
+const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { id } = useParams()
-  const { clubMemberList, clubLeader } = useGetMember({id: Number(id), type:["CLUB", "LEADER"]})
-  const { clubInfo } = useGetClubs({id: Number(id), type: "CLUB"})
+  const { clubMemberList, clubLeader, getClubLeader, getClubMemberList, getAllClubMemberList } = useGetMember()
+  const { clubInfo, getClub } = useGetClubs()
   const currentTheme = useRecoilValue(themeModeAtom);
   const theme = useTheme()
+  
+  useEffect(() => {
+    if(type == "MODAL"){
+      getClubLeader(modalId)
+      getClubMemberList(modalId)
+      getClub(modalId)
+    }else{
+      getClubLeader(Number(id))
+      getAllClubMemberList(Number(id))
+      getClub(Number(id))
+    }
+  }, [])
 
-  return (
+  return clubInfo?.id
+  ? (
     <S.ClubDetailContainer
       $type={type}
       data-color-mode={currentTheme.toLowerCase()}
     >
       {type == 'PAGE'
-      && <Link to={'/'}><ArrowLeft $svgStyle={{cursor:'pointer'}} color={theme.labelNormal}/></Link>
-      }
+      ? <Link to={'/'}><ArrowLeft $svgStyle={{cursor:'pointer'}} color={theme.labelNormal}/></Link>
+      : <div onClick={close}><Close $svgStyle={{cursor:'pointer'}}/></div>}
       <S.ClubDetailHeader>
         <S.ClubDetailHeaderInfo>
           <S.ClubDetailHeaderSubject>
@@ -61,6 +81,7 @@ const ClubDetail = ({ type } : { type : "MODAL" | "PAGE"}) => {
             <MemberItem
               value={item}
               type={type==="MODAL" ? "STATUS" : "LIST"}
+              key={item.id}
             />
           ))}
         </S.ClubDeatilMemberList>
@@ -72,6 +93,9 @@ const ClubDetail = ({ type } : { type : "MODAL" | "PAGE"}) => {
         </S.ClubDetailDescription>
       </S.ClubDetailMainContainer>
     </S.ClubDetailContainer>
+  )
+  : (
+    <DetailLoading type={type}/>
   )
 }
 
