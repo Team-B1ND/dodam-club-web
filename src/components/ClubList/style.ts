@@ -3,7 +3,7 @@ import { DodamShape, DodamTypography, } from "@b1nd/dds-web";
 
 export const ClubListContainer = styled.div`
   flex-grow: 1;
-  width: 60%;
+  width: fit-content;
   ${DodamShape.Large};
   display: flex;
   flex-direction: column;

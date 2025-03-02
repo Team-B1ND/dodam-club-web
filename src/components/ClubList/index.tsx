@@ -16,6 +16,7 @@ const ClubList = () => {
   const changePage = () => {
     setIsCreativeClubPage(prev=>!prev)
   }
+  
   useEffect(() => {
     getClubList()
   }, [])

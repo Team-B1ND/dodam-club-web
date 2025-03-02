@@ -2,8 +2,16 @@ import * as S from "./style";
 import ClubList from "@components/ClubList";
 import { DodamFilledButton } from "@b1nd/dds-web";
 import { Link } from "react-router-dom";
+import ClubMenu from "@components/ClubMenu";
+import { useGetJoinRequest } from "src/hooks/club/useGetJoinRequest";
+import { useEffect } from "react";
 
 const MainPage = () => {
+  const { joinRequestList, getJoinRequest } = useGetJoinRequest();
+
+  useEffect(() => {
+    getJoinRequest()
+  }, [])
 
   return (
     <>
@@ -17,6 +25,7 @@ const MainPage = () => {
             typography={["Body2", "Bold"]}
           />
         </Link>
+        <ClubMenu name="받은 부원 제안" value={joinRequestList} type="Request" />
       </S.clubMenubar>
     </>
   );

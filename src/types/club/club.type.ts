@@ -25,15 +25,6 @@ export interface ClubProps {
   value: ClubResponse;
 }
 
-export interface ClubMenuProps {
-  name: string;
-  value: Club[];
-}
-
-export interface MiniClubProps extends ClubProps {
-  type?: string;
-}
-
 export interface ClubResponse {
   id: number;
   name: string;
@@ -45,3 +36,17 @@ export interface ClubResponse {
   teacher: string;
   state: string;
 }
+
+export interface ClubJoinResponse {
+  id: number;
+  clubPermission: string;
+  status: string;
+  club: ClubResponse;
+}
+
+export interface ClubMenuProps {
+  name: string;
+  value: ClubJoinResponse[];
+  type: "LeaderApply" | "Request" | "MyClub" | "StudentApply"
+}
+
