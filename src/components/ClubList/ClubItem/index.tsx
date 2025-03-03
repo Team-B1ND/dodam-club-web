@@ -2,7 +2,7 @@ import * as S from './style'
 import { CheckmarkCircle, Clock, DodamColor } from '@b1nd/dds-web'
 import { ClubProps } from 'src/types/club/club.type'
 import { EClubState } from 'src/enum/club/club.enum'
-import Skeleton from '@components/Skeleton'
+
 
 
 const ClubItem = ({ value } : ClubProps) => {
