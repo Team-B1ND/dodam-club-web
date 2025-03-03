@@ -35,6 +35,8 @@ export interface ClubResponse {
   type: string;
   teacher: string;
   state: string;
+  createdAt?: string;
+  modifiedAt?: string;
 }
 
 export interface ClubJoinResponse {
@@ -46,7 +48,17 @@ export interface ClubJoinResponse {
 
 export interface ClubMenuProps {
   name: string;
-  value: ClubJoinResponse[];
   type: "LeaderApply" | "Request" | "MyClub" | "StudentApply"
 }
 
+export interface ClubMenuItemProps {
+  name: string;
+  value: ClubJoinResponse[];
+  type: "Request" | "StudentApply";
+}
+
+export interface ClubMenuItemMyClubProps {
+  name: string;
+  value : ClubResponse[];
+  type: "LeaderApply" | "MyClub";
+}

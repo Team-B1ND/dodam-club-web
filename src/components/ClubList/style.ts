@@ -4,6 +4,7 @@ import { DodamShape, DodamTypography, } from "@b1nd/dds-web";
 export const ClubListContainer = styled.div`
   flex-grow: 1;
   width: fit-content;
+  min-width: 908px;
   ${DodamShape.Large};
   display: flex;
   flex-direction: column;

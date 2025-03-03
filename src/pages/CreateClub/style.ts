@@ -41,6 +41,9 @@ export const CreateClubCustomInputContainer = styled.div<{ $isError: boolean; }>
   ${DodamTypography.Label.Medium}
   color: ${({ theme, $isError }) => $isError ? theme.labelAlternative : theme.statusNegative};
   white-space: pre-line;
+  > .w-md-editor-toolbar {
+    background-color: ${({ theme }) => theme.backgroundNormal};
+  }
 `
 
 export const CreateClubCustomInput = styled.div<{ $isError: boolean; }>`
@@ -87,6 +90,7 @@ export const CreateClubMemberList = styled.div`
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
   background-color: transparent;
   height: 100%;
+  overflow-y: scroll;
   padding: 8px 12px;
 `
 

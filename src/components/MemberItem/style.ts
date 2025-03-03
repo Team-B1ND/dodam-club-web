@@ -28,3 +28,9 @@ export const MemberItemBar = styled.div`
 export const MemberItemIconContainer = styled.div`
   display: flex;
 `
+
+export const MemberItemProfileImage = styled.img`
+  width: 36px;
+  aspect-ratio: 1;
+  border-radius: 999px;
+`

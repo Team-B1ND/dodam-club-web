@@ -85,3 +85,23 @@ export const ClubDetailMarkDownViewer = styled.div`
   flex-grow: 1;
   padding: 12px;
 `
+
+export const ClubDetailMenu = styled.div`
+  display: flex;
+  padding: 0 20px;
+  justify-content: space-between;
+  align-items: end;
+`
+
+export const ClubDetailMenuInfoAndButton = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  ${DodamTypography.Body1.Bold}
+  color: ${({ theme }) => theme.labelAlternative};
+`
+
+export const ClubDetailMenuButton = styled.div`
+  display: flex;
+  gap: 8px;
+`

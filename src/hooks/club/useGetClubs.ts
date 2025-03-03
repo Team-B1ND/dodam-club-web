@@ -12,7 +12,7 @@ const useGetClubs = () => {
       if( data ) {
         setClubList(data)
       }
-    }catch(err){
+    }catch(err) {
       return err
     }
   }
@@ -24,7 +24,29 @@ const useGetClubs = () => {
         data.description = `${data.description}`.replace('\n', '\n\n')
         setClubInfo(data)
       }
-    }catch(err){
+    }catch(err) {
+      return err
+    }
+  }
+
+  const getMyClubs = async () => {
+    try {
+      const data = await clubApi.getMyClubs()
+      if( data ) {
+        setClubList(data)
+      }
+    }catch(err) {
+      return err
+    }
+  }
+
+  const getMyClubApply = async () => {
+    try {
+      const data = await clubApi.getMyClubApply()
+      if( data ) {
+        setClubList(data)
+      }
+    }catch(err) {
       return err
     }
   }
@@ -33,7 +55,9 @@ const useGetClubs = () => {
     clubList,
     clubInfo,
     getClub,
-    getClubList
+    getClubList,
+    getMyClubs,
+    getMyClubApply,
   }
 }
 

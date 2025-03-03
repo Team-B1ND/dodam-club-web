@@ -15,16 +15,21 @@ import useGetMember from 'src/hooks/member/useGetMember';
 import { Link, useNavigate } from 'react-router-dom';
 import useClubForm from 'src/hooks/club/useClubForm';
 import { useTheme } from 'styled-components';
+import useGetClubs from 'src/hooks/club/useGetClubs';
 
 const CreateClubPage = () => {
   const currentTheme = useRecoilValue(themeModeAtom);
   const inputRef = useRef<HTMLInputElement>(null);
   const { previewUrl, handleImageChange } = useImageUpload();
-  const { memberList, getMemberList } = useGetMember();
+  const { memberList, getMemberList, getMemberListForSelf } = useGetMember();
+  const { clubList, getMyClubApply } = useGetClubs();
   const [searchData, setSearchData] = useState<string>('');
   const theme = useTheme()
-
   const nav = useNavigate();
+
+  useEffect(() => {
+    getMyClubApply()
+  }, [])
 
   const methods = useForm<Club>({
     defaultValues: {
@@ -33,7 +38,7 @@ const CreateClubPage = () => {
       subject: "",
       shortDescription: "",
       description: "",
-      type: EClub.CREATIVE_CLUB,
+      type: EClub.SELF_DIRECT_CLUB,
       studentIds: []
     }
   });
@@ -57,9 +62,15 @@ const CreateClubPage = () => {
     clearErrors
   });
 
+  const typeWatch = watch('type')
+
   useEffect(() => {
-    getMemberList();
-  }, []);
+    if(typeWatch === EClub.CREATIVE_CLUB){
+      getMemberList();
+    }else{
+      getMemberListForSelf();
+    }
+  }, [typeWatch]);
 
   useEffect(() => {
     if (isSubmitting) {
@@ -108,8 +119,8 @@ const CreateClubPage = () => {
             name={fields.type.name}
             $isError={fieldStates.typeState.error === undefined}
           >
-            <option value={EClub.CREATIVE_CLUB}>창체 동아리</option>
             <option value={EClub.SELF_DIRECT_CLUB}>자율 동아리</option>
+            {clubList.filter((item) => item.type === EClub.CREATIVE_CLUB).length === 1 || <option value={EClub.CREATIVE_CLUB}>창체 동아리</option>}
           </S.CreateClubTypeSelect>
           {fieldStates.typeState.error
           ? fieldStates.typeState.error.message

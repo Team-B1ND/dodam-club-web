@@ -6,12 +6,10 @@ import { ClubResponse } from "src/types/club/club.type";
 import { EClub } from "src/enum/club/club.enum";
 import useGetClubs from "src/hooks/club/useGetClubs";
 import { Link } from "react-router-dom";
-import ClubDetail from "@components/ClubDetail";
 
 const ClubList = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
   const { clubList, getClubList } = useGetClubs()
-  const [ isOpen, setIsopen ] = useState(false)
 
   const changePage = () => {
     setIsCreativeClubPage(prev=>!prev)
@@ -45,26 +43,11 @@ const ClubList = () => {
           : item.type === EClub.SELF_DIRECT_CLUB
         )
         .map((item: ClubResponse) => (
-          <Link to={`/${item.id}`}>
-          {/* 주석은 모달 테스트용입니다 모달 추가시 이전될 예정.. */}
-          {/* <div onClick={() => setIsopen((prev)=>!prev)} style={{display:'flex'}}> */}
+          <Link to={`/${item.id}`} style={{height:'fit-content'}}>
             <ClubItem
               key={item.name}
               value={item}
             />
-            {/* <DodamModal
-              isOpen={isOpen}
-              close={() => setIsopen((prev) => !prev)}
-              background={true}>
-
-              <ClubDetail
-                key={item.id}
-                type="MODAL"
-                modalId={item.id}
-                close={() => setIsopen((prev) => !prev)}
-              />
-              </DodamModal> */}
-          {/* </div> */}
           </Link>
         ))}
       </S.ClubItemContainer>

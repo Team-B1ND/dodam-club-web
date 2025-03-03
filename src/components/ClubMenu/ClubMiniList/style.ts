@@ -1,4 +1,4 @@
-import { CheckmarkCircleFilled, DodamTypography } from "@b1nd/dds-web";
+import { DodamTypography } from "@b1nd/dds-web";
 import styled from "styled-components";
 
 export const ClubListContainer = styled.div`
@@ -12,10 +12,14 @@ export const ClubListContainer = styled.div`
 export const ClubMiniItem = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  ${DodamTypography.Body2.Medium}
 `
 
 export const ClubMiniItemName = styled.p`
-  ${DodamTypography.Body2.Medium}
+  ${DodamTypography.Body2.Bold}
   color: ${({ theme }) => theme.labelNormal};
   cursor: pointer;
 `

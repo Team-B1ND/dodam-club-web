@@ -22,7 +22,7 @@ const MemberItem = ({value, type, pickerStatus, onClick}: MemberItemProps ) => {
     <S.MemberItemContainer >
       {!profileImage
       ? <Avatar size='large'/>
-      : <img src={profileImage} alt='동아리 이미지가 없습니다.'/>}
+      : <S.MemberItemProfileImage src={profileImage} onError={(e)=>(e.target)}/>}
       <S.MemberInfoContainer>
         {name}
         <S.MemberGradeAndRoom>

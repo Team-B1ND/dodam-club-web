@@ -1,5 +1,5 @@
 import { isAxiosError } from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ClubApi from 'src/api/Club/club.api'
 import { ClubMember } from 'src/types/club/club.type'
 import { Student } from 'src/types/member/member.type'
@@ -24,6 +24,17 @@ const useGetMember = () => {
   const getMemberList = async () => {
     try {
       const data = await ClubApi.getMembers()
+      if( data ) {
+        setMemberList(data)
+      }
+    }catch(err){
+      return err
+    }
+  }
+
+  const getMemberListForSelf = async () => {
+    try {
+      const data = await ClubApi.getMembersSelf()
       if( data ) {
         setMemberList(data)
       }
@@ -65,7 +76,8 @@ const useGetMember = () => {
     getClubLeader,
     getClubMemberList,
     getMemberList,
-    getAllClubMemberList
+    getAllClubMemberList,
+    getMemberListForSelf
   }
 }
 

@@ -1,11 +1,10 @@
-import React from 'react'
 import * as S from './style'
 import { CheckmarkCircle, Clock, DodamColor } from '@b1nd/dds-web'
 import { ClubProps } from 'src/types/club/club.type'
 import { EClubState } from 'src/enum/club/club.enum'
 
 const ClubItem = ({ value } : ClubProps) => {
-  const { subject, name, description, state, image } = value
+  const { subject, name, shortDescription, state, image } = value
 
   return (
     <S.ClubItem>
@@ -18,11 +17,11 @@ const ClubItem = ({ value } : ClubProps) => {
           </S.ClubItemName>
           {state == EClubState.ALLOWED
           ? <CheckmarkCircle size={24} color={DodamColor.green50}/>
-          : state == EClubState.PENDING || state == EClubState.WAITING
+          : state == EClubState.PENDING
             && <Clock size={24} color={DodamColor.yellow50}/>
           }
         </S.ClubItemNameState>
-        <S.ClubItemDescription>{description}</S.ClubItemDescription>
+        <S.ClubItemDescription>{shortDescription}</S.ClubItemDescription>
       </S.ClubItemInfoContainer>
     </S.ClubItem>
   )

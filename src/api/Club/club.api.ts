@@ -56,6 +56,16 @@ class ClubApi {
     const data = await customAxios.get<baseResponse<ClubJoinResponse[]>>(`/clubs/join-requests/received`)
     return data.data.data
   }
+  
+  public async getMyClubs() {
+    const data = await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/joined`)
+    return data.data.data
+  }
+
+  public async getMyClubApply() {
+    const data = await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/my`)
+    return data.data.data
+  }
 }
 
 export default new ClubApi();

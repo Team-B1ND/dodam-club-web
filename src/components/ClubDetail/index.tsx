@@ -6,7 +6,7 @@ import { useTheme } from 'styled-components';
 import { Link, useParams } from 'react-router-dom'
 import useGetClubs from 'src/hooks/club/useGetClubs'
 import { EClub, EClubState } from 'src/enum/club/club.enum'
-import { ArrowLeft, CheckmarkCircleFilled, Close, DodamColor, ExclamationmarkCircle, XmarkCircle } from '@b1nd/dds-web'
+import { ArrowLeft, CheckmarkCircleFilled, Close, DodamColor, DodamFilledButton, ExclamationmarkCircle, XmarkCircle } from '@b1nd/dds-web'
 import useGetMember from 'src/hooks/member/useGetMember'
 import MDEditor from '@uiw/react-md-editor'
 import MemberItem from '@components/MemberItem'
@@ -20,7 +20,7 @@ interface ClubDetailProps {
 
 const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { id } = useParams()
-  const { clubMemberList, clubLeader, getClubLeader, getClubMemberList, getAllClubMemberList } = useGetMember()
+  const { clubMemberList, clubLeader, getClubLeader, getAllClubMemberList } = useGetMember()
   const { clubInfo, getClub } = useGetClubs()
   const currentTheme = useRecoilValue(themeModeAtom);
   const theme = useTheme()
@@ -28,7 +28,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   useEffect(() => {
     if(type == "MODAL"){
       getClubLeader(modalId)
-      getClubMemberList(modalId)
+      getAllClubMemberList(modalId)
       getClub(modalId)
     }else{
       getClubLeader(Number(id))
@@ -45,7 +45,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
     >
       {type == 'PAGE'
       ? <Link to={'/'}><ArrowLeft $svgStyle={{cursor:'pointer'}} color={theme.labelNormal}/></Link>
-      : <div onClick={close}><Close $svgStyle={{cursor:'pointer'}}/></div>}
+      : <div onClick={close}><Close $svgStyle={{cursor:'pointer'}} color={theme.labelNormal}/></div>}
       <S.ClubDetailHeader>
         <S.ClubDetailHeaderInfo>
           <S.ClubDetailHeaderSubject>
@@ -74,6 +74,31 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
           {clubLeader?.name}
         </S.ClubDetailHeaderLeader>
       </S.ClubDetailHeader>
+
+      <S.ClubDetailMenu>
+        <S.ClubDetailMenuInfoAndButton>
+          동아리 개설
+          <S.ClubDetailMenuButton>
+            <DodamFilledButton
+              size="Small"
+              text='승인 신청하기'
+              typography={['Caption1', 'Bold']}
+              width={100}
+              customStyle={{ color: "#fff", whiteSpace:'nowrap' }}
+              enabled={clubMemberList.length === clubMemberList.filter((item) => item.status === EClubState.ALLOWED).length}
+            />
+            <DodamFilledButton
+              size="Small"
+              text="취소하기"
+              typography={['Caption1', 'Bold']}
+              width={100}
+              customStyle={{ color: "#fff", whiteSpace:'nowrap' }}
+              backgroundColorType='Negative'
+            />
+          </S.ClubDetailMenuButton>
+        </S.ClubDetailMenuInfoAndButton>
+      </S.ClubDetailMenu>
+
       <S.ClubDetailMainContainer>
         <S.ClubDeatilMemberList>
           부원
