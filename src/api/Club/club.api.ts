@@ -66,6 +66,10 @@ class ClubApi {
     const data = await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/my`)
     return data.data.data
   }
+
+  public async deleteClub(id: number) {
+    await customAxios.delete(`clubs/${id}`)
+  }
 }
 
 export default new ClubApi();

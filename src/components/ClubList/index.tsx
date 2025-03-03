@@ -49,7 +49,8 @@ const ClubList = () => {
               value={item}
             />
           </Link>
-        ))}
+        ))
+        }
       </S.ClubItemContainer>
 
     </S.ClubListContainer>

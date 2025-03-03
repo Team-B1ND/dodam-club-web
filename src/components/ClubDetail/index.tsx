@@ -10,7 +10,7 @@ import { ArrowLeft, CheckmarkCircleFilled, Close, DodamColor, DodamFilledButton,
 import useGetMember from 'src/hooks/member/useGetMember'
 import MDEditor from '@uiw/react-md-editor'
 import MemberItem from '@components/MemberItem'
-import DetailLoading from './DetailLoading';
+import clubApi from 'src/api/Club/club.api';
 
 interface ClubDetailProps {
   type : "MODAL" | "PAGE";
@@ -37,8 +37,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
     }
   }, [])
 
-  return clubInfo?.id
-  ? (
+  return (
     <S.ClubDetailContainer
       $type={type}
       data-color-mode={currentTheme.toLowerCase()}
@@ -94,6 +93,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
               width={100}
               customStyle={{ color: "#fff", whiteSpace:'nowrap' }}
               backgroundColorType='Negative'
+              onClick={() => clubApi.deleteClub(modalId)}
             />
           </S.ClubDetailMenuButton>
         </S.ClubDetailMenuInfoAndButton>
@@ -118,9 +118,6 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
         </S.ClubDetailDescription>
       </S.ClubDetailMainContainer>
     </S.ClubDetailContainer>
-  )
-  : (
-    <DetailLoading type={type}/>
   )
 }
 

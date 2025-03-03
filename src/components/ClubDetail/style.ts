@@ -83,7 +83,7 @@ export const ClubDetailMarkDownViewer = styled.div`
   ${DodamShape.Small}
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
   flex-grow: 1;
-  padding: 12px;
+  padding: 20px;
 `
 
 export const ClubDetailMenu = styled.div`
@@ -97,7 +97,7 @@ export const ClubDetailMenuInfoAndButton = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  ${DodamTypography.Body1.Bold}
+  ${DodamTypography.Body2.Bold}
   color: ${({ theme }) => theme.labelAlternative};
 `
 
