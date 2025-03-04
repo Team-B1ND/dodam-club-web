@@ -6,21 +6,18 @@ import { ClubResponse } from "src/types/club/club.type";
 import { EClub } from "src/enum/club/club.enum";
 import { Link } from "react-router-dom";
 import { useGetClubsQuery } from "src/queries/useClub";
+import ClubItemSkeleton from "@components/Common/ClubItemSkeleton";
 
 const ClubList = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
 
-  const {data:clubData,isLoading, isError} = useGetClubsQuery();
+  const {data:clubData, isLoading, isError} = useGetClubsQuery();
 
   const changePage = () => {
     setIsCreativeClubPage(prev=>!prev)
   }
   
-  if (isLoading) {
-    return <S.ClubListContainer>Loading...</S.ClubListContainer>; //여기에 스켈레톤 컴퍼넌트 넣으면 돼
-  }
-
-  if (isError ) {
+  if ( isError ) {
     return <S.ClubListContainer>데이터를 불러오는 중 오류가 발생했습니다.</S.ClubListContainer>;
   }
   if(clubData?.length == 0) {
@@ -44,7 +41,9 @@ const ClubList = () => {
         />
       </S.ClubMenu>
       <S.ClubItemContainer>
-      {clubData!
+          {isLoading
+          ? Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx}/>)
+          : clubData!
           .filter((item: ClubResponse) =>
             isCreativeClubPage
               ? item.type === EClub.CREATIVE_CLUB
@@ -55,6 +54,7 @@ const ClubList = () => {
               <ClubItem value={item} />
             </Link>
           ))}
+          
       </S.ClubItemContainer>
 
     </S.ClubListContainer>

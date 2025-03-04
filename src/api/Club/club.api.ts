@@ -3,6 +3,7 @@ import { postClubParams } from "./club.params";
 import { baseResponse } from "src/types/response/response.type";
 import { Student } from "src/types/member/member.type";
 import { ClubJoinResponse, ClubMember, ClubResponse } from "src/types/club/club.type";
+import { EClubState } from "src/enum/club/club.enum";
 
 class ClubApi {
   public async postClub(createClubData: postClubParams): Promise<void> {
@@ -19,11 +20,6 @@ class ClubApi {
     return data.data.data
   }
 
-  public async getClubAllMember(id: number) {
-    const data = await customAxios.get<baseResponse<ClubMember[]>>(`/clubs/${id}/all-members`)
-    return data.data.data
-  }
-
   public async getClubLeader(id: number) {
     const data = await customAxios.get<baseResponse<ClubMember>>(`/clubs/${id}/leader`)
     return data.data.data
@@ -34,13 +30,8 @@ class ClubApi {
     return data.data.data
   }
 
-  public async getMembers(): Promise<Student[]> {
-    const data = await customAxios.get<baseResponse<Student[]>>(`/clubs/members`)
-    return data.data.data
-  }
-
-  public async getMembersSelf(): Promise<Student[]> {
-    const data = await customAxios.get<baseResponse<Student[]>>(`/clubs/members/self`)
+  public async getMembers(isSelf:boolean): Promise<Student[]> {
+    const data = await customAxios.get<baseResponse<Student[]>>(`/clubs/members?self=${isSelf}`)
     return data.data.data
   }
   
@@ -64,6 +55,7 @@ class ClubApi {
 
   public async getMyClubApply() {
     const data = await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/my`)
+    data.data.data = data.data.data.filter((item) => item.state !== EClubState.DELETED)
     return data.data.data
   }
 

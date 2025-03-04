@@ -18,12 +18,12 @@ export const ShimmerWrapper = styled.div`
   left : 0;
   width : 100%;
   height : 100%;
-  animation: ${loading} 2s infinite;
+  animation: ${loading} 1s infinite linear;
 `
 export const Shimmer = styled.div`
   width : 50%;
   height: 100%;
-  background-color: rgba(118, 108, 108, 0.05);
+  background-color: rgba(117, 116, 116, 0.1);
   transform: skewX(-20deg);
   box-shadow: 0 0 30px 30px rgba(255, 255, 255, 0.05);
 `

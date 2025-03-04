@@ -2,8 +2,13 @@ import { DodamShape, DodamTypography } from "@b1nd/dds-web";
 import styled from "styled-components";
 import { hexToRgba } from '@b1nd/dds-web';
 
+export const CreateClubPaddingContainer = styled.div`
+  padding: 58px 0;
+  flex-grow: 1;
+`
 export const CreateClubContainer = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   overflow-y: scroll;
   flex-grow: 1;

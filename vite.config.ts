@@ -35,5 +35,7 @@ export default defineConfig({
       },
     ],
   },
-  
+  optimizeDeps: {
+    include: ['js-cookie'],
+  }
 });

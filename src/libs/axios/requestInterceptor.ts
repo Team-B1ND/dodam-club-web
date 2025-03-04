@@ -12,6 +12,9 @@ const requestInterceptor = (config: InternalAxiosRequestConfig, url: string): In
       // window.location.href = url;
     } else {
       config.headers[REQUEST_TOKEN_KEY] = `Bearer ${accessToken}`;
+
+      // 임시
+      config.headers['ngrok-skip-browser-warning'] = '69420'
     }
   }
   return config;

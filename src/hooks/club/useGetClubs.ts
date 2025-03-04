@@ -47,7 +47,7 @@ const useGetClubs = () => {
         setClubList(data)
       }
     }catch(err) {
-      return err
+      console.log(err)
     }
   }
 
@@ -57,7 +57,7 @@ const useGetClubs = () => {
     getClub,
     getClubList,
     getMyClubs,
-    getMyClubApply,
+    getMyClubApply
   }
 }
 

@@ -1,5 +1,5 @@
 import * as S from './style'
-import { CheckmarkCircle, Clock, DodamColor } from '@b1nd/dds-web'
+import { CheckmarkCircleFilled, Clock, DodamColor, XmarkCircle } from '@b1nd/dds-web'
 import { ClubProps } from 'src/types/club/club.type'
 import { EClubState } from 'src/enum/club/club.enum'
 
@@ -17,10 +17,11 @@ const ClubItem = ({ value } : ClubProps) => {
           <S.ClubItemName>
             {name}
           </S.ClubItemName>
-          {state == EClubState.ALLOWED
-          ? <CheckmarkCircle size={24} color={DodamColor.green50}/>
-          : state == EClubState.PENDING
-            && <Clock size={24} color={DodamColor.yellow50}/>
+          {(state === EClubState.PENDING || state === EClubState.WAITING)
+            ? <Clock color={DodamColor.yellow50} size={24}/>
+            : state === EClubState.DELETED || state === EClubState.REJECTED
+              ? <XmarkCircle color={DodamColor.red50} size={24}/>
+              : <CheckmarkCircleFilled color={DodamColor.green50} size={24}/>
           }
         </S.ClubItemNameState>
         <S.ClubItemDescription>{shortDescription}</S.ClubItemDescription>

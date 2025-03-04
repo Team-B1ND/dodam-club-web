@@ -11,21 +11,22 @@ const ClubMiniList = ({ name, value, type } : ClubMenuItemProps | ClubMenuItemMy
   const [ isOpen, setIsopen ] = useState({
     REQUEST_ACCEPT: false,
     REQUEST_REJECT: false,
-    CLUB: false,
+    CLUB: Object.fromEntries((value as ClubResponse[]).map(item => [item.id, false])) as { [key: number]: boolean }
   })
-  const [ requestModal, setRequestModal ] = useState("ACCEPT")
+  const [ requestModal, setRequestModal ] = useState<"ACCEPT" | "REJECT" | "CLUB">("ACCEPT");
 
-  const requestHandle = useCallback((type: "ACCEPT" | "REJECT" | "CLUB") => {
+  const requestHandle = useCallback(({ type, id }: {type: "ACCEPT" | "REJECT" | "CLUB", id?: number}) => {
     setRequestModal(type)
     if(type === "ACCEPT"){
       setIsopen((prev) => ({...prev, REQUEST_ACCEPT : !prev.REQUEST_ACCEPT}))
     }else if(type === "REJECT"){
       setIsopen((prev) => ({...prev, REQUEST_REJECT : !prev.REQUEST_REJECT}))  
     }else if(type === "CLUB"){
-      setIsopen((prev) => ({...prev, CLUB : !prev.CLUB}))
-      console.log('asdfdas')
+      const club = isOpen.CLUB
+      club[id!] = !club[id!]
+      setIsopen((prev) => ({...prev, CLUB: club }))
     }
-  }, [])
+  }, []);
 
   const isMyClubType = (props: ClubResponse | ClubJoinResponse): props is ClubJoinResponse => {
     return 'club' in props;
@@ -43,10 +44,10 @@ const ClubMiniList = ({ name, value, type } : ClubMenuItemProps | ClubMenuItemMy
                 <S.ClubMiniItemName>{item.club.name}</S.ClubMiniItemName>
               </Link>
               <S.ClubMiniItemRequestContainer>
-                <div onClick={() => requestHandle("ACCEPT")} style={{ cursor:'pointer' }}>
+                <div onClick={() => requestHandle({type:"ACCEPT"})} style={{ cursor:'pointer' }}>
                   <CheckmarkCircleFilled color={DodamColor.blue50}/>
                 </div>
-                <div onClick={() => requestHandle("REJECT")} style={{ cursor:'pointer' }}>
+                <div onClick={() => requestHandle({type:"REJECT"})} style={{ cursor:'pointer' }}>
                   <XmarkCircle color={DodamColor.red50}/>
                 </div>
                 <DodamModal
@@ -63,16 +64,19 @@ const ClubMiniList = ({ name, value, type } : ClubMenuItemProps | ClubMenuItemMy
                     type={{
                       dialog: "CONFIRM",
                       confirm: {
-                        content: (requestModal === "ACCEPT"? '수락' : '거절'),
-                        onClick: () => (
-                          requestModal === "ACCEPT" 
-                          ? ClubApi.postJoinClubByRequest(item.id)
-                          : ClubApi.deleteJoinClubByRequest(item.id)
-                        )
+                        content: (requestModal === "ACCEPT" ? '수락' : '거절'),
+                        onClick: () => {
+                          if(requestModal === "ACCEPT"){
+                            ClubApi.postJoinClubByRequest(item.id)
+                          }else{
+                            ClubApi.deleteJoinClubByRequest(item.id)
+                          }
+                          requestHandle({type: requestModal}) 
+                        }
                       },
                       dismiss: {
                         content: "취소",
-                        onClick: () => setIsopen((prev) => ({...prev, REQUEST_ACCEPT : !prev.REQUEST_ACCEPT}))
+                        onClick: () => requestHandle({type: requestModal})
                       }
                     }}
                   />
@@ -88,22 +92,23 @@ const ClubMiniList = ({ name, value, type } : ClubMenuItemProps | ClubMenuItemMy
             )
             : (type === "LeaderApply" && !isMyClubType(item))
               && (
-                <S.ClubMiniItem onClick={() => requestHandle("CLUB")}>
-                  <S.ClubMiniItemName>{item.name}</S.ClubMiniItemName>
-                  {(item.state === EClubState.PENDING || item.state === EClubState.WAITING)
-                    ? <Clock color={DodamColor.yellow50} size={20}/>
-                    : item.state === EClubState.DELETED 
-                      && <XmarkCircle color={DodamColor.red50} size={20}/>
-                  }
-                  <DodamModal
-                    isOpen={isOpen.CLUB}
-                    background={true}
-                  >
-                    <ClubDetail type='MODAL' modalId={item.id}/>
-                  </DodamModal>
-                </S.ClubMiniItem>
-              )
-            }
+                  <S.ClubMiniItem onClick={() => requestHandle({type:"CLUB", id:item.id})}>
+                    <S.ClubMiniItemName>{item.name}</S.ClubMiniItemName>
+                    {(item.state === EClubState.PENDING || item.state === EClubState.WAITING)
+                      ? <Clock color={DodamColor.yellow50} size={20}/>
+                      : item.state === EClubState.DELETED || item.state === EClubState.REJECTED
+                        ? <XmarkCircle color={DodamColor.red50} size={20}/>
+                        : <CheckmarkCircleFilled color={DodamColor.green50} size={20}/>
+                    }
+                    <DodamModal
+                      isOpen={isOpen.CLUB[item.id]}
+                      background={true}
+                    >
+                      <ClubDetail type='MODAL' modalId={item.id}/>
+                    </DodamModal>
+                  </S.ClubMiniItem>
+                )
+              }
         </S.ClubMiniItem>
       ))
     

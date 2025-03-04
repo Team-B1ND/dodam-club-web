@@ -12,7 +12,6 @@ export const ClubItem = styled.div`
 
 export const ClubItemImage = styled.img`
   ${DodamShape.Medium}
-  background-color: #f5f5f5;
   border: transparent;
   width: 200px;
   height: 200px;

@@ -15,3 +15,28 @@ export const useGetClubsQuery = (
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
   });
+
+export const useGetClubDetailQuery = (
+  { id }: { id: number },
+  options?: UseQueryOptions<
+    ClubResponse, 
+    AxiosError
+  >
+): UseQueryResult<ClubResponse, AxiosError> =>
+  useQuery<ClubResponse, AxiosError>([QUERY_KEYS.clubs.getOne, id], () => clubApi.getClub(id), {
+    ...options,
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 10,
+  });
+
+export const useGetMyClubApplyQuery = (
+  options?: UseQueryOptions<
+    ClubResponse[], 
+    AxiosError
+  >
+): UseQueryResult<ClubResponse[], AxiosError> =>
+  useQuery<ClubResponse[], AxiosError>(QUERY_KEYS.clubs.getMine, () => clubApi.getMyClubApply(), {
+    ...options,
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 10,
+  });

@@ -23,7 +23,7 @@ const useGetMember = () => {
 
   const getMemberList = async () => {
     try {
-      const data = await ClubApi.getMembers()
+      const data = await ClubApi.getMembers(false)
       if( data ) {
         setMemberList(data)
       }
@@ -34,7 +34,7 @@ const useGetMember = () => {
 
   const getMemberListForSelf = async () => {
     try {
-      const data = await ClubApi.getMembersSelf()
+      const data = await ClubApi.getMembers(true)
       if( data ) {
         setMemberList(data)
       }

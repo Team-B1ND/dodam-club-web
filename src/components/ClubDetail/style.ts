@@ -1,6 +1,13 @@
 import { DodamShape, DodamTypography } from "@b1nd/dds-web";
 import styled from "styled-components";
 
+export const ClubDetail = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 58px 0;
+  flex-grow: 1;
+`
 export const ClubDetailContainer = styled.div<{ $type: "MODAL" | "PAGE" }>`
   display: flex;
   flex-direction: column;
@@ -73,7 +80,7 @@ export const ClubDetailDescription = styled.div`
   flex-grow: 1;
   height: fit-content;
   min-height: 600px;
-  gap: 4;
+  gap: 4px;
   flex-direction: column;
   color: ${({ theme }) => theme.labelAlternative};
   ${DodamTypography.Body2.Bold}

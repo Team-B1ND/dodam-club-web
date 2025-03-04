@@ -8,5 +8,5 @@ export enum EClubState {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   WAITING = "WAITING",
-  DELETED = "DELECTED"
+  DELETED = "DELETED"
 }

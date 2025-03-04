@@ -4,7 +4,6 @@ import { DodamFilledButton } from "@b1nd/dds-web";
 import { Link } from "react-router-dom";
 import ClubMenu from "@components/ClubMenu";
 
-
 const MainPage = () => {
 
   return (
