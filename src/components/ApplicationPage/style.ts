@@ -301,3 +301,31 @@ export const ClubDot = styled.div<{ active: boolean }>`
   cursor: pointer;
   margin-left: -30px;
 `;
+
+export const ClubDescriptionTitle = styled.h3`
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 16px;
+`;
+
+export const ClubDescriptionSection = styled.div`
+  position: absolute;
+  top: -60px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  overflow-y: auto;
+`;
+
+export const ClubDescription = styled.p`
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+`;

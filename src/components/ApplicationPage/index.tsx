@@ -11,7 +11,8 @@ interface EssayData {
 
 const ApplicationPage = () => {
   const { data: clubList, isLoading, isError } = useGetClubsQuery();
-  const [selectedClubs, setSelectedClubs] = useState<string[]>([]);
+  const [selectedCreativeClubs, setSelectedCreativeClubs] = useState<string[]>([]);
+  const [selectedAutonomousClubs, setSelectedAutonomousClubs] = useState<string[]>([]);
   const [isCreativeClubSelected, setIsCreativeClubSelected] = useState(true);
   const [currentClub, setCurrentClub] = useState<string>("");
   const [essayContents, setEssayContents] = useState<EssayData>({});
@@ -23,56 +24,62 @@ const ApplicationPage = () => {
 
   useEffect(() => {
     if (isCreativeClubSelected) {
-      setIsButtonEnabled(selectedClubs.length === 3);
+      setIsButtonEnabled(selectedCreativeClubs.length === 3);
     } else {
-      setIsButtonEnabled(selectedClubs.length > 0);
+      const completedAutonomousClubs = selectedAutonomousClubs.filter(
+        club => essayContents[club] && essayContents[club].trim() !== ''
+      );
+      
+      setIsButtonEnabled(
+        selectedAutonomousClubs.length > 0 && 
+        (completedAutonomousClubs.length > 0 || selectedCreativeClubs.length === 3)
+      );
     }
-  }, [selectedClubs, isCreativeClubSelected]);
+  }, [
+    selectedCreativeClubs, 
+    selectedAutonomousClubs, 
+    essayContents, 
+    isCreativeClubSelected
+  ]);
 
-  const handleClubClick = (clubName: string) => {
-    if (selectedClubs.includes(clubName)) {
-      const updatedClubs = selectedClubs.filter(club => club !== clubName);
-      setSelectedClubs(updatedClubs);
+  const handleCreativeClubClick = (clubName: string) => {
+    if (selectedCreativeClubs.includes(clubName)) {
+      const updatedClubs = selectedCreativeClubs.filter(club => club !== clubName);
+      setSelectedCreativeClubs(updatedClubs);
+    } else {
+      if (selectedCreativeClubs.length < 3) {
+        const updatedClubs = [...selectedCreativeClubs, clubName];
+        setSelectedCreativeClubs(updatedClubs);
+      }
+    }
+  };
+
+  const handleAutonomousClubClick = (clubName: string) => {
+    if (selectedAutonomousClubs.includes(clubName)) {
+      const updatedClubs = selectedAutonomousClubs.filter(club => club !== clubName);
+      setSelectedAutonomousClubs(updatedClubs);
       
-      if (currentClub === clubName) {
-        if (updatedClubs.length > 0) {
-          setCurrentClub(updatedClubs[0]);
-        } else {
-          setCurrentClub("");
-        }
+      if (essayContents[clubName]) {
+        const updatedEssayContents = {...essayContents};
+        delete updatedEssayContents[clubName];
+        setEssayContents(updatedEssayContents);
       }
     } else {
-      if (isCreativeClubSelected && selectedClubs.length >= 3) {
-        return;
-      }
-      
-      const updatedClubs = [...selectedClubs, clubName];
-      setSelectedClubs(updatedClubs);
-      
-      if (selectedClubs.length === 0) {
-        setCurrentClub(clubName);
-      }
+      const updatedClubs = [...selectedAutonomousClubs, clubName];
+      setSelectedAutonomousClubs(updatedClubs);
     }
   };
 
   const handleTabSwitch = (isCreative: boolean) => {
     if (isCreative !== isCreativeClubSelected) {
       setIsCreativeClubSelected(isCreative);
-      setSelectedClubs([]);
       setCurrentClub("");
     }
   };
 
   const getPriorityNumber = (clubName: string) => {
-    if (isCreativeClubSelected) {
-      const index = selectedClubs.indexOf(clubName);
-      return index !== -1 ? index + 1 : null;
-    }
-    return null;
-  };
-
-  const handleDotClick = (clubName: string) => {
-    setCurrentClub(clubName);
+    const index = selectedCreativeClubs.indexOf(clubName);
+    return index !== -1 ? index + 1 : null;
   };
 
   const handleEssayChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -95,13 +102,24 @@ const ApplicationPage = () => {
     
     try {
       setIsSubmitting(true);
-      for (const clubName of selectedClubs) {
+      
+      for (const clubName of selectedCreativeClubs) {
         const clubId = getClubId(clubName);
         await clubApi.postJoinClubByRequest({id: clubId});
       }
       
+      for (const clubName of selectedAutonomousClubs) {
+        const clubId = getClubId(clubName);
+        
+        if (selectedCreativeClubs.length === 3 || 
+            (essayContents[clubName] && essayContents[clubName].trim() !== '')) {
+          await clubApi.postJoinClubByRequest({id: clubId});
+        }
+      }
+      
       alert('동아리 입부 신청이 성공적으로 제출되었습니다!');
-      setSelectedClubs([]);
+      setSelectedCreativeClubs([]);
+      setSelectedAutonomousClubs([]);
       setCurrentClub("");
       setEssayContents({});
     } catch (error) {
@@ -113,35 +131,67 @@ const ApplicationPage = () => {
   };
 
   const currentClubsList = isCreativeClubSelected 
-  ? creativeClubs 
-  : autonomousClubs;
+    ? creativeClubs 
+    : autonomousClubs;
 
-  const getSelectedClubDetails = () => {
-    return selectedClubs.map(clubName => {
-      return clubList?.find(club => club.name === clubName);
-    }).filter((club): club is ClubResponse => club !== undefined);
+  const renderRightSection = () => {
+    if (isCreativeClubSelected) {
+      const selectedClub = currentClubsList.find(club => club.name === currentClub);
+      return (
+        <S.RightSection>
+          <S.ClubDescriptionSection>
+            {selectedClub ? (
+              <S.ClubDescription>{selectedClub.description}</S.ClubDescription>
+            ) : (
+              <S.EmptyState>
+                <S.MegaphoneIcon src={megaphoneIcon} alt="메가폰" />
+                <S.EmptyStateText>동아리를 선택해주세요.</S.EmptyStateText>
+              </S.EmptyState>
+            )}
+          </S.ClubDescriptionSection>
+        </S.RightSection>
+      );
+    } else {
+      return (
+        <S.RightSection>
+          <S.EssaySection>
+            {selectedAutonomousClubs.length > 0 && currentClub ? (
+              <S.EssayTextarea 
+                placeholder="희망 분야, 다짐 등을 작성해주세요." 
+                value={essayContents[currentClub] || ''}
+                onChange={handleEssayChange}
+              />
+            ) : (
+              <S.EmptyState>
+                <S.MegaphoneIcon src={megaphoneIcon} alt="메가폰" />
+                <S.EmptyStateText>신청할 동아리를 선택해주세요.</S.EmptyStateText>
+              </S.EmptyState>
+            )}
+          </S.EssaySection>
+        </S.RightSection>
+      );
+    }
   };
-
-  const selectedClubDetails = getSelectedClubDetails();
 
   return (
     <S.Container>
       <S.Title>동아리 신청</S.Title>
       <S.HeaderSection>
         <S.SubTitle>동아리 선택</S.SubTitle>
-        {selectedClubs.length > 0 ? (
+        {(isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs).length > 0 ? (
           <S.EssayTitleWrapper>
-            <S.EssayTitle>{currentClub} 동아리에 대한 자기소개 작성</S.EssayTitle>
+            <S.EssayTitle>
+              {currentClub} 동아리 {isCreativeClubSelected ? '소개' : '자기소개'}
+            </S.EssayTitle>
             <S.DotSelector>
-              {selectedClubDetails.map((club) => (
+              {(isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs).map((clubName) => (
                 <S.ClubDot 
-                  key={club.id}
-                  active={club.name === currentClub}
-                  onClick={() => handleDotClick(club.name)}
+                  key={clubName}
+                  active={clubName === currentClub}
+                  onClick={() => setCurrentClub(clubName)}
                 >
                   <S.Dot
-                    active={club.name === currentClub}
-                    onClick={() => handleDotClick(club.name)}
+                    active={clubName === currentClub}
                   />
                 </S.ClubDot>
               ))}
@@ -149,7 +199,9 @@ const ApplicationPage = () => {
           </S.EssayTitleWrapper>
         ) : (
           <S.EssayTitleWrapper>
-            <S.EssayTitle>자기소개서 작성</S.EssayTitle>
+            <S.EssayTitle>
+              {isCreativeClubSelected ? '창체 동아리 선택' : '자율 동아리 선택'}
+            </S.EssayTitle>
           </S.EssayTitleWrapper>
         )}
       </S.HeaderSection>
@@ -194,8 +246,17 @@ const ApplicationPage = () => {
                 currentClubsList.map(club => (
                   <S.ClubItem
                     key={club.id}
-                    onClick={() => handleClubClick(club.name)}
-                    selected={selectedClubs.includes(club.name)}
+                    onClick={() => {
+                      isCreativeClubSelected 
+                        ? handleCreativeClubClick(club.name)
+                        : handleAutonomousClubClick(club.name);
+                      setCurrentClub(club.name);
+                    }}
+                    selected={
+                      isCreativeClubSelected 
+                        ? selectedCreativeClubs.includes(club.name)
+                        : selectedAutonomousClubs.includes(club.name)
+                    }
                   >
                     {club.name}
                     {isCreativeClubSelected ? (
@@ -203,7 +264,7 @@ const ApplicationPage = () => {
                         <S.PriorityBadge>{getPriorityNumber(club.name)}</S.PriorityBadge>
                       )
                     ) : (
-                      selectedClubs.includes(club.name) && (
+                      selectedAutonomousClubs.includes(club.name) && (
                         <S.SelectButton>선택</S.SelectButton>
                       )
                     )}
@@ -213,22 +274,7 @@ const ApplicationPage = () => {
             </S.ClubListContent>
           )}
         </S.ClubListSection>
-        <S.RightSection>
-          <S.EssaySection>
-            {selectedClubs.length > 0 && currentClub ? (
-              <S.EssayTextarea 
-                placeholder="희망 분야, 다짐 등을 작성해주세요." 
-                value={essayContents[currentClub] || ''}
-                onChange={handleEssayChange}
-              />
-            ) : (
-              <S.EmptyState>
-                <S.MegaphoneIcon src={megaphoneIcon} alt="메가폰" />
-                <S.EmptyStateText>신청할 동아리를 선택해주세요.</S.EmptyStateText>
-              </S.EmptyState>
-            )}
-          </S.EssaySection>
-        </S.RightSection>
+        {renderRightSection()}
       </S.ContentSection>
       <S.ButtonWrapper>
         <S.ApplyButton 
