@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import * as S from "./style";
 import { useRecoilValue } from "recoil";
 import { themeModeAtom } from "src/store/theme/themeStore";
@@ -23,6 +22,7 @@ import {
   useGetClubLeaderQuery,
   useGetClubMemberQuery,
 } from "src/queries/member/useMember";
+import { useDeleteClubApplyQuery, usePostClubApplyQuery } from "src/queries/clubApply/useClubApply";
 interface ClubDetailProps {
   type: "MODAL" | "PAGE";
   modalId?: number;
@@ -33,6 +33,9 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { id } = useParams();
   const currentTheme = useRecoilValue(themeModeAtom);
   const theme = useTheme();
+  
+  const postClubApplyMutation = usePostClubApplyQuery()
+  const deleteClubApplyMutation = useDeleteClubApplyQuery()
 
   const { data: clubData, isLoading: clubDataIsLoading } =
     useGetClubDetailQuery({ id: type === "MODAL" ? modalId : Number(id) });
@@ -42,7 +45,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
 
   const { data: clubMemberData, isLoading: clubMemberIsLoading } =
     useGetClubMemberQuery({ id: type === "MODAL" ? modalId : Number(id) });
-
+    
   return (
     <S.ClubDetail>
       <S.ClubDetailContainer
@@ -102,7 +105,8 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 {leaderData!.name}
               </S.ClubDetailHeaderLeader>
             </S.ClubDetailHeader>
-            {clubMemberData?.includes(leaderData!) && (
+            {!clubMemberData!.findIndex((item) => item.name === leaderData!.name)
+            && (
               <S.ClubDetailMenu>
                 <S.ClubDetailMenuInfoAndButton>
                   동아리 개설
@@ -119,6 +123,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                           (item) => item.status === EClubState.ALLOWED
                         ).length
                       }
+                      onClick={() => postClubApplyMutation.mutate({id: clubData!.id})}
                     />
                     <DodamFilledButton
                       size="Small"
@@ -127,7 +132,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                       width={100}
                       customStyle={{ color: "#fff", whiteSpace: "nowrap" }}
                       backgroundColorType="Negative"
-                      onClick={() => clubApi.deleteClub(modalId)}
+                      onClick={() => deleteClubApplyMutation.mutate({id: clubData!.id})}
                     />
                   </S.ClubDetailMenuButton>
                 </S.ClubDetailMenuInfoAndButton>
@@ -137,10 +142,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             <S.ClubDetailMainContainer>
               <S.ClubDeatilMemberList>
                 부원
-                {(clubMemberData?.includes(leaderData!)
-                  ? clubMemberData
-                  : clubMemberData
-                )?.map(
+                {clubMemberData!.map(
                   (item) => (
                     <MemberItem
                       value={item}

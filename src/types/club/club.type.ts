@@ -1,3 +1,5 @@
+import { UseMutationResult } from "react-query";
+
 export interface Club {
   name: string;
   description: string;
@@ -54,11 +56,11 @@ export interface ClubMenuProps {
 export interface ClubMenuItemProps {
   name: string;
   value: ClubJoinResponse[];
-  type: "Request" | "StudentApply";
+  type: "Request" ;
 }
 
 export interface ClubMenuItemMyClubProps {
   name: string;
   value : ClubResponse[];
-  type: "LeaderApply" | "MyClub";
+  type: "LeaderApply" | "MyClub" | "StudentApply";
 }

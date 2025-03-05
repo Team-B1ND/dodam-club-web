@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const ClubMenuContainer = styled.div`
   display: flex;
+  width: 180px;
   height: fit-content;
   flex-direction: column;
   gap: 12px;
@@ -24,15 +25,26 @@ export const MyClubIsNone = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 150px;
+  padding: 20px 0;
   ${DodamShape.Large}
   background-color: ${({ theme }) => theme.backgroundNormal};
   color: ${({ theme }) => theme.labelNormal};
-  ${DodamTypography.Body2.Bold}
+  ${DodamTypography.Caption1.Bold}
   gap: 4px;
 `
 
 export const ClubCreatePeriod = styled.p`
-  ${DodamTypography.Caption1.Medium}
+  ${DodamTypography.Caption2.Medium}
+  color: ${({ theme }) => theme.labelAlternative};
+`
+
+export const ClubDataIsNone = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 20px 0;
+  ${DodamTypography.Caption1.Bold}
   color: ${({ theme }) => theme.labelAlternative};
 `

@@ -14,7 +14,7 @@ const MainPage = () => {
           <DodamFilledButton
             size={"Large"}
             text="동아리 개설 신청하기"
-            customStyle={{ color: "#fff", whiteSpace:'nowrap' }}
+            customStyle={{ color: "#fff", whiteSpace:'nowrap'}}
             typography={["Body2", "Bold"]}
           />
         </Link>

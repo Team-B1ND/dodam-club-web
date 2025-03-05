@@ -40,3 +40,15 @@ export const useGetMyClubApplyQuery = (
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
   });
+
+export const useGetMyJoinedClubQuery = (
+  options?: UseQueryOptions<
+    ClubResponse[], 
+    AxiosError
+  >
+): UseQueryResult<ClubResponse[], AxiosError> =>
+  useQuery<ClubResponse[], AxiosError>(QUERY_KEYS.clubs.getJoinedClub, () => clubApi.getMyJoinedClubs(), {
+    ...options,
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 10,
+  });
