@@ -7,22 +7,21 @@ import { EClub, EClubState } from "src/enum/club/club.enum";
 import {
   ArrowLeft,
   CheckmarkCircleFilled,
+  Clock,
   Close,
   DodamColor,
   DodamFilledButton,
-  ExclamationmarkCircle,
   XmarkCircle,
 } from "@b1nd/dds-web";
 import MDEditor from "@uiw/react-md-editor";
 import MemberItem from "@components/MemberItem";
-import clubApi from "src/api/Club/club.api";
 import { useGetClubDetailQuery } from "src/queries/useClub";
 import ClubDetailSkeleton from "@components/Common/ClubDetailSkeleton";
 import {
   useGetClubLeaderQuery,
   useGetClubMemberQuery,
-} from "src/queries/member/useMember";
-import { useDeleteClubApplyQuery, usePostClubApplyQuery } from "src/queries/clubApply/useClubApply";
+} from "src/queries/member/member.query";
+import { useDeleteClubApplyQuery, usePostClubApplyQuery } from "src/queries/clubApply/clubApply.query";
 interface ClubDetailProps {
   type: "MODAL" | "PAGE";
   modalId?: number;
@@ -43,7 +42,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { data: leaderData, isLoading: leaderIsLoading } =
     useGetClubLeaderQuery({ id: type === "MODAL" ? modalId : Number(id) });
 
-  const { data: clubMemberData, isLoading: clubMemberIsLoading } =
+  const { data: clubMemberData, isLoading: clubMemberIsLoading, isFetching } =
     useGetClubMemberQuery({ id: type === "MODAL" ? modalId : Number(id) });
     
   return (
@@ -63,7 +62,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             <Close $svgStyle={{ cursor: "pointer" }} color={theme.labelNormal} />
           </div>
         )}
-        {clubDataIsLoading || leaderIsLoading || clubMemberIsLoading
+        {clubDataIsLoading || leaderIsLoading || clubMemberIsLoading || isFetching
         ? (
           <ClubDetailSkeleton />
         )
@@ -79,19 +78,21 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 </S.ClubDetailHeaderSubject>
                 <S.ClubDetailHeaderName>
                   {clubData!.name}
-                  {clubData!.state === EClubState.ALLOWED ? (
+                  {clubData!.state === EClubState.ALLOWED
+                  ? (
                     <CheckmarkCircleFilled
                       size={28}
                       color={DodamColor.green50}
                     />
-                  ) : clubData!.state === EClubState.REJECTED ? (
+                  )
+                  : clubData!.state === EClubState.REJECTED
+                    ? (
                     <XmarkCircle size={28} color={DodamColor.red50} />
-                  ) : (
-                    <ExclamationmarkCircle
-                      size={28}
-                      color={DodamColor.yellow50}
-                    />
-                  )}
+                    )
+                    : (
+                      <Clock size={28} color={DodamColor.yellow50}/>
+                    )
+                  }
                 </S.ClubDetailHeaderName>
                 <S.ClubDetailHeaderShortDescription>
                   {clubData!.shortDescription}
@@ -105,7 +106,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 {leaderData!.name}
               </S.ClubDetailHeaderLeader>
             </S.ClubDetailHeader>
-            {!clubMemberData!.findIndex((item) => item.name === leaderData!.name)
+            {clubMemberData
             && (
               <S.ClubDetailMenu>
                 <S.ClubDetailMenuInfoAndButton>
@@ -118,8 +119,8 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                       width={100}
                       customStyle={{ color: "#fff", whiteSpace: "nowrap" }}
                       enabled={
-                        clubMemberData!.length ==
-                        clubMemberData!.filter(
+                        clubMemberData?.length ==
+                        clubMemberData?.filter(
                           (item) => item.status === EClubState.ALLOWED
                         ).length
                       }

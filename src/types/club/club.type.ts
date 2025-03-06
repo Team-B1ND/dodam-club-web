@@ -1,5 +1,3 @@
-import { UseMutationResult } from "react-query";
-
 export interface Club {
   name: string;
   description: string;
@@ -9,6 +7,18 @@ export interface Club {
   type: string;
   studentIds: number[];
   state?: string;
+}
+
+export interface ClubMember {
+  id: number;
+  status: string;
+  permission: string;
+  studentId: number;
+  name: string;
+  grade: number;
+  room: number;
+  number: number;
+  profileImage: string | null;
 }
 
 export interface ClubMember {

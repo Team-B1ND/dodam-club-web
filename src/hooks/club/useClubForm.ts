@@ -120,7 +120,7 @@ export default function useClubForm({
   };
 
   // 유효성 검사 함수
-  const validateStudentIds = (isSubmitting: boolean): boolean => {
+  const validateStudentIds = (isSubmitting: boolean) => {
     if (isSubmitting === true) {
       const currentIds = watch('studentIds');
       const currentType = getValues('type');
@@ -131,10 +131,8 @@ export default function useClubForm({
             type: 'creativeClub', 
             message: '창체동아리는 5명 이상, 18명 이하의 인원으로만 개설 가능합니다. ( 자신 포함 )' 
           });
-          return false;
         } else {
           clearErrors('studentIds');
-          return true;
         }
       } else if (currentType === EClub.SELF_DIRECT_CLUB) {
         if (currentIds.length < 9) {
@@ -142,14 +140,11 @@ export default function useClubForm({
             type: 'selfDirectClub', 
             message: '자율동아리는 10명 이상의 인원이 개설 가능합니다. ( 자신 포함 )' 
           });
-          return false;
         } else {
           clearErrors('studentIds');
-          return true;
         }
       }
     }
-    return true;
   };
 
   // 이미지 업데이트 함수

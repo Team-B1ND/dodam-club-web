@@ -1,16 +1,18 @@
 import * as S from './style'
-import ClubMiniList from '@components/ClubMenu/ClubMiniList'
+import ClubMiniList from './ClubMiniList'
 import { ClubMenuProps} from 'src/types/club/club.type';
 import { EClub } from 'src/enum/club/club.enum';
 import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery } from 'src/queries/useClub';
-import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/useJoinRequest';
+import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/joinRequest.query';
 import ClubMenuSkeleton from '@components/Common/ClubMenuSkeleton';
 
 const ClubMenu = ({ name, type } : ClubMenuProps) => {
   const { data: myClubApply, isLoading: applyIsLoading } = useGetMyClubApplyQuery()
   const { data: myClub, isLoading: myClubIsLoading } = useGetMyJoinedClubQuery()
-  const { data: joinRequestList, isLoading: joinRequestIsLoading, isFetching } = useGetJoinRequestsQuery()
+  const { data: joinRequestList, isLoading: joinRequestIsLoading, isFetching, isError } = useGetJoinRequestsQuery()
 
+  if(isError) return <></>
+  
   return(
     applyIsLoading || myClubIsLoading || joinRequestIsLoading || isFetching)
   ? (

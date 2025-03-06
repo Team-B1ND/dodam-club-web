@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
 import * as S from "./style";
+import { useCallback, useState } from "react";
 import {
   ClubJoinResponse,
   ClubMenuItemMyClubProps,
@@ -17,7 +17,8 @@ import {
 import { Link } from "react-router-dom";
 import { EClubState } from "src/enum/club/club.enum";
 import ClubDetail from "@components/ClubDetail";
-import { useDeleteJoinRequestQuery, usePostJoinRequestQuery } from "src/queries/joinRequest/useJoinRequest";
+import { useDeleteJoinRequestQuery, usePostJoinRequestQuery } from "@/queries/joinRequest/joinRequest.query";
+import { transToObject } from "src/utils/transToObject/transToObject";
 
 const ClubMiniList = ({
   name,
@@ -25,18 +26,12 @@ const ClubMiniList = ({
   type,
 }: ClubMenuItemProps | ClubMenuItemMyClubProps) => {
   const [isOpen, setIsopen] = useState({
-    REQUEST_ACCEPT: Object.fromEntries(
-      (value as ClubResponse[]).map((item) => [item.id, false])
-    ) as { [key: number]: boolean },
-    REQUEST_REJECT: Object.fromEntries(
-      (value as ClubResponse[]).map((item) => [item.id, false])
-    ) as { [key: number]: boolean },
-    CLUB: Object.fromEntries(
-      (value as ClubResponse[]).map((item) => [item.id, false])
-    ) as { [key: number]: boolean },
+    REQUEST_ACCEPT: transToObject(value),
+    REQUEST_REJECT: transToObject(value),
+    CLUB: transToObject(value),
   });
   const [requestModal, setRequestModal] = useState<"ACCEPT" | "REJECT" | "CLUB">("ACCEPT");
-  const [miniList, setMiniList] = useState<ClubResponse[] | ClubJoinResponse[]>([]);
+  const [miniList] = useState<ClubResponse[] | ClubJoinResponse[]>(value);
 
   const postJoinRequestMutation = usePostJoinRequestQuery()
   const deleteJoinRequestMutation = useDeleteJoinRequestQuery()
@@ -69,12 +64,6 @@ const ClubMiniList = ({
   ): props is ClubJoinResponse => {
     return "club" in props;
   };
-
-  useEffect(() => {
-    if (value) {
-      setMiniList(value);
-    }
-  }, []);
 
   return (
     value.length > 0 && (
@@ -144,24 +133,24 @@ const ClubMiniList = ({
               </Link>
             )
             : (
-              type === "LeaderApply" &&
-              !isMyClubType(item) && (
+              (type === "LeaderApply" && !isMyClubType(item))
+              && (
                 <S.ClubMiniItem
                   onClick={() => requestHandle({ type: "CLUB", id: item.id })}
                 >
                   <S.ClubMiniItemName>{item.name}</S.ClubMiniItemName>
-                  {item.state === EClubState.PENDING ||
-                  item.state === EClubState.WAITING ? (
+                  {(item.state === EClubState.PENDING || item.state === EClubState.WAITING)
+                  ? (
                     <Clock color={DodamColor.yellow50} size={20} />
-                  ) : item.state === EClubState.DELETED ||
-                    item.state === EClubState.REJECTED ? (
-                    <XmarkCircle color={DodamColor.red50} size={20} />
-                  ) : (
-                    <CheckmarkCircleFilled
-                      color={DodamColor.green50}
-                      size={20}
-                    />
-                  )}
+                  )
+                  : (item.state === EClubState.DELETED || item.state === EClubState.REJECTED)
+                    ? (
+                      <XmarkCircle color={DodamColor.red50} size={20} />
+                    ) 
+                    : (
+                      <CheckmarkCircleFilled color={DodamColor.green50} size={20}/>
+                    )
+                  }
                   <DodamModal isOpen={isOpen.CLUB[item.id]} background={true}>
                     <ClubDetail type="MODAL" modalId={item.id} />
                   </DodamModal>

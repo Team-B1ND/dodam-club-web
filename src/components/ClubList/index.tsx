@@ -11,19 +11,12 @@ import ClubItemSkeleton from "@components/Common/ClubItemSkeleton";
 const ClubList = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
 
-  const {data:clubData, isLoading, isError} = useGetClubsQuery();
+  const {data:clubData, isLoading, isFetching} = useGetClubsQuery();
 
   const changePage = () => {
     setIsCreativeClubPage(prev=>!prev)
   }
   
-  if ( isError ) {
-    return <S.ClubListContainer>데이터를 불러오는 중 오류가 발생했습니다.</S.ClubListContainer>;
-  }
-  if(clubData?.length == 0) {
-    return <S.ClubListContainer>동아리가 없습니다.</S.ClubListContainer>;
-  }
-
   return (
     <S.ClubListContainer>
       <S.ClubListHead>동아리</S.ClubListHead>
@@ -41,7 +34,7 @@ const ClubList = () => {
         />
       </S.ClubMenu>
       <S.ClubItemContainer>
-          {isLoading
+          {(isLoading || isFetching)
           ? Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx}/>)
           : clubData!
           .filter((item: ClubResponse) =>

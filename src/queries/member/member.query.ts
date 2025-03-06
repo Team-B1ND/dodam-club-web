@@ -3,6 +3,7 @@ import { AxiosError } from "axios";
 import { ClubMember } from "src/types/club/club.type";
 import { QUERY_KEYS } from "../queryKey";
 import clubApi from "src/api/Club/club.api";
+import { Student } from "src/types/member/member.type";
 
 export const useGetClubLeaderQuery = (
   { id }: { id: number },
@@ -17,14 +18,14 @@ export const useGetClubLeaderQuery = (
     cacheTime: 1000 * 60 * 10,
   });
 
-export const useGetClubAllMemberQuery = (
-  { id }: { id: number },
+export const useGetAllMemberQuery = (
+  { isSelf }: { isSelf: boolean },
   options?: UseQueryOptions<
-    ClubMember[], 
+    Student[], 
     AxiosError
   >
-): UseQueryResult<ClubMember[], AxiosError> =>
-  useQuery<ClubMember[], AxiosError>(QUERY_KEYS.clubsMember.getMemberAll, () => clubApi.getClubAllMember(id), {
+): UseQueryResult<Student[], AxiosError> =>
+  useQuery<Student[], AxiosError>(QUERY_KEYS.clubsMember.getMemberAll, () => clubApi.getMembers(isSelf), {
     ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
@@ -37,7 +38,7 @@ export const useGetClubMemberQuery = (
     AxiosError
   >
 ): UseQueryResult<ClubMember[], AxiosError> =>
-  useQuery<ClubMember[], AxiosError>(QUERY_KEYS.clubsMember.getMember, () => clubApi.getClubMember(id), {
+  useQuery<ClubMember[], AxiosError>(QUERY_KEYS.clubsMember.getMember, () => clubApi.getClubMembers(id), {
     ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,

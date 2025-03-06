@@ -1,4 +1,3 @@
-import React from 'react'
 import * as S from './style'
 import { Avatar } from '@b1nd/dds-web';
 import { CheckmarkCircleFilled, CheckmarkCircleLine, DodamColor, ExclamationmarkCircle, XmarkCircle } from '@b1nd/dds-web';

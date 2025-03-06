@@ -9,11 +9,11 @@ const requestInterceptor = (config: InternalAxiosRequestConfig, url: string): In
 
     if (!accessToken || !refreshToken) {
       console.error("Access token or refresh token not found.");
-      // window.location.href = url;
+      window.location.href = url;
     } else {
       config.headers[REQUEST_TOKEN_KEY] = `Bearer ${accessToken}`;
 
-      // 임시
+      // 임시 ngrok용 코드
       config.headers['ngrok-skip-browser-warning'] = '69420'
     }
   }

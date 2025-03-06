@@ -6,6 +6,7 @@ import {
 import Router from '@components/Router/router';
 import ThemeProviderContainer from '@components/Common/ThemeProviderContainer';
 import { RecoilRoot } from 'recoil';
+import { B1ndToastContainer } from '@b1nd/b1nd-toastify';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,6 +21,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <ThemeProviderContainer>
+          <B1ndToastContainer autoClose={1000} limit={1} />
           <Router/>
         </ThemeProviderContainer>
       </RecoilRoot>

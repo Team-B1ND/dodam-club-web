@@ -10,7 +10,7 @@ export const useGetJoinRequestsQuery = (
     AxiosError
   >
 ): UseQueryResult<ClubJoinResponse[], AxiosError> =>
-  useQuery<ClubJoinResponse[], AxiosError>(QUERY_KEYS.joinRequest.getJoinRequests, () => clubApi.getJoinClubByRequest(), {
+  useQuery<ClubJoinResponse[], AxiosError>(QUERY_KEYS.joinRequest.getJoinRequests, () => clubApi.getJoinRequests(), {
     ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
@@ -23,7 +23,6 @@ export const usePostJoinRequestQuery = () => {
     clubApi.postJoinClubByRequest(id),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey : [QUERY_KEYS.joinRequest.getJoinRequests]})
-      console.log('sucess')
     }
   });
   return mutation;
@@ -35,8 +34,7 @@ export const useDeleteJoinRequestQuery = () => {
     mutationFn: (id:{id:number}) =>
       clubApi.deleteJoinClubByRequest(id),
     onSuccess: () =>{
-      queryClient.invalidateQueries({queryKey :[ QUERY_KEYS.joinRequest.getJoinRequests]})
-      console.log('sucess')
+      queryClient.invalidateQueries({queryKey :[QUERY_KEYS.joinRequest.getJoinRequests]})
     }
   });
   return mutation;
