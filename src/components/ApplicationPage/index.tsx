@@ -3,7 +3,8 @@ import * as S from './style';
 import megaphoneIcon from '../../assets/megaphone.svg';
 import { useGetClubsQuery } from 'src/queries/useClub';
 import clubApi from 'src/api/Club/club.api';
-import { ClubResponse } from 'src/types/club/club.type';
+import { DodamSegmentedButton } from "@b1nd/dds-web";
+import ClubApplicationPopup from './Popup/index';
 
 interface EssayData {
   [key: string]: string;
@@ -18,6 +19,8 @@ const ApplicationPage = () => {
   const [essayContents, setEssayContents] = useState<EssayData>({});
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   
   const creativeClubs = clubList?.filter(club => club.type === 'CREATIVE_ACTIVITY_CLUB') || [];
   const autonomousClubs = clubList?.filter(club => club.type === 'SELF_DIRECT_ACTIVITY_CLUB') || [];
@@ -41,6 +44,10 @@ const ApplicationPage = () => {
     essayContents, 
     isCreativeClubSelected
   ]);
+
+  const changePage = () => {
+    setIsCreativeClubPage(prev=>!prev)
+  }
 
   const handleCreativeClubClick = (clubName: string) => {
     if (selectedCreativeClubs.includes(clubName)) {
@@ -97,42 +104,53 @@ const ApplicationPage = () => {
     return club ? club.id : 0;
   }
 
-  const handleApply = async () => {
-    if (!isButtonEnabled || isSubmitting) return;
-    
-    try {
-      setIsSubmitting(true);
-      
-      for (const clubName of selectedCreativeClubs) {
-        const clubId = getClubId(clubName);
-        await clubApi.postJoinClubByRequest({id: clubId});
-      }
-      
-      for (const clubName of selectedAutonomousClubs) {
-        const clubId = getClubId(clubName);
-        
-        if (selectedCreativeClubs.length === 3 || 
-            (essayContents[clubName] && essayContents[clubName].trim() !== '')) {
-          await clubApi.postJoinClubByRequest({id: clubId});
-        }
-      }
-      
-      alert('동아리 입부 신청이 성공적으로 제출되었습니다!');
-      setSelectedCreativeClubs([]);
-      setSelectedAutonomousClubs([]);
-      setCurrentClub("");
-      setEssayContents({});
-    } catch (error) {
-      console.error('Error submitting club application:', error);
-      alert('동아리 입부 신청 중 오류가 발생했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const currentClubsList = isCreativeClubSelected 
     ? creativeClubs 
     : autonomousClubs;
+
+    const handleApplyButtonClick = () => {
+      if (!isButtonEnabled || isSubmitting) return;
+      setIsPopupOpen(true);
+    };
+    
+    const handlePopupClose = () => {
+      setIsPopupOpen(false);
+    };
+    
+    const handleApply = async () => {
+      setIsPopupOpen(false);
+      
+      if (!isButtonEnabled || isSubmitting) return;
+      
+      try {
+        setIsSubmitting(true);
+        
+        for (const clubName of selectedCreativeClubs) {
+          const clubId = getClubId(clubName);
+          await clubApi.postJoinClubByRequest({id: clubId});
+        }
+        
+        for (const clubName of selectedAutonomousClubs) {
+          const clubId = getClubId(clubName);
+          
+          if (selectedCreativeClubs.length === 3 || 
+              (essayContents[clubName] && essayContents[clubName].trim() !== '')) {
+            await clubApi.postJoinClubByRequest({id: clubId});
+          }
+        }
+        
+        alert('동아리 입부 신청이 성공적으로 제출되었습니다!');
+        setSelectedCreativeClubs([]);
+        setSelectedAutonomousClubs([]);
+        setCurrentClub("");
+        setEssayContents({});
+      } catch (error) {
+        console.error('Error submitting club application:', error);
+        alert('동아리 입부 신청 중 오류가 발생했습니다. 다시 시도해주세요.');
+      } finally {
+        setIsSubmitting(false);
+      }
+    };
 
   const renderRightSection = () => {
     if (isCreativeClubSelected) {
@@ -207,18 +225,17 @@ const ApplicationPage = () => {
       </S.HeaderSection>
       
       <S.TabsContainer>
-        <S.Tab
-          selected={isCreativeClubSelected}
-          onClick={() => handleTabSwitch(true)}
-        >
-          창체 동아리 
-        </S.Tab>
-        <S.Tab
-          selected={!isCreativeClubSelected}
-          onClick={() => handleTabSwitch(false)}
-        >
-          자율 동아리
-        </S.Tab>
+        <DodamSegmentedButton
+          num={2}
+          type="block"
+          data={[
+            { text: '창체동아리', isAtv: isCreativeClubPage },
+            { text: '자율동아리', isAtv: !isCreativeClubPage }
+          ]}
+          width={200}
+          height={45}
+          onClick={changePage}
+        />
       </S.TabsContainer>
       <S.ContentSection>
         <S.ClubListSection>
@@ -279,12 +296,20 @@ const ApplicationPage = () => {
       <S.ButtonWrapper>
         <S.ApplyButton 
           enabled={isButtonEnabled && !isSubmitting}
-          onClick={handleApply}
+          isCreativeComplete={selectedCreativeClubs.length === 3}
+          onClick={handleApplyButtonClick}
           disabled={!isButtonEnabled || isSubmitting}
         >
           {isSubmitting ? '제출 중...' : '동아리 입부 신청하기'}
         </S.ApplyButton>
       </S.ButtonWrapper>
+      <ClubApplicationPopup 
+        isOpen={isPopupOpen}
+        onClose={handlePopupClose}
+        onConfirm={handleApply}
+        clubType={isCreativeClubSelected ? 'CREATIVE_ACTIVITY_CLUB' : 'SELF_DIRECT_ACTIVITY_CLUB'}
+        selectedClubs={isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs}
+      />
     </S.Container>
   );
 };

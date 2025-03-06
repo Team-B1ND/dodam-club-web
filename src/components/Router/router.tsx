@@ -18,6 +18,7 @@ const Router = () => {
       </Routes>
     </BrowserRouter>
   )
+
 }
 
 export default Router

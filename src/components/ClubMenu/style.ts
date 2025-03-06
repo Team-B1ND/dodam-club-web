@@ -12,7 +12,7 @@ export const ClubMenuContainer = styled.div`
   background-color: ${({ theme }) => theme.backgroundNormal};
   ${DodamTypography.Headline.Bold}
   color: ${({ theme }) => theme.labelNormal};
-`
+`;
 
 export const MyClubList = styled.div`
   display: flex;

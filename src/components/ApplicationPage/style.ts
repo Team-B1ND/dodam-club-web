@@ -5,16 +5,16 @@ export const Container = styled.div`
   flex-direction: column;
   width: 90%;
   height: 85vh;
-  padding: 30px 30px;
-  background-color: #ffffff;
+  padding: 30px;
+  background-color: ${({ theme }) => theme.backgroundNormal};
   border-radius: 10px;
 `;
 
 export const Title = styled.h1`
+  color: ${({ theme }) => theme.labelNormal};
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 16px;
-  color: #000000;
 `;
 
 export const HeaderSection = styled.div`
@@ -27,27 +27,15 @@ export const HeaderSection = styled.div`
 export const SubTitle = styled.h2`
   font-size: 14px;
   font-weight: 500;
-  color: #000000;
+  color: ${({ theme }) => theme.labelNormal};
 `;
 
 export const TabsContainer = styled.div`
   display: flex;
-  background-color: #E6E6E7;
   border-radius: 10px;
   width: fit-content;
   padding: 5px;
   margin-bottom: 20px;
-`;
-
-export const Tab = styled.div<{ selected: boolean }>`
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: ${({ selected }) => (selected ? 'bold' : 'normal')};
-  color: ${({ selected }) => (selected ? '#000000' : '#747678')};
-  background-color: ${({ selected }) => (selected ? '#fff' : 'transparent')};
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
 `;
 
 export const ContentSection = styled.div`
@@ -62,10 +50,11 @@ export const ClubListSection = styled.div`
   width: 20vw;
   background-color: white;
   border-radius: 10px;
-  border: 1px solid #e0e0e0;
+  border: 1px ${({ theme }) => theme.lineAlternative} solid;
   height: 90%;
   display: flex;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.backgroundNormal};
 `;
 
 export const ClubListContent = styled.div`
@@ -207,7 +196,7 @@ export const EssayTitleWrapper = styled.div`
 export const EssayTitle = styled.h2`
   font-size: 16px;
   font-weight: bold;
-  color: #000000;
+  color: ${({ theme }) => theme.labelNormal};
 `;
 
 export const DotSelector = styled.div`
@@ -278,19 +267,20 @@ export const ButtonWrapper = styled.div`
   margin-top: -20px;
 `;
 
-export const ApplyButton = styled.button<{ enabled: boolean }>`
+export const ApplyButton = styled.button<{ 
+  enabled: boolean,
+  isCreativeComplete?: boolean 
+}>`
   padding: 12px 24px;
   font-size: 16px;
   font-weight: bold;
-  color: white;
-  background-color: ${({ enabled }) => (enabled ? '#4D9FFF' : '#cccccc')};
   border: none;
+  background-color: #0083F0;
+  opacity: ${({ isCreativeComplete }) => (isCreativeComplete ? 1 : 0.5)};
+  color: #fff;
   border-radius: 8px;
   cursor: ${({ enabled }) => (enabled ? 'pointer' : 'not-allowed')};
-  transition: background-color 0.2s ease;
-  &:hover {
-    background-color: ${({ enabled }) => (enabled ? '#3d8de0' : '#cccccc')};
-  }
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 `;
 
 export const ClubDot = styled.div<{ active: boolean }>`
@@ -317,10 +307,10 @@ export const ClubDescriptionSection = styled.div`
   right: 0;
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: ${({ theme }) => theme.backgroundNormal};
   border-radius: 10px;
   padding: 20px;
-  border: 1px solid #e0e0e0;
+  border: 1px ${({ theme }) => theme.lineAlternative} solid;
   overflow-y: auto;
 `;
 
