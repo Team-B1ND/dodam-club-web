@@ -17,7 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import { EClubState } from "src/enum/club/club.enum";
 import ClubDetail from "@components/ClubDetail";
-import { useDeleteJoinRequestQuery, usePostJoinRequestQuery } from "@/queries/joinRequest/joinRequest.query";
+import { useDeleteJoinRequestQuery, usePostJoinRequestQuery } from "src/queries/joinRequest/joinRequest.query";
 import { transToObject } from "src/utils/transToObject/transToObject";
 
 const ClubMiniList = ({

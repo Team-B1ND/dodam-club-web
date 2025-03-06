@@ -11,6 +11,10 @@ export const ClubListContainer = styled.div`
   padding: 24px;
   background-color: ${({ theme }) => theme.backgroundNormal};
   color: ${({ theme }) => theme.labelNormal};
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const ClubListHead = styled.p`

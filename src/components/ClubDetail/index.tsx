@@ -1,7 +1,6 @@
 import * as S from "./style";
 import { useRecoilValue } from "recoil";
 import { themeModeAtom } from "src/store/theme/themeStore";
-import { useTheme } from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import { EClub, EClubState } from "src/enum/club/club.enum";
 import {
@@ -22,8 +21,10 @@ import {
   useGetClubMemberQuery,
 } from "src/queries/member/member.query";
 import { useDeleteClubApplyQuery, usePostClubApplyQuery } from "src/queries/clubApply/clubApply.query";
+import { useTheme } from "styled-components";
+import { ClubDetailType } from "src/types/club/club.type";
 interface ClubDetailProps {
-  type: "MODAL" | "PAGE";
+  type: ClubDetailType;
   modalId?: number;
   close?: () => void;
 }
@@ -31,19 +32,19 @@ interface ClubDetailProps {
 const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { id } = useParams();
   const currentTheme = useRecoilValue(themeModeAtom);
-  const theme = useTheme();
+  const theme = useTheme()
   
   const postClubApplyMutation = usePostClubApplyQuery()
   const deleteClubApplyMutation = useDeleteClubApplyQuery()
 
   const { data: clubData, isLoading: clubDataIsLoading } =
-    useGetClubDetailQuery({ id: type === "MODAL" ? modalId : Number(id) });
+    useGetClubDetailQuery({ id: type === "MODAL" ? modalId : +id! });
 
   const { data: leaderData, isLoading: leaderIsLoading } =
-    useGetClubLeaderQuery({ id: type === "MODAL" ? modalId : Number(id) });
+    useGetClubLeaderQuery({ id: type === "MODAL" ? modalId : +id! });
 
   const { data: clubMemberData, isLoading: clubMemberIsLoading, isFetching } =
-    useGetClubMemberQuery({ id: type === "MODAL" ? modalId : Number(id) });
+    useGetClubMemberQuery({ id: type === "MODAL" ? modalId : +id! });
     
   return (
     <S.ClubDetail>
@@ -54,12 +55,12 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
         {type == "PAGE"
         ? (
           <Link to={"/"}>
-            <ArrowLeft $svgStyle={{ cursor: "pointer" }} color={theme.labelNormal} />
+            <ArrowLeft $svgStyle={{ cursor: "pointer" }} color="labelNormal" />
           </Link>
         )
         : (
           <div onClick={close}>
-            <Close $svgStyle={{ cursor: "pointer" }} color={theme.labelNormal} />
+            <Close $svgStyle={{ cursor: "pointer" }} color="labelNormal" />
           </div>
         )}
         {clubDataIsLoading || leaderIsLoading || clubMemberIsLoading || isFetching
@@ -98,13 +99,13 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                   {clubData!.shortDescription}
                 </S.ClubDetailHeaderShortDescription>
               </S.ClubDetailHeaderInfo>
-              <S.ClubDetailHeaderLeader>
-                {`부장 : `}
+              <p>
+                부장 :&nbsp;
                 {leaderData!.grade}
                 {leaderData!.room}
                 {leaderData!.number}
                 {leaderData!.name}
-              </S.ClubDetailHeaderLeader>
+              </p>
             </S.ClubDetailHeader>
             {clubMemberData
             && (
@@ -117,23 +118,23 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                       text="승인 신청하기"
                       typography={["Caption1", "Bold"]}
                       width={100}
-                      customStyle={{ color: "#fff", whiteSpace: "nowrap" }}
+                      textTheme={currentTheme}
                       enabled={
-                        clubMemberData?.length ==
-                        clubMemberData?.filter(
+                        clubMemberData?.students.length ==
+                        clubMemberData?.students.filter(
                           (item) => item.status === EClubState.ALLOWED
                         ).length
                       }
-                      onClick={() => postClubApplyMutation.mutate({id: clubData!.id})}
+                      onClick={() => postClubApplyMutation.mutate(clubData!.id)}
                     />
                     <DodamFilledButton
                       size="Small"
                       text="취소하기"
                       typography={["Caption1", "Bold"]}
                       width={100}
-                      customStyle={{ color: "#fff", whiteSpace: "nowrap" }}
+                      textTheme={currentTheme}
                       backgroundColorType="Negative"
-                      onClick={() => deleteClubApplyMutation.mutate({id: clubData!.id})}
+                      onClick={() => deleteClubApplyMutation.mutate(clubData!.id)}
                     />
                   </S.ClubDetailMenuButton>
                 </S.ClubDetailMenuInfoAndButton>
@@ -143,7 +144,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             <S.ClubDetailMainContainer>
               <S.ClubDeatilMemberList>
                 부원
-                {clubMemberData!.map(
+                {clubMemberData!.students.map(
                   (item) => (
                     <MemberItem
                       value={item}

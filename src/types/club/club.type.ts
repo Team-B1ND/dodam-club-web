@@ -21,16 +21,9 @@ export interface ClubMember {
   profileImage: string | null;
 }
 
-export interface ClubMember {
-  id: number;
-  status: string;
-  permission: string;
-  studentId: number;
-  name: string;
-  grade: number;
-  room: number;
-  number: number;
-  profileImage: string | null;
+export interface ClubMemberResponse {
+  students: ClubMember[];
+  isLeader: boolean;
 }
 
 export interface ClubProps {
@@ -74,3 +67,5 @@ export interface ClubMenuItemMyClubProps {
   value : ClubResponse[];
   type: "LeaderApply" | "MyClub" | "StudentApply";
 }
+
+export type ClubDetailType = "MODAL" | "PAGE"

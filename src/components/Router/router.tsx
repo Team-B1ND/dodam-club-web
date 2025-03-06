@@ -12,7 +12,6 @@ const Router = () => {
           <Route index element={<MainPage/>}/>
           <Route path='/create' element={<CreateClubPage/>}/>
           {/* <Route path='/fix' element={<FixClubPage/>}/> */}
-          <Route path='/register' element={<RegisterPage/>}/>
           <Route path='/:id' element={<ClubDetail type='PAGE'/>}/>
         </Route>
       </Routes>

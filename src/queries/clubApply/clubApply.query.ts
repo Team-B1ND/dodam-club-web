@@ -5,7 +5,7 @@ import { QUERY_KEYS } from "../queryKey";
 export const usePostClubApplyQuery = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: (id:{id:number}) =>
+    mutationFn: (id:number) =>
     clubApi.postClubApply(id),
     onSuccess: () =>{
       queryClient.invalidateQueries([QUERY_KEYS.clubs.getMine])
@@ -17,7 +17,7 @@ export const usePostClubApplyQuery = () => {
 export const useDeleteClubApplyQuery = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: (id:{id:number}) =>
+    mutationFn: (id:number) =>
     clubApi.deleteClubApply(id),
     onSuccess: () =>{
       queryClient.invalidateQueries([QUERY_KEYS.clubs.getMine])

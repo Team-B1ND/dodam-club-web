@@ -1,4 +1,5 @@
 import { DodamShape, DodamTypography } from "@b1nd/dds-web";
+import { ClubDetailType } from "src/types/club/club.type";
 import styled from "styled-components";
 
 export const ClubDetail = styled.div`
@@ -8,7 +9,8 @@ export const ClubDetail = styled.div`
   padding: 58px 0;
   flex-grow: 1;
 `
-export const ClubDetailContainer = styled.div<{ $type: "MODAL" | "PAGE" }>`
+
+export const ClubDetailContainer = styled.div<{ $type: ClubDetailType }>`
   display: flex;
   flex-direction: column;
   padding: 24px;
@@ -19,7 +21,11 @@ export const ClubDetailContainer = styled.div<{ $type: "MODAL" | "PAGE" }>`
   ${DodamShape.Large}
   gap: 20px;
   overflow-y: scroll;
-  z-index: 99;
+  z-index: 3;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const ClubDetailHeader = styled.div`
@@ -27,6 +33,10 @@ export const ClubDetailHeader = styled.div`
   padding: 0 20px;
   justify-content: space-between;
   align-items: end;
+  p {
+    ${DodamTypography.Label.Medium}
+    color: ${({ theme }) => theme.labelNormal};
+  }
 `
 
 export const ClubDetailHeaderInfo = styled.div`
@@ -52,11 +62,6 @@ export const ClubDetailHeaderName = styled.div`
 
 export const ClubDetailHeaderShortDescription = styled.div`
   ${DodamTypography.Heading1.Medium};
-  color: ${({ theme }) => theme.labelNormal};
-`
-
-export const ClubDetailHeaderLeader = styled.div`
-  ${DodamTypography.Label.Medium}
   color: ${({ theme }) => theme.labelNormal};
 `
 

@@ -7,12 +7,6 @@ interface uploadResponse {
 }
 
 export const uploadImage = async (imageData: FormData) => {
-  try{
-    const {data} = await customAxios.post<uploadResponse>(`/upload`, imageData)
-    if(data){
-      return data.data;
-    }
-  }catch{
-    return false;
-  };
+  const {data} = await customAxios.post<uploadResponse>(`/upload`, imageData)
+  return data.data;
 };
