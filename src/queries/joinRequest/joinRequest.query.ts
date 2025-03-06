@@ -11,9 +11,9 @@ export const useGetJoinRequestsQuery = (
   >
 ): UseQueryResult<ClubJoinResponse[], AxiosError> =>
   useQuery<ClubJoinResponse[], AxiosError>(QUERY_KEYS.joinRequest.getJoinRequests, () => clubApi.getJoinRequests(), {
-    ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    ...options,
   });
 
 export const usePostJoinRequestQuery = () => {

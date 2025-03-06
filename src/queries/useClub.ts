@@ -11,9 +11,9 @@ export const useGetClubsQuery = (
   >
 ): UseQueryResult<ClubResponse[], AxiosError> =>
   useQuery<ClubResponse[], AxiosError>(QUERY_KEYS.clubs.getAll, () => clubApi.getClubs(), {
-    ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    ...options,
   });
 
 export const useGetClubDetailQuery = (
@@ -24,9 +24,9 @@ export const useGetClubDetailQuery = (
   >
 ): UseQueryResult<ClubResponse, AxiosError> =>
   useQuery<ClubResponse, AxiosError>([QUERY_KEYS.clubs.getOne, id], () => clubApi.getClub(id), {
-    ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    ...options,
   });
 
 export const useGetMyClubApplyQuery = (
@@ -36,9 +36,9 @@ export const useGetMyClubApplyQuery = (
   >
 ): UseQueryResult<ClubResponse[], AxiosError> =>
   useQuery<ClubResponse[], AxiosError>(QUERY_KEYS.clubs.getMine, () => clubApi.getMyClubApply(), {
-    ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    ...options,
   });
 
 export const useGetMyJoinedClubQuery = (
@@ -48,7 +48,7 @@ export const useGetMyJoinedClubQuery = (
   >
 ): UseQueryResult<ClubResponse[], AxiosError> =>
   useQuery<ClubResponse[], AxiosError>(QUERY_KEYS.clubs.getJoinedClub, () => clubApi.getMyJoinedClubs(), {
-    ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    ...options,
   });

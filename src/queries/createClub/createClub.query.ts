@@ -7,7 +7,7 @@ import { B1ndToast } from "@b1nd/b1nd-toastify"
 export const useCreateClubQuery = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: (data:{data: Club}) => 
+    mutationFn: (data:Club) => 
       clubApi.postClub(data),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [QUERY_KEYS.clubs.getAll, QUERY_KEYS.clubApply.postClubApply]})

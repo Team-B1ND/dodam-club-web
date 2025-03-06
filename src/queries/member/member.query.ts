@@ -12,10 +12,10 @@ export const useGetClubLeaderQuery = (
     AxiosError
   >
 ): UseQueryResult<ClubMember, AxiosError> =>
-  useQuery<ClubMember, AxiosError>(QUERY_KEYS.clubsMember.getClubLeader, () => clubApi.getClubLeader(id), {
-    ...options,
+  useQuery<ClubMember, AxiosError>([QUERY_KEYS.clubsMember.getClubLeader, id], () => clubApi.getClubLeader(id), {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    ...options,
   });
 
 export const useGetAllMemberQuery = (
@@ -26,9 +26,9 @@ export const useGetAllMemberQuery = (
   >
 ): UseQueryResult<Student[], AxiosError> =>
   useQuery<Student[], AxiosError>(QUERY_KEYS.clubsMember.getMemberAll, () => clubApi.getMembers(isSelf), {
-    ...options,
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    ...options,
   });
 
 export const useGetClubMemberQuery = (
@@ -38,8 +38,8 @@ export const useGetClubMemberQuery = (
     AxiosError
   >
 ): UseQueryResult<ClubMemberResponse, AxiosError> =>
-  useQuery<ClubMemberResponse, AxiosError>(QUERY_KEYS.clubsMember.getMember, () => clubApi.getClubMembers(id), {
-    ...options,
+  useQuery<ClubMemberResponse, AxiosError>([QUERY_KEYS.clubsMember.getMember, id], () => clubApi.getClubMembers(id), {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
+    ...options,
   });
