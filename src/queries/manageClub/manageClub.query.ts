@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "react-query"
 import clubApi from "src/api/Club/club.api"
-import { Club } from "src/types/club/club.type"
+import { Club, EditClub } from "src/types/club/club.type"
 import { QUERY_KEYS } from "../queryKey"
 import { B1ndToast } from "@b1nd/b1nd-toastify"
 import { useNavigate } from "react-router-dom"
 import { ClubErrorResponse } from "src/types/response/response.type"
+import { AxiosError } from "axios"
 
 export const useCreateClubMutation = () => {
   const queryClient = useQueryClient()
@@ -22,4 +23,24 @@ export const useCreateClubMutation = () => {
     }
   })
   return mutation;
+}
+
+export const usePatchClubMutation = () => {
+  const queryClient = useQueryClient()
+  const nav = useNavigate()
+  const mutation = useMutation({
+    mutationFn: ({data, id}:{data: EditClub, id:number}) => (
+      clubApi.patchClub({data, id})
+    ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [QUERY_KEYS.clubs.getAll, QUERY_KEYS.clubApply.postClubApply, ]})
+      nav('/')
+    },
+    onError: (error : AxiosError<ClubErrorResponse>) => {
+      if(error.response){
+        B1ndToast.showError(`${error.response.data.message}`)
+      }
+    }
+  })
+  return mutation
 }

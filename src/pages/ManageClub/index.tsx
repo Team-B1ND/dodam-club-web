@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as S from './style';
 import { Close, DodamFilledButton, DodamFilledTextField } from '@b1nd/dds-web';
 import { useForm } from 'react-hook-form';
-import { EClub } from 'src/enum/club/club.enum';
+import { EClub, EClubState } from 'src/enum/club/club.enum';
 import { Club } from 'src/types/club/club.type';
 import MDEditor from '@uiw/react-md-editor';
 import { useRecoilValue } from "recoil";
@@ -10,21 +10,22 @@ import { themeModeAtom } from "src/store/theme/themeStore";
 import { useImageUpload } from 'src/hooks/image/useImageUpload';
 import imagePreviewAlt from 'src/assets/imagePreviewAlt.png';
 import MemberItem from '@components/MemberItem';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import useClubForm from 'src/hooks/club/useClubForm';
 import { useTheme } from 'styled-components';
 import { B1ndToast } from '@b1nd/b1nd-toastify';
-import { useCreateClubMutation } from 'src/queries/createClub/createClub.query';
-import { useGetMyClubApplyQuery } from 'src/queries/useClub';
+import { useCreateClubMutation, usePatchClubMutation } from 'src/queries/manageClub/manageClub.query';
+import { useGetClubDetailQuery, useGetMyClubApplyQuery } from 'src/queries/useClub';
 import { useGetAllMemberQuery } from 'src/queries/member/member.query';
 import CreateClubSkeleton from '@components/Common/CreateClubSkeleton';
 
-const CreateClubPage = () => {
+const ManageClubPage = () => {
   const theme = useTheme();
   const currentTheme = useRecoilValue(themeModeAtom);
+  const { clubId } = useParams()
   
   const inputRef = useRef<HTMLInputElement>(null);
-  const { previewUrl, handleImageChange } = useImageUpload();
+  const { previewUrl, setPreviewUrl, handleImageChange } = useImageUpload();
   
   const [ searchData, setSearchData ] = useState<string>('');
   const [ isSelf, setIsSelf ] = useState<boolean>(true);
@@ -33,21 +34,27 @@ const CreateClubPage = () => {
   const { data:allMember, isLoading:allMemberLoading } = useGetAllMemberQuery({
     isSelf: isSelf
   });
+  const { data:clubDatail, isLoading:clubDatailIsLoading } = useGetClubDetailQuery(
+    +clubId!,
+    {enabled : !(!clubId)}
+  )
 
   const createClubMutation = useCreateClubMutation();
+  const patchClubMutation = usePatchClubMutation();
 
   // form 관리
-  const methods = useForm<Club>({
-    defaultValues: {
-      name: "",
-      image: "",
-      subject: "",
-      shortDescription: "",
-      description: "",
-      type: EClub.SELF_DIRECT_CLUB,
-      studentIds: []
+  const methods = useForm<Club>( {
+      defaultValues: {
+        name: "",
+        image: "",
+        subject: "",
+        shortDescription: "",
+        description: "",
+        type: EClub.SELF_DIRECT_CLUB,
+        studentIds: []
+      }
     }
-  });
+  );
 
   const {
     handleSubmit,
@@ -56,7 +63,8 @@ const CreateClubPage = () => {
     setValue,
     getValues,
     setError,
-    clearErrors
+    clearErrors,
+    reset
   } = methods;
 
   const { fields, fieldStates, handlers } = useClubForm({
@@ -65,7 +73,7 @@ const CreateClubPage = () => {
     watch,
     getValues,
     setError,
-    clearErrors
+    clearErrors,
   });
 
   const typeWatch = watch("type")
@@ -75,23 +83,36 @@ const CreateClubPage = () => {
   }, [typeWatch])
 
   useEffect(() => {
-    handlers.updateImage(previewUrl);
-  }, [previewUrl]);
+    if(clubDatail?.image){
+      setPreviewUrl(clubDatail.image)
+    }else{
+      handlers.updateImage(previewUrl);
+    }
+  }, [previewUrl, clubDatail]);
 
+  useEffect(() => {
+    reset(clubDatail)
+  }, [clubDatail])
   return (
     <S.CreateClubPaddingContainer>
       <S.CreateClubContainer
         data-color-mode={currentTheme.toLowerCase()}
       >
         <Link to={'/'} style={{display:'flex', width:'24px'}}><Close $svgStyle={{cursor:'pointer'}} color={theme.labelNormal}/></Link>
-        <S.CreateClubHeader>동아리 개설</S.CreateClubHeader>
-        {(applyDataIsLoading || allMemberLoading)
+        <S.CreateClubHeader>{!clubId ? '동아리 개설' : '동아리 정보 수정'}</S.CreateClubHeader>
+        {(applyDataIsLoading || allMemberLoading || clubDatailIsLoading)
         ? <CreateClubSkeleton/>
         : (
           <S.CreateClubForm
             onSubmit={handleSubmit(
               (data) => {
-                createClubMutation.mutate(data);
+                if(clubDatail){
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                  const {type, studentIds, state, ...patchData } = data
+                  patchClubMutation.mutate({data: patchData, id: clubDatail.id})
+                }else{
+                  createClubMutation.mutate(data);
+                }
               },
               () => {
                 B1ndToast.showError('동아리 생성에 실패하였습니다!')
@@ -100,7 +121,8 @@ const CreateClubPage = () => {
           >
             <DodamFilledTextField
               label='동아리명'
-              placeholder='개설할 동아리 이름을 입력해주세요.'
+              placeholder={!clubId ? '개설할 동아리 이름을 입력해주세요.' : ''}
+              isDisabled={(!clubId || clubDatail?.state !== EClubState.ALLOWED) ? false : true}
               type='text'
               isError={fieldStates.nameState.error ? true : false}
               supportingText={
@@ -113,7 +135,8 @@ const CreateClubPage = () => {
             />
 
             <S.CreateClubCustomInputContainer
-              $isError={fieldStates.typeState.error === undefined}
+              $isError={fieldStates.typeState.error !== undefined}
+              $isDisabled={(!clubId || clubDatail?.state !== EClubState.ALLOWED) ? false : true}
             >
               동아리 유형
               <S.CreateClubTypeSelect
@@ -122,6 +145,8 @@ const CreateClubPage = () => {
                 onBlur={fields.type.onBlur}
                 name={fields.type.name}
                 $isError={fieldStates.typeState.error === undefined}
+                $isDisabled={!clubId ? false : true}
+                disabled={!clubId ? false : true}
               >
                 <option value={EClub.SELF_DIRECT_CLUB}>자율 동아리</option>
                 {clubApplyData!.filter((item) => item.type === EClub.CREATIVE_CLUB).length === 1 || <option value={EClub.CREATIVE_CLUB}>창체 동아리</option>}
@@ -133,9 +158,10 @@ const CreateClubPage = () => {
 
             <DodamFilledTextField
               label='동아리 주제'
-              placeholder='개설할 동아리의 주제를 입력해주세요.'
+              placeholder={!clubId ? '개설할 동아리의 주제를 입력해주세요.' : ''}
               type='text'
               isError={fieldStates.subjectState.error ? true : false}
+              isDisabled={(!clubId || clubDatail?.state !== EClubState.ALLOWED) ? false : true}
               supportingText={
                 fieldStates.subjectState.error
                 ? fieldStates.subjectState.error.message
@@ -161,7 +187,8 @@ const CreateClubPage = () => {
 
             <S.CreateClubCustomInputDivider>
               <S.CreateClubCustomInputContainer
-                $isError={fieldStates.imageState.error === undefined}
+                $isError={fieldStates.imageState.error !== undefined}
+                $isDisabled={false}
               >
                 대표 사진
                 <S.CreateClubCustomInput
@@ -191,7 +218,8 @@ const CreateClubPage = () => {
             </S.CreateClubCustomInputDivider>
 
             <S.CreateClubCustomInputContainer
-              $isError={fieldStates.descriptionState.error === undefined}
+              $isError={fieldStates.descriptionState.error !== undefined}
+              $isDisabled={!clubId ? false : true}
             >
               설명
               <MDEditor
@@ -209,56 +237,59 @@ const CreateClubPage = () => {
               ? fieldStates.descriptionState.error.message
               : "후에 지원자와 선생님이 보게 될 동아리의 설명 / 홍보글을 작성해주세요. 마크다운 문법을 사용 가능합니다."}
             </S.CreateClubCustomInputContainer>
-
-            <S.CreateClubCustomInputContainer
-              $isError={fieldStates.studentIdsState.error === undefined}
-            >
-              부원 선택
-              <S.CreateClubMemberContainer
+            {!clubId
+            && (
+              <S.CreateClubCustomInputContainer
                 $isError={fieldStates.studentIdsState.error === undefined}
+                $isDisabled={!clubId ? false : true}
               >
-                <S.CreateClubMemberSearch>
-                  <DodamFilledTextField
-                    type='text'
-                    label=''
-                    value={searchData}
-                    onChange={(e) => setSearchData(e.target.value)}
-                    placeholder='이름으로 검색'
-                  />
-                  <S.CreateClubMemberList>
+                부원 선택
+                <S.CreateClubMemberContainer
+                  $isError={fieldStates.studentIdsState.error === undefined}
+                >
+                  <S.CreateClubMemberSearch>
+                    <DodamFilledTextField
+                      type='text'
+                      label=''
+                      value={searchData}
+                      onChange={(e) => setSearchData(e.target.value)}
+                      placeholder='이름으로 검색'
+                    />
+                    <S.CreateClubMemberList>
+                      {allMember!
+                      .filter((item) => fields.studentIds.value.indexOf(item.id) === -1)
+                      .filter((item) => item.name.includes(searchData))
+                      .map((item) => (
+                        <MemberItem
+                          value={item}
+                          type='PICKER'
+                          pickerStatus={false} 
+                          key={item.id}
+                          onClick={() => handlers.handleMemberSelect(item.id)}
+                        />
+                      ))}
+                    </S.CreateClubMemberList>
+                  </S.CreateClubMemberSearch>
+                  <S.CreateClubMemberSelected>
                     {allMember!
-                    .filter((item) => fields.studentIds.value.indexOf(item.id) === -1)
-                    .filter((item) => item.name.includes(searchData))
+                    .filter((item) => fields.studentIds.value.indexOf(item.id) !== -1)
                     .map((item) => (
                       <MemberItem
                         value={item}
                         type='PICKER'
-                        pickerStatus={false} 
+                        pickerStatus={true} 
                         key={item.id}
                         onClick={() => handlers.handleMemberSelect(item.id)}
                       />
                     ))}
-                  </S.CreateClubMemberList>
-                </S.CreateClubMemberSearch>
-                <S.CreateClubMemberSelected>
-                  {allMember!
-                  .filter((item) => fields.studentIds.value.indexOf(item.id) !== -1)
-                  .map((item) => (
-                    <MemberItem
-                      value={item}
-                      type='PICKER'
-                      pickerStatus={true} 
-                      key={item.id}
-                      onClick={() => handlers.handleMemberSelect(item.id)}
-                    />
-                  ))}
-                </S.CreateClubMemberSelected>
-              </S.CreateClubMemberContainer>
-              {fieldStates.studentIdsState.error
-              ? fieldStates.studentIdsState.error.message
-              : `창체는 자신을 포함해 최소 5명, 최대 18명 선택 가능합니다. 자율은 자신을 포함해 최소 10명을 선택해야 합니다.
-              모든 선택된 부원이 수락해야 선생님께 승인 신청을 올릴 수 있습니다.`}
-            </S.CreateClubCustomInputContainer>
+                  </S.CreateClubMemberSelected>
+                </S.CreateClubMemberContainer>
+                {fieldStates.studentIdsState.error
+                ? fieldStates.studentIdsState.error.message
+                : `창체는 자신을 포함해 최소 5명, 최대 18명 선택 가능합니다. 자율은 자신을 포함해 최소 10명을 선택해야 합니다.
+                모든 선택된 부원이 수락해야 선생님께 승인 신청을 올릴 수 있습니다.`}
+              </S.CreateClubCustomInputContainer>
+            )}
 
             <S.CreateClubSubmit
               type='submit'
@@ -266,9 +297,9 @@ const CreateClubPage = () => {
             >
               <DodamFilledButton
                 size="Medium"
-                text="개설 완료하기"
+                text={!clubId ? "개설 완료하기" : "수정 완료하기"}
                 width={144}
-                customStyle={{ color: "#fff" }}
+                textTheme="staticWhite"
                 typography={["Body1", "Bold"]}
                 enabled={isValid}
               />
@@ -280,4 +311,4 @@ const CreateClubPage = () => {
   )
 }
 
-export default CreateClubPage;
+export default ManageClubPage;
