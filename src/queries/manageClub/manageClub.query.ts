@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "react-query"
 import clubApi from "src/api/Club/club.api"
-import { Club, EditClub } from "src/types/club/club.type"
+import { Club } from "src/types/club/club.type"
 import { QUERY_KEYS } from "../queryKey"
 import { B1ndToast } from "@b1nd/b1nd-toastify"
 import { useNavigate } from "react-router-dom"
@@ -20,7 +20,11 @@ export const useCreateClubMutation = () => {
       nav('/')
     },
     onError: (error : ClubErrorResponse) => {
-      B1ndToast.showError(`error! ${error.message} : 이름이 중복됩니다.`)
+      if(error.code == '400'){
+        B1ndToast.showError(`error_${error.message} : 이름이 중복됩니다.`)
+      }else{
+        B1ndToast.showError(`error_${error.message} : 서버 오류`)
+      }
     }
   })
   return mutation;

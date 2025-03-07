@@ -1,6 +1,6 @@
-import { B1ndToast } from "@b1nd/b1nd-toastify";
 import { useState, useEffect } from "react";
-import { uploadImage } from "src/api/Image/Image.api";
+import { useQueryClient } from "react-query";
+import { usePostImage } from "src/queries/image/image.query";
 
 interface UseImageUploadReturn {
   imageFile: File | null;
@@ -14,6 +14,9 @@ export const useImageUpload = () : UseImageUploadReturn => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
 
+  const postImageMutation = usePostImage();
+  const queryClient = useQueryClient()
+
   useEffect(() => {
     if (imageFile) {
       const formData = new FormData
@@ -23,12 +26,7 @@ export const useImageUpload = () : UseImageUploadReturn => {
   }, [imageFile]);
 
   const uploadImageAndPreview = async (formData: FormData) => {
-    try{
-      const url = await uploadImage(formData) as string
-      setPreviewUrl(url)
-    }catch{
-      B1ndToast.showError('이미지 업로드 실패')
-    }
+    postImageMutation.mutate(formData)
   };
 
   const handleImageChange = (file: File | null) => {
@@ -39,6 +37,12 @@ export const useImageUpload = () : UseImageUploadReturn => {
     setImageFile(null);
     setPreviewUrl('');
   };
+
+  useEffect(() => {
+    if(queryClient.getQueryData(["image"])){
+      setPreviewUrl(queryClient.getQueryData(["image"])!)
+    }
+  }, [queryClient.getQueryData(["image"])])
 
   return {
     imageFile,

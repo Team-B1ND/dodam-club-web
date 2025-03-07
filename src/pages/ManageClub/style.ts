@@ -1,6 +1,7 @@
 import { DodamShape, DodamTypography } from "@b1nd/dds-web";
 import styled from "styled-components";
 import { hexToRgba } from '@b1nd/dds-web';
+import MDEditor from "@uiw/react-md-editor";
 
 export const CreateClubPaddingContainer = styled.div`
   padding: 58px 0;
@@ -47,10 +48,14 @@ export const CreateClubCustomInputContainer = styled.div<{ $isError: boolean; $i
   opacity: ${({$isDisabled}) => $isDisabled && '65%'};
   color: ${({ theme, $isError }) => $isError ? theme.statusNegative : theme.labelAlternative};
   white-space: pre-line;
-  & {
+  & div {
+    background-color: ${({ theme }) => theme.backgroundNormal};
+  }
+  & p {
     background-color: ${({ theme }) => theme.backgroundNormal};
   }
 `
+
 
 export const CreateClubCustomInput = styled.div<{ $isError: boolean; }>`
   width: 100%;
