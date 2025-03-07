@@ -10,15 +10,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@b1nd/b1nd-toastify": "^2.0.1",
+    "@b1nd/dds-web": "^0.1.29",
+    "@types/node": "^22.13.4",
+    "@uiw/react-md-editor": "^4.0.5",
     "axios": "^1.7.9",
+    "js-cookie": "^3.0.5",
     "path": "^0.12.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "react-query": "^3.39.3",
     "react-router-dom": "^7.2.0",
-    "styled-components": "^6.1.15"
+    "recoil": "^0.7.7",
+    "styled-components": "^6.1.15",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",

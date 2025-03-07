@@ -1,21 +1,26 @@
-import { Container, Wrap } from './style';
-import React from 'react';
+import * as S from './style'
+import { Outlet } from 'react-router-dom'
+import { DodamNavBar } from '@b1nd/dds-web'
+import { useRecoilValue } from "recoil";
+import { useThemes } from "src/hooks/theme/usetheme";
+import { themeModeAtom } from "src/store/theme/themeStore";
+import useLogout from 'src/hooks/auth/useLogout';
 
-interface Props {
-  authHideChildren?: React.ReactNode;
-  children: React.ReactNode;
+const Layout = () => {
+  const { handleTheme } =useThemes();
+  const currentTheme = useRecoilValue(themeModeAtom);
+  const {logOut} = useLogout()
+
+  return (
+    <S.main>
+      <DodamNavBar 
+        location="club" 
+        handleTheme={handleTheme} 
+        logout={logOut}
+        currentTheme={currentTheme}/>
+      <Outlet/>
+    </S.main>
+  )
 }
 
-const Layout = ({ authHideChildren, children }: Props) => {
-  const pathname = window.location.pathname;
-  return (
-    <>
-      <Container>
-        {pathname !== '/login' && pathname.substring(0, 5) !== '/sign' && authHideChildren}
-        <Wrap isSign={pathname === '/sign' ? false : true}>{children}</Wrap>
-      </Container>
-    </>
-  );
-};
-
-export default Layout;
+export default Layout

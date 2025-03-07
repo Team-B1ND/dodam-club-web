@@ -4,4 +4,16 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@component/": ["src/component/*"],
+      "@constants/": ["src/constants"],
+      "@hooks/": ["src/hooks"],
+      "@enum/": ["src/hooks"],
+      "@store/": ["src/store"]
+    }
+  },
+  "include": ["src", "**/*.ts", "**/*.tsx"],
 }
