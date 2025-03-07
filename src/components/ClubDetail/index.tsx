@@ -20,7 +20,7 @@ import {
   useGetClubLeaderQuery,
   useGetClubMemberQuery,
 } from "src/queries/member/member.query";
-import { useDeleteClubApplyQuery, usePostClubApplyQuery } from "src/queries/clubApply/clubApply.query";
+import { useDeleteClubApplyMutation, usePostClubApplyMutation } from "src/queries/clubApply/clubApply.query";
 import { useTheme } from "styled-components";
 import { ClubDetailType } from "src/types/club/club.type";
 interface ClubDetailProps {
@@ -34,8 +34,8 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const currentTheme = useRecoilValue(themeModeAtom);
   const theme = useTheme()
   
-  const postClubApplyMutation = usePostClubApplyQuery()
-  const deleteClubApplyMutation = useDeleteClubApplyQuery()
+  const postClubApplyMutation = usePostClubApplyMutation()
+  const deleteClubApplyMutation = useDeleteClubApplyMutation()
 
   const { data: clubData, isLoading: clubDataIsLoading } =
     useGetClubDetailQuery({ id: type === "MODAL" ? modalId : +id! });
@@ -118,7 +118,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                       text="승인 신청하기"
                       typography={["Caption1", "Bold"]}
                       width={100}
-                      textTheme={currentTheme}
+                      textTheme="staticWhite"
                       enabled={
                         clubMemberData?.students.length ==
                         clubMemberData?.students.filter(
@@ -132,7 +132,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                       text="취소하기"
                       typography={["Caption1", "Bold"]}
                       width={100}
-                      textTheme={currentTheme}
+                      textTheme="staticWhite"
                       backgroundColorType="Negative"
                       onClick={() => deleteClubApplyMutation.mutate(clubData!.id)}
                     />

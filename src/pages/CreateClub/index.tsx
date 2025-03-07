@@ -10,17 +10,16 @@ import { themeModeAtom } from "src/store/theme/themeStore";
 import { useImageUpload } from 'src/hooks/image/useImageUpload';
 import imagePreviewAlt from 'src/assets/imagePreviewAlt.png';
 import MemberItem from '@components/MemberItem';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useClubForm from 'src/hooks/club/useClubForm';
 import { useTheme } from 'styled-components';
 import { B1ndToast } from '@b1nd/b1nd-toastify';
-import { useCreateClubQuery } from 'src/queries/createClub/createClub.query';
+import { useCreateClubMutation } from 'src/queries/createClub/createClub.query';
 import { useGetMyClubApplyQuery } from 'src/queries/useClub';
 import { useGetAllMemberQuery } from 'src/queries/member/member.query';
 import CreateClubSkeleton from '@components/Common/CreateClubSkeleton';
 
 const CreateClubPage = () => {
-  const nav = useNavigate();
   const theme = useTheme();
   const currentTheme = useRecoilValue(themeModeAtom);
   
@@ -35,7 +34,7 @@ const CreateClubPage = () => {
     isSelf: isSelf
   });
 
-  const createClubMutation = useCreateClubQuery();
+  const createClubMutation = useCreateClubMutation();
 
   // form 관리
   const methods = useForm<Club>({
@@ -92,8 +91,7 @@ const CreateClubPage = () => {
           <S.CreateClubForm
             onSubmit={handleSubmit(
               (data) => {
-                createClubMutation.mutate({data});
-                nav('/')
+                createClubMutation.mutate(data);
               },
               () => {
                 B1ndToast.showError('동아리 생성에 실패하였습니다!')

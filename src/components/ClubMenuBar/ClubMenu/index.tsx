@@ -9,10 +9,10 @@ import ClubMenuSkeleton from '@components/Common/ClubMenuSkeleton';
 const ClubMenu = ({ name, type } : ClubMenuProps) => {
   const { data: myClubApply, isLoading: applyIsLoading } = useGetMyClubApplyQuery()
   const { data: myClub, isLoading: myClubIsLoading } = useGetMyJoinedClubQuery()
-  const { data: joinRequestList, isLoading: joinRequestIsLoading, isFetching } = useGetJoinRequestsQuery()
+  const { data: joinRequestList, isLoading: joinRequestIsLoading, isFetching:joinRequestIsFetching } = useGetJoinRequestsQuery()
   
   return(
-    applyIsLoading || myClubIsLoading || joinRequestIsLoading || isFetching)
+    applyIsLoading || myClubIsLoading || joinRequestIsLoading || joinRequestIsFetching)
   ? (
     <ClubMenuSkeleton/>
   )

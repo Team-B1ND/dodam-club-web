@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "react-query";
 import clubApi from "src/api/Club/club.api";
 import { QUERY_KEYS } from "../queryKey";
 
-export const usePostClubApplyQuery = () => {
+export const usePostClubApplyMutation = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (id:number) =>
@@ -14,7 +14,7 @@ export const usePostClubApplyQuery = () => {
   return mutation;
 }
 
-export const useDeleteClubApplyQuery = () => {
+export const useDeleteClubApplyMutation = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (id:number) =>

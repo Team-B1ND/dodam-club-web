@@ -4,7 +4,7 @@ export interface baseResponse<T> {
   data: T;
 }
 
-export interface ErrorResponse {
+export interface ClubErrorResponse {
   status: number;
   message: string;
   code: string;

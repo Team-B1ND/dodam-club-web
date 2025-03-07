@@ -17,8 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import { EClubState } from "src/enum/club/club.enum";
 import ClubDetail from "@components/ClubDetail";
-import { useDeleteJoinRequestQuery, usePostJoinRequestQuery } from "src/queries/joinRequest/joinRequest.query";
-import { transToObject } from "src/utils/transToObject/transToObject";
+import { useDeleteJoinRequestMutation, usePostJoinRequestMutation } from "src/queries/joinRequest/joinRequest.query";
 
 const ClubMiniList = ({
   name,
@@ -26,15 +25,21 @@ const ClubMiniList = ({
   type,
 }: ClubMenuItemProps | ClubMenuItemMyClubProps) => {
   const [isOpen, setIsopen] = useState({
-    REQUEST_ACCEPT: transToObject(value),
-    REQUEST_REJECT: transToObject(value),
-    CLUB: transToObject(value),
+    REQUEST_ACCEPT: Object.fromEntries(
+      value.map((item) =>
+        [item.id, false])) as { [key: number]: boolean},
+    REQUEST_REJECT: Object.fromEntries(
+      value.map((item) =>
+        [item.id, false])) as { [key: number]: boolean},
+    CLUB: Object.fromEntries(
+      value.map((item) =>
+        [item.id, false])) as { [key: number]: boolean},
   });
   const [requestModal, setRequestModal] = useState<"ACCEPT" | "REJECT" | "CLUB">("ACCEPT");
   const [miniList] = useState<ClubResponse[] | ClubJoinResponse[]>(value);
 
-  const postJoinRequestMutation = usePostJoinRequestQuery()
-  const deleteJoinRequestMutation = useDeleteJoinRequestQuery()
+  const postJoinRequestMutation = usePostJoinRequestMutation()
+  const deleteJoinRequestMutation = useDeleteJoinRequestMutation()
 
   const requestHandle = useCallback(
     ({ type, id }: { type: "ACCEPT" | "REJECT" | "CLUB"; id?: number }) => {

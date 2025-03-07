@@ -16,7 +16,7 @@ export const useGetJoinRequestsQuery = (
     ...options,
   });
 
-export const usePostJoinRequestQuery = () => {
+export const usePostJoinRequestMutation = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (id:{id:number}) =>
@@ -28,7 +28,7 @@ export const usePostJoinRequestQuery = () => {
   return mutation;
 }
 
-export const useDeleteJoinRequestQuery = () => {
+export const useDeleteJoinRequestMutation = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (id:{id:number}) =>
