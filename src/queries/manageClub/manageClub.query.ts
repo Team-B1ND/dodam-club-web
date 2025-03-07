@@ -6,6 +6,7 @@ import { B1ndToast } from "@b1nd/b1nd-toastify"
 import { useNavigate } from "react-router-dom"
 import { ClubErrorResponse } from "src/types/response/response.type"
 import { AxiosError } from "axios"
+import { patchClubParams } from "src/api/Club/club.params"
 
 export const useCreateClubMutation = () => {
   const queryClient = useQueryClient()
@@ -29,7 +30,7 @@ export const usePatchClubMutation = () => {
   const queryClient = useQueryClient()
   const nav = useNavigate()
   const mutation = useMutation({
-    mutationFn: ({data, id}:{data: EditClub, id:number}) => (
+    mutationFn: ({data, id}: patchClubParams) => (
       clubApi.patchClub({data, id})
     ),
     onSuccess: () => {

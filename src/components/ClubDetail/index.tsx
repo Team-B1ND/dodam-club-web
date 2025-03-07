@@ -140,9 +140,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                   </S.ClubDetailMenuButton>
                 </S.ClubDetailMenuInfoAndButton>
                 <Link to={`/edit/${clubData?.id}`}>
-                  <S.ClubDetailEditButton>
-                    <Pen size={20} color="staticWhite"/>
-                  </S.ClubDetailEditButton>
+                  <DodamFilledButton size={'Small'} customStyle={{width:'fit-content'}} icon={<Pen size={20} color="staticWhite"/>}/>
                 </Link>
               </S.ClubDetailMenu>
             )}

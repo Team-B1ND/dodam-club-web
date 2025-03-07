@@ -145,8 +145,8 @@ const ManageClubPage = () => {
                 onBlur={fields.type.onBlur}
                 name={fields.type.name}
                 $isError={fieldStates.typeState.error === undefined}
-                $isDisabled={!clubId ? false : true}
-                disabled={!clubId ? false : true}
+                $isDisabled={!clubId}
+                disabled={!clubId}
               >
                 <option value={EClub.SELF_DIRECT_CLUB}>자율 동아리</option>
                 {clubApplyData!.filter((item) => item.type === EClub.CREATIVE_CLUB).length === 1 || <option value={EClub.CREATIVE_CLUB}>창체 동아리</option>}
@@ -219,7 +219,7 @@ const ManageClubPage = () => {
 
             <S.CreateClubCustomInputContainer
               $isError={fieldStates.descriptionState.error !== undefined}
-              $isDisabled={!clubId ? false : true}
+              $isDisabled={!clubId}
             >
               설명
               <MDEditor
@@ -241,7 +241,7 @@ const ManageClubPage = () => {
             && (
               <S.CreateClubCustomInputContainer
                 $isError={fieldStates.studentIdsState.error === undefined}
-                $isDisabled={!clubId ? false : true}
+                $isDisabled={!clubId}
               >
                 부원 선택
                 <S.CreateClubMemberContainer
