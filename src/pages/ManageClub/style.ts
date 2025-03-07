@@ -1,6 +1,7 @@
 import { DodamShape, DodamTypography } from "@b1nd/dds-web";
 import styled from "styled-components";
 import { hexToRgba } from '@b1nd/dds-web';
+import MDEditor from "@uiw/react-md-editor";
 
 export const CreateClubPaddingContainer = styled.div`
   padding: 58px 0;
@@ -38,18 +39,23 @@ export const CreateClubSubmit = styled.button`
   z-index: 100;
 `
 
-export const CreateClubCustomInputContainer = styled.div<{ $isError: boolean; }>`
+export const CreateClubCustomInputContainer = styled.div<{ $isError: boolean; $isDisabled: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
   ${DodamTypography.Label.Medium}
-  color: ${({ theme, $isError }) => $isError ? theme.labelAlternative : theme.statusNegative};
+  opacity: ${({$isDisabled}) => $isDisabled && '65%'};
+  color: ${({ theme, $isError }) => $isError ? theme.statusNegative : theme.labelAlternative};
   white-space: pre-line;
-  > .w-md-editor-toolbar {
+  & div {
+    background-color: ${({ theme }) => theme.backgroundNormal};
+  }
+  & p {
     background-color: ${({ theme }) => theme.backgroundNormal};
   }
 `
+
 
 export const CreateClubCustomInput = styled.div<{ $isError: boolean; }>`
   width: 100%;
@@ -108,9 +114,10 @@ export const CreateClubMemberSelected = styled.div`
   height: 100%;
   width: 50%;
   padding: 8px 12px;
+  overflow-y: scroll;
 `
 
-export const CreateClubTypeSelect = styled.select<{ $isError: boolean; }>`
+export const CreateClubTypeSelect = styled.select<{ $isError: boolean; $isDisabled: boolean; }>`
   width: 100%;
   height: 56px;
   ${DodamShape.Medium}
@@ -118,8 +125,9 @@ export const CreateClubTypeSelect = styled.select<{ $isError: boolean; }>`
   border: 1px ${({ theme, $isError }) => $isError ? theme.lineAlternative : theme.statusNegative} solid;
   background-color: ${({ theme, $isError }) => $isError ? hexToRgba(theme.backgroundNormal, 0.65) : hexToRgba('#E52222', 0.03)};
   color: ${({ theme }) => theme.labelAlternative};
+  
   padding: 0 16px;
-  cursor: pointer;
+  cursor: ${({ $isDisabled }) => $isDisabled ? 'default' : 'pointer'};
   outline: none;
   appearance: none;
 `

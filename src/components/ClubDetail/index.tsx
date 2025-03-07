@@ -10,6 +10,7 @@ import {
   Close,
   DodamColor,
   DodamFilledButton,
+  Pen,
   XmarkCircle,
 } from "@b1nd/dds-web";
 import MDEditor from "@uiw/react-md-editor";
@@ -38,13 +39,13 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const deleteClubApplyMutation = useDeleteClubApplyMutation()
 
   const { data: clubData, isLoading: clubDataIsLoading } =
-    useGetClubDetailQuery({ id: type === "MODAL" ? modalId : +id! });
+    useGetClubDetailQuery(type === "MODAL" ? modalId : +id!);
 
   const { data: leaderData, isLoading: leaderIsLoading } =
-    useGetClubLeaderQuery({ id: type === "MODAL" ? modalId : +id! });
+    useGetClubLeaderQuery(type === "MODAL" ? modalId : +id!);
 
   const { data: clubMemberData, isLoading: clubMemberIsLoading, isFetching } =
-    useGetClubMemberQuery({ id: type === "MODAL" ? modalId : +id! });
+    useGetClubMemberQuery(type === "MODAL" ? modalId : +id!);
     
   return (
     <S.ClubDetail>
@@ -107,7 +108,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 {leaderData!.name}
               </p>
             </S.ClubDetailHeader>
-            {clubMemberData
+            {clubMemberData?.isLeader
             && (
               <S.ClubDetailMenu>
                 <S.ClubDetailMenuInfoAndButton>
@@ -138,6 +139,9 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                     />
                   </S.ClubDetailMenuButton>
                 </S.ClubDetailMenuInfoAndButton>
+                <Link to={`/edit/${clubData?.id}`}>
+                  <DodamFilledButton size={'Small'} customStyle={{width:'fit-content'}} icon={<Pen size={20} color="staticWhite"/>}/>
+                </Link>
               </S.ClubDetailMenu>
             )}
 
@@ -148,7 +152,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                   (item) => (
                     <MemberItem
                       value={item}
-                      type={type === "MODAL" ? "STATUS" : "LIST"}
+                      type={clubMemberData?.isLeader ? "STATUS" : "LIST"}
                       key={item.id}
                     />
                   )

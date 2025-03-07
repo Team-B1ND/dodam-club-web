@@ -6,7 +6,7 @@ import clubApi from "src/api/Club/club.api";
 import { Student } from "src/types/member/member.type";
 
 export const useGetClubLeaderQuery = (
-  { id }: { id: number },
+  id:number,
   options?: UseQueryOptions<
     ClubMember, 
     AxiosError
@@ -32,7 +32,7 @@ export const useGetAllMemberQuery = (
   });
 
 export const useGetClubMemberQuery = (
-  { id }: { id: number },
+  id: number,
   options?: UseQueryOptions<
     ClubMemberResponse, 
     AxiosError

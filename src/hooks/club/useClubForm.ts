@@ -17,7 +17,7 @@ export default function useClubForm({
   watch,
   getValues,
   setError,
-  clearErrors
+  clearErrors,
 }: UseClubFormProps) {
   // 동아리 이름 필드
   const { field: name, fieldState: nameState } = useController({
