@@ -9,6 +9,14 @@ export interface Club {
   state?: string;
 }
 
+export interface EditClub {
+  name: string;
+  description: string;
+  shortDescription: string;
+  subject: string;
+  image: string;
+}
+
 export interface ClubMember {
   id: number;
   status: string;

@@ -17,7 +17,7 @@ export const useGetClubsQuery = (
   });
 
 export const useGetClubDetailQuery = (
-  { id }: { id: number },
+  id: number,
   options?: UseQueryOptions<
     ClubResponse, 
     AxiosError

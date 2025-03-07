@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 export const MemberItemContainer = styled.div`
   width: 100%;
-  height: 52px;
+  min-height: 52px;
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-grow: 0;
 `
 
 export const MemberInfoContainer = styled.div`

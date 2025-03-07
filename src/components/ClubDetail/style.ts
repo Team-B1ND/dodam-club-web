@@ -1,4 +1,4 @@
-import { DodamShape, DodamTypography } from "@b1nd/dds-web";
+import { DodamColor, DodamFilledButton, DodamShape, DodamTypography } from "@b1nd/dds-web";
 import { ClubDetailType } from "src/types/club/club.type";
 import styled from "styled-components";
 
@@ -116,4 +116,13 @@ export const ClubDetailMenuInfoAndButton = styled.div`
 export const ClubDetailMenuButton = styled.div`
   display: flex;
   gap: 8px;
+`
+
+export const ClubDetailEditButton = styled(DodamFilledButton)`
+  display: flex;
+  ${DodamShape.Medium}
+  padding: 8px;
+  border: none;
+  background-color: ${DodamColor.blue50};
+  cursor: pointer;
 `

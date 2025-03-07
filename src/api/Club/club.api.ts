@@ -1,7 +1,7 @@
 import customAxios from "src/libs/axios/customAxios";
 import { baseResponse } from "src/types/response/response.type";
 import { Student } from "src/types/member/member.type";
-import { Club, ClubJoinResponse, ClubMember, ClubMemberResponse, ClubResponse } from "src/types/club/club.type";
+import { Club, ClubJoinResponse, ClubMember, ClubMemberResponse, ClubResponse, EditClub } from "src/types/club/club.type";
 import { EClubState } from "src/enum/club/club.enum";
 
 class ClubApi {
@@ -64,6 +64,10 @@ class ClubApi {
 
   public async postClubApply(id:number) {
     await customAxios.post(`/clubs/${id}/waiting`)
+  }
+
+  public async patchClub({data, id}:{data: EditClub, id:number}) {
+    await customAxios.patch(`/clubs/${id}`, data)
   }
 }
 
