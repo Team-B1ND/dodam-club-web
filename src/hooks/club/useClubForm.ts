@@ -9,7 +9,6 @@ interface UseClubFormProps {
   getValues: UseFormGetValues<Club>;
   setError: UseFormSetError<Club>;
   clearErrors: UseFormClearErrors<Club>;
-  clubId?: number;
 }
 
 export default function useClubForm({
@@ -19,7 +18,6 @@ export default function useClubForm({
   getValues,
   setError,
   clearErrors,
-  clubId
 }: UseClubFormProps) {
   // 동아리 이름 필드
   const { field: name, fieldState: nameState } = useController({
