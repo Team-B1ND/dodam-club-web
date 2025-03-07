@@ -214,50 +214,57 @@ const CreateClubPage = () => {
               $isError={fieldStates.studentIdsState.error === undefined}
             >
               부원 선택
-              <S.CreateClubMemberContainer
-                $isError={fieldStates.studentIdsState.error === undefined}
-              >
-                <S.CreateClubMemberSearch>
-                  <DodamFilledTextField
-                    type='text'
-                    label=''
-                    value={searchData}
-                    onChange={(e) => setSearchData(e.target.value)}
-                    placeholder='이름으로 검색'
-                  />
-                  <S.CreateClubMemberList>
-                    {allMember!
-                    .filter((item) => fields.studentIds.value.indexOf(item.id) === -1)
-                    .filter((item) => item.name.includes(searchData))
-                    .map((item) => (
-                      <MemberItem
-                        value={item}
-                        type='PICKER'
-                        pickerStatus={false} 
-                        key={item.id}
-                        onClick={() => handlers.handleMemberSelect(item.id)}
+              {!clubId
+              && (
+                <S.CreateClubCustomInputContainer
+                  $isError={fieldStates.studentIdsState.error !== undefined}
+                  $isDisabled={!(!clubId)}
+                >
+                  <S.CreateClubMemberContainer
+                  >
+                    <S.CreateClubMemberSearch>
+                      <DodamFilledTextField
+                        type='text'
+                        label=''
+                        value={searchData}
+                        onChange={(e) => setSearchData(e.target.value)}
+                        placeholder='이름으로 검색'
                       />
-                    ))}
-                  </S.CreateClubMemberList>
-                </S.CreateClubMemberSearch>
-                <S.CreateClubMemberSelected>
-                  {allMember!
-                  .filter((item) => fields.studentIds.value.indexOf(item.id) !== -1)
-                  .map((item) => (
-                    <MemberItem
-                      value={item}
-                      type='PICKER'
-                      pickerStatus={true} 
-                      key={item.id}
-                      onClick={() => handlers.handleMemberSelect(item.id)}
-                    />
-                  ))}
-                </S.CreateClubMemberSelected>
-              </S.CreateClubMemberContainer>
-              {fieldStates.studentIdsState.error
-              ? fieldStates.studentIdsState.error.message
-              : `창체는 자신을 포함해 최소 5명, 최대 18명 선택 가능합니다. 자율은 자신을 포함해 최소 10명을 선택해야 합니다.
-              모든 선택된 부원이 수락해야 선생님께 승인 신청을 올릴 수 있습니다.`}
+                      <S.CreateClubMemberList>
+                        {allMember!
+                        .filter((item) => fields.studentIds.value.indexOf(item.id) === -1)
+                        .filter((item) => item.name.includes(searchData))
+                        .map((item) => (
+                          <MemberItem
+                            value={item}
+                            type='PICKER'
+                            pickerStatus={false} 
+                            key={item.id}
+                            onClick={() => handlers.handleMemberSelect(item.id)}
+                          />
+                        ))}
+                      </S.CreateClubMemberList>
+                    </S.CreateClubMemberSearch>
+                    <S.CreateClubMemberSelected>
+                      {allMember!
+                      .filter((item) => fields.studentIds.value.indexOf(item.id) !== -1)
+                      .map((item) => (
+                        <MemberItem
+                          value={item}
+                          type='PICKER'
+                          pickerStatus={true} 
+                          key={item.id}
+                          onClick={() => handlers.handleMemberSelect(item.id)}
+                        />
+                      ))}
+                    </S.CreateClubMemberSelected>
+                  </S.CreateClubMemberContainer>
+                {fieldStates.studentIdsState.error
+                ? fieldStates.studentIdsState.error.message
+                : `창체는 자신을 포함해 최소 5명, 최대 18명 선택 가능합니다. 자율은 자신을 포함해 최소 10명을 선택해야 합니다.
+                모든 선택된 부원이 수락해야 선생님께 승인 신청을 올릴 수 있습니다.`}
+              </S.CreateClubCustomInputContainer>
+              )}
             </S.CreateClubCustomInputContainer>
 
             <S.CreateClubSubmit
