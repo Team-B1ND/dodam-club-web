@@ -1,83 +1,85 @@
 import styled from 'styled-components';
 
-export const PopupOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-export const PopupContainer = styled.div`
-  background-color: #1E1E1E;
-  border-radius: 10px;
-  width: 400px;
-  overflow: hidden;
-  animation: fadeIn 0.3s ease;
+export const ModalWrapper = styled.div<{ isOpen: boolean }>`
+  display: ${props => props.isOpen ? 'block' : 'none'};
   
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  > div {
+    width: 500px !important;
+    border-radius: 12px !important;
+    background-color: #1E1E1E !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+    z-index: 1050 !important;
   }
 `;
 
 export const PopupContent = styled.div`
-  padding: 24px;
+  padding: 2cap 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 440px;
+  height: 230px;
+  background-color: ${({ theme }) => theme.backgroundNormal};
+  border-radius: 28px;
 `;
 
 export const PopupTitle = styled.h2`
-  color: white;
-  font-size: 20px;
+  color: ${({ theme }) => theme.labelNormal};
+  font-size: 22px;
   font-weight: 700;
-  margin-bottom: 16px;
-  text-align: center;
+  margin-bottom: 6px;
+  text-align: left;
+  width: 100%;
 `;
 
 export const PopupText = styled.p`
-  color: white;
+  color: ${({ theme }) => theme.labelAlternative};
   font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 24px;
-  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: left;
+  width: 100%;
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
 `;
 
 export const Button = styled.button`
-  padding: 12px 0;
-  font-size: 16px;
+  padding: 16px 0;
+  font-size: 18px;
   font-weight: 700;
-  border-radius: 8px;
-  width: 100%;
+  border-radius: 10px;
+  width: 200px;
+  height: 50px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  text-align: center;
 `;
 
 export const CancelButton = styled(Button)`
-  background-color: transparent;
+  background-color: ${({ theme }) => theme.FillNormal};
   border: none;
-  color: white;
+  color: ${({ theme }) => theme.LabelNeutral};
   
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  &:active {
+    transform: translateY(0);
   }
 `;
 
 export const ConfirmButton = styled(Button)`
   background-color: #0083F0;
   border: none;
-  color: white;
+  color: ${({ theme }) => theme.LabelNeutral};
   
-  &:hover {
-    background-color: #0070d1;
+  &:active {
+    transform: translateY(0);
   }
 `;

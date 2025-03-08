@@ -3,7 +3,9 @@ import * as S from './style';
 import megaphoneIcon from '../../assets/megaphone.svg';
 import { useGetClubsQuery } from 'src/queries/useClub';
 import clubApi from 'src/api/Club/club.api';
-import { DodamSegmentedButton } from "@b1nd/dds-web";
+import { DodamSegmentedButton, DodamTheme } from "@b1nd/dds-web";
+import { useTheme } from 'styled-components';
+import MDEditor from '@uiw/react-md-editor';
 import ClubApplicationPopup from './Popup/index';
 
 interface ClubResponse {
@@ -18,6 +20,7 @@ interface EssayData {
 }
 
 const ApplicationPage = () => {
+  const theme = useTheme() as DodamTheme;
   const { data: clubList, isLoading, isError } = useGetClubsQuery();
   const [selectedCreativeClubs, setSelectedCreativeClubs] = useState<number[]>([]);
   const [selectedAutonomousClubs, setSelectedAutonomousClubs] = useState<number[]>([]);
@@ -26,27 +29,30 @@ const ApplicationPage = () => {
   const [essayContents, setEssayContents] = useState<EssayData>({});
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const creativeClubs = clubList?.filter(club => club.type === 'CREATIVE_ACTIVITY_CLUB') || [];
   const autonomousClubs = clubList?.filter(club => club.type === 'SELF_DIRECT_ACTIVITY_CLUB') || [];
 
   useEffect(() => {
-    if (isCreativeClubSelected) {
-      setIsButtonEnabled(selectedCreativeClubs.length === 3);
-    } else {
-      const completedAutonomousClubs = selectedAutonomousClubs.filter(
-        clubId => {
-          const clubKey = clubId.toString();
-          return essayContents[clubKey] && essayContents[clubKey].trim() !== '';
-        }
-      );
-      
-      setIsButtonEnabled(
-        selectedAutonomousClubs.length > 0 && 
-        (completedAutonomousClubs.length > 0 || selectedCreativeClubs.length === 3)
-      );
+    if (selectedCreativeClubs.length === 3) {
+      setIsButtonEnabled(true);
+      return;
     }
+    
+    if (isCreativeClubSelected) {
+      setIsButtonEnabled(false);
+      return;
+    }
+    
+    const completedAutonomousClubs = selectedAutonomousClubs.filter(
+      clubId => {
+        const clubKey = clubId.toString();
+        return essayContents[clubKey] && essayContents[clubKey].trim() !== '';
+      }
+    );
+    
+    setIsButtonEnabled(completedAutonomousClubs.length > 0);
   }, [
     selectedCreativeClubs, 
     selectedAutonomousClubs, 
@@ -128,15 +134,15 @@ const ApplicationPage = () => {
 
   const handleApplyButtonClick = () => {
     if (!isButtonEnabled || isSubmitting) return;
-    setIsPopupOpen(true);
+    setIsModalOpen(true);
   };
   
-  const handlePopupClose = () => {
-    setIsPopupOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
   
   const handleApply = async () => {
-    setIsPopupOpen(false);
+    setIsModalOpen(false);
     
     if (!isButtonEnabled || isSubmitting) return;
     
@@ -165,13 +171,11 @@ const ApplicationPage = () => {
         const clubKey = clubId.toString();
         const introduction = essayContents[clubKey] || '';
         
-        if (selectedCreativeClubs.length === 3 || introduction.trim() !== '') {
-          requests.push({
-            clubId: clubId,
-            clubPriority: null,
-            introduction: introduction
-          });
-        }
+        requests.push({
+          clubId: clubId,
+          clubPriority: null,
+          introduction: introduction
+        });
       }
       
       if (requests.length > 0) {
@@ -203,7 +207,10 @@ const ApplicationPage = () => {
         <S.RightSection>
           <S.ClubDescriptionSection>
             {selectedClub ? (
-              <S.ClubDescription>{selectedClub.description}</S.ClubDescription>
+              <MDEditor.Markdown 
+                source={selectedClub.description} 
+                style={{ backgroundColor: theme.backgroundNormal}} 
+              />
             ) : (
               <S.EmptyState>
                 <S.MegaphoneIcon src={megaphoneIcon} alt="메가폰" />
@@ -234,6 +241,12 @@ const ApplicationPage = () => {
       );
     }
   };
+
+  const selectedClubsForDisplay = getSelectedClubNames(
+    isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs
+  );
+  
+  const currentClubType = isCreativeClubSelected ? 'CREATIVE_ACTIVITY_CLUB' : 'SELF_DIRECT_ACTIVITY_CLUB';
 
   return (
     <S.Container>
@@ -348,14 +361,13 @@ const ApplicationPage = () => {
           {isSubmitting ? '제출 중...' : '동아리 입부 신청하기'}
         </S.ApplyButton>
       </S.ButtonWrapper>
+      
       <ClubApplicationPopup 
-        isOpen={isPopupOpen}
-        onClose={handlePopupClose}
+        isOpen={isModalOpen} 
+        onClose={closeModal}
         onConfirm={handleApply}
-        clubType={isCreativeClubSelected ? 'CREATIVE_ACTIVITY_CLUB' : 'SELF_DIRECT_ACTIVITY_CLUB'}
-        selectedClubs={getSelectedClubNames(
-          isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs
-        )}
+        selectedCreativeClubs={getSelectedClubNames(selectedCreativeClubs)}
+        selectedAutonomousClubs={getSelectedClubNames(selectedAutonomousClubs)}
       />
     </S.Container>
   );

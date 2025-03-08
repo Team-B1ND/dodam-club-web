@@ -48,7 +48,6 @@ export const ContentSection = styled.div`
 
 export const ClubListSection = styled.div`
   width: 20vw;
-  background-color: white;
   border-radius: 10px;
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
   height: 90%;
@@ -112,7 +111,6 @@ export const RetryButton = styled.button`
   padding: 8px 16px;
   font-size: 14px;
   font-weight: bold;
-  color: white;
   background-color: #0083F0;
   border: none;
   border-radius: 8px;
@@ -156,11 +154,11 @@ export const PriorityBadge = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 24px;
+  width: 28px;
   height: 24px;
-  border-radius: 50%;
-  background-color: #0083F0;
-  color: white;
+  border-radius: 100px;
+  background-color: ${({ theme }) => theme.primaryNormal};
+  color: ${({ theme }) => theme.staticWhite};
   font-size: 14px;
   font-weight: bold;
 `;
@@ -168,17 +166,19 @@ export const PriorityBadge = styled.div`
 export const SelectButton = styled.div`
   display: flex;
   align-items: center; 
+  justify-content: center; 
+  text-align: center;
   height: 24px;
   width: 46px;
-  padding: 6px 14px;
-  font-size: 10px;
+  padding: 0 6px;
+  font-size: 14px;
   font-weight: 700;
-  color: white;
-  background-color: #0083F0;
-  border: none;
+  color: ${({ theme }) => theme.staticWhite};
+  background-color: ${({ theme }) => theme.primaryNormal};
   border-radius: 30px;
   user-select: none;
 `;
+
 
 export const EssayTitleWrapper = styled.div`
   display: flex;
@@ -263,21 +263,88 @@ export const ButtonWrapper = styled.div`
   margin-top: -20px;
 `;
 
-export const ApplyButton = styled.button<{ 
-  enabled: boolean,
-  isCreativeComplete?: boolean 
-}>`
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  background-color: #0083F0;
-  opacity: ${({ isCreativeComplete }) => (isCreativeComplete ? 1 : 0.5)};
-  color: #fff;
-  border-radius: 8px;
-  cursor: ${({ enabled }) => (enabled ? 'pointer' : 'not-allowed')};
-  transition: background-color 0.2s ease, opacity 0.2s ease;
+export const PopupOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 `;
+
+export const PopupContainer = styled.div`
+  background-color: #1E1E1E;
+  border-radius: 10px;
+  width: 400px;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease;
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+`;
+
+export const PopupContent = styled.div`
+  padding: 24px;
+`;
+
+export const PopupTitle = styled.h2`
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+`;
+
+export const PopupText = styled.p`
+  color: white;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  text-align: center;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+`;
+
+export const Button = styled.button`
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+`;
+
+export const CancelButton = styled(Button)`
+  background-color: transparent;
+  border: none;
+  color: white;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+export const ConfirmButton = styled(Button)`
+  background-color: #0083F0;
+  border: none;
+  color: white;
+  
+  &:hover {
+    background-color: #0070d1;
+  }
+`;
+
 
 export const ClubDot = styled.div<{ active: boolean }>`
   position: relative;
@@ -314,4 +381,20 @@ export const ClubDescriptionSection = styled.div`
 export const ClubDescription = styled.p`
   font-size: 14px;
   line-height: 1.6;
+`;
+
+export const ApplyButton = styled.button<{ 
+  enabled: boolean,
+  isCreativeComplete?: boolean 
+}>`
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  background-color: #0083F0;
+  opacity: ${({ isCreativeComplete }) => (isCreativeComplete ? 1 : 0.5)};
+  color: #fff;
+  border-radius: 8px;
+  cursor: ${({ enabled }) => (enabled ? 'pointer' : 'not-allowed')};
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 `;
