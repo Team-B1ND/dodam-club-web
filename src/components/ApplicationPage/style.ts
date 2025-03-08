@@ -1,13 +1,14 @@
+import { DodamShape } from '@b1nd/dds-web';
 import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
+  flex-grow: 1;
   height: 85vh;
   padding: 30px;
   background-color: ${({ theme }) => theme.backgroundNormal};
-  border-radius: 10px;
+  ${DodamShape.Large}
 `;
 
 export const Title = styled.h1`
@@ -186,7 +187,7 @@ export const EssayTitleWrapper = styled.div`
   justify-content: space-between;
   margin-left: auto;
   width: 70%;
-  margin-right: -20px;
+  margin-right: -10px;
 `;
 
 export const EssayTitle = styled.h2`

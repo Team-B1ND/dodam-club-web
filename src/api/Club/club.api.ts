@@ -3,6 +3,7 @@ import { baseResponse } from "src/types/response/response.type";
 import { Student } from "src/types/member/member.type";
 import { Club, ClubJoinRequest, ClubJoinResponse, ClubMember, ClubMemberResponse, ClubResponse, EditClub, StudentApplyResponse } from "src/types/club/club.type";
 import { postMemberStatusParams } from "./club.params";
+import { EClubState } from "src/enum/club/club.enum";
 
 class ClubApi {
   public async postClub(data:Club): Promise<void> {

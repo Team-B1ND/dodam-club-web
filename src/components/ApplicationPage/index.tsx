@@ -236,13 +236,6 @@ const ApplicationPage = () => {
       );
     }
   };
-
-  const selectedClubsForDisplay = getSelectedClubNames(
-    isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs
-  );
-  
-  const currentClubType = isCreativeClubSelected ? 'CREATIVE_ACTIVITY_CLUB' : 'SELF_DIRECT_ACTIVITY_CLUB';
-
   return (
     <S.Container>
       <S.Title>동아리 신청</S.Title>
@@ -317,10 +310,9 @@ const ApplicationPage = () => {
                     key={club.id}
                     onClick={() => {
                       const clubData = club as ClubResponse;
-                      
-                      isCreativeClubSelected 
+                      (isCreativeClubSelected 
                         ? handleCreativeClubClick(clubData)
-                        : handleAutonomousClubClick(clubData);
+                        : handleAutonomousClubClick(clubData))
                     }}
                     selected={
                       isCreativeClubSelected 
