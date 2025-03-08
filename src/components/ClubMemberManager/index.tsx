@@ -1,9 +1,5 @@
 import { Close } from '@b1nd/dds-web'
-<<<<<<< HEAD
-import * as S from './ style'
-=======
 import * as S from './style'
->>>>>>> 764403870a70f68f0346005d6ab73390300ab184
 import { useEffect, useState } from 'react'
 import { EClub, EClubState } from 'src/enum/club/club.enum'
 import { ClubResponse } from 'src/types/club/club.type'
