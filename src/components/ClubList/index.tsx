@@ -34,21 +34,33 @@ const ClubList = () => {
         />
       </S.ClubMenu>
       <S.ClubItemContainer>
-          {(isLoading || isFetching)
-          ? Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx}/>)
-          : clubData!
+      {isLoading || isFetching ? (
+        Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx} />)
+      ) : clubData && clubData.length > 0 ? (
+        clubData
           .filter((item: ClubResponse) =>
             isCreativeClubPage
               ? item.type === EClub.CREATIVE_CLUB
               : item.type === EClub.SELF_DIRECT_CLUB
           )
           .map((item: ClubResponse) => (
-            <Link to={`/${item.id}`} key={item.id} style={{ height: "fit-content", display:'flex', alignItems:'center', justifyContent:'center'}}>
+            <Link
+              to={`/${item.id}`}
+              key={item.id}
+              style={{
+                height: "fit-content",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <ClubItem value={item} />
             </Link>
-          ))}
-          
-      </S.ClubItemContainer>
+          ))
+      ) : (
+        <S.NoClubMessage>올라온 동아리가 없습니다.</S.NoClubMessage>
+      )}
+    </S.ClubItemContainer>
 
     </S.ClubListContainer>
   );

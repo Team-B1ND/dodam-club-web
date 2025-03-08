@@ -15,6 +15,9 @@ export const ClubListContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  @media  (max-width: 1069px){
+    margin: 28px 0  70px 0;
+  } 
 `
 
 export const ClubListHead = styled.p`
@@ -46,3 +49,11 @@ export const ClubMenu = styled.div`
   padding: 16px 0;
   z-index: 1;
 `
+
+export const NoClubMessage = styled.div`
+  width: 100%;
+  text-align: center;
+  ${DodamTypography.Body1.Medium};
+  color: ${({theme})=>theme.labelNormal};
+  margin-top: 20px;
+`;

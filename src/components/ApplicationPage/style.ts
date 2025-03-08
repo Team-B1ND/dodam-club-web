@@ -12,9 +12,16 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
+  display: flex;
+  align-items: center;
   color: ${({ theme }) => theme.labelNormal};
   ${DodamTypography.Heading1.Bold}
   margin-bottom: 16px;
+  div{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
 `;
 
 export const HeaderSection = styled.div`
@@ -53,6 +60,9 @@ export const ClubListSection = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.backgroundNormal};
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ClubListContent = styled.div`
@@ -60,7 +70,7 @@ export const ClubListContent = styled.div`
   overflow-y: auto;
   flex: 1;
   &::-webkit-scrollbar {
-    width: 6px;
+    display: none;
   }
   
   &::-webkit-scrollbar-track {

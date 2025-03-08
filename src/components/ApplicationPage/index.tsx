@@ -3,10 +3,11 @@ import * as S from './style';
 import megaphoneIcon from '../../assets/megaphone.svg';
 import { useGetClubsQuery } from 'src/queries/useClub';
 import clubApi from 'src/api/Club/club.api';
-import { DodamSegmentedButton, DodamTheme } from "@b1nd/dds-web";
+import { ChevronLeft, DodamSegmentedButton, DodamTheme } from "@b1nd/dds-web";
 import { useTheme } from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 import ClubApplicationPopup from './Popup/index';
+import { useNavigate } from 'react-router-dom';
 
 interface ClubResponse {
   id: number;
@@ -20,6 +21,8 @@ interface EssayData {
 }
 
 const ApplicationPage = () => {
+  const navigate = useNavigate();
+
   const theme = useTheme() as DodamTheme;
   const { data: clubList, isLoading, isError } = useGetClubsQuery();
   const [selectedCreativeClubs, setSelectedCreativeClubs] = useState<number[]>([]);
@@ -237,7 +240,7 @@ const ApplicationPage = () => {
   };
   return (
     <S.Container>
-      <S.Title>동아리 신청</S.Title>
+      <S.Title> <div onClick={()=>navigate("/")}><ChevronLeft color="labelNormal"/></div> 동아리 신청</S.Title>
       <S.HeaderSection>
         <S.SubTitle>동아리 선택</S.SubTitle>
         {(isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs).length > 0 ? (
