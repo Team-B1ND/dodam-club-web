@@ -13,7 +13,7 @@ const ClubMemberManager = ({close, myClub, isLoading}: {close: () => void, myClu
     if(!isLoading){
       setSelectedClub(myClub.filter((item) => item.state === EClubState.ALLOWED && item.type === EClub.SELF_DIRECT_CLUB)[0].id)
     }
-  }, [myClub]);
+  }, [myClub, isLoading]);
   
   const handleSelectedClub = (e:React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedClub(+e.target.value)
