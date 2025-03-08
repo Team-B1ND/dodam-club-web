@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import { themeModeAtom } from "src/store/theme/themeStore";
 import { useImageUpload } from 'src/hooks/image/useImageUpload';
 import imagePreviewAlt from 'src/assets/imagePreviewAlt.png';
-import MemberItem from '@/components/MemberItem';
+import MemberItem from 'src/components/MemberItem';
 import { Link, useParams } from 'react-router-dom';
 import useClubForm from 'src/hooks/club/useClubForm';
 import { useTheme } from 'styled-components';
@@ -252,12 +252,15 @@ const ManageClubPage = () => {
                       label=''
                       value={searchData}
                       onChange={(e) => setSearchData(e.target.value)}
+                      onRemoveClick={() => setSearchData('')}
                       placeholder='이름으로 검색'
                     />
                     <S.CreateClubMemberList>
                       {allMember!
                       .filter((item) => fields.studentIds.value.indexOf(item.id) === -1)
                       .filter((item) => item.name.includes(searchData))
+                      .sort((a, b) => a.grade - b.grade || a.room - b.room)
+                      // .filter((item) => item.)
                       .map((item) => (
                         <MemberItem
                           value={item}

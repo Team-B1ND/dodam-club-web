@@ -2,7 +2,6 @@ import customAxios from "src/libs/axios/customAxios";
 import { baseResponse } from "src/types/response/response.type";
 import { Student } from "src/types/member/member.type";
 import { Club, ClubJoinRequest, ClubJoinResponse, ClubMember, ClubMemberResponse, ClubResponse, EditClub, StudentApplyResponse } from "src/types/club/club.type";
-import { EClubState } from "src/enum/club/club.enum";
 import { postMemberStatusParams } from "./club.params";
 
 class ClubApi {

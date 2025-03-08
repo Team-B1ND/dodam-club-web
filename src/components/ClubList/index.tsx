@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import * as S from "./style";
 import {  DodamSegmentedButton } from "@b1nd/dds-web";
 import ClubItem from "./ClubItem";
