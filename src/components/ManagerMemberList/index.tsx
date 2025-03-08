@@ -13,7 +13,7 @@ interface ManagerMemberList {
 }
 const ManagerMemberList = ({ id, selectedMember, setSelectedMember }: ManagerMemberList) => {
   const { data: clubMember, isLoading: clubMemberIsLoading, isFetching, refetch } = useGetClubJoinRequestsMemberQuery(
-    id ?? 7,
+    id ?? 1,
     {enabled: !id}
   )
   const postMemberStatusMutation = usePostMemberStatusMutation();

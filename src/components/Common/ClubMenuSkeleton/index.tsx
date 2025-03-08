@@ -25,7 +25,7 @@ export default ClubMenuSkeleton
 const ClubMenuSkeletonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 180px;
+  width: 100%;
   ${DodamShape.Large}
   background-color: ${({ theme }) => theme.backgroundNormal};
   padding: 16px;

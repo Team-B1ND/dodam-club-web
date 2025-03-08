@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const ClubMenuContainer = styled.div`
   display: flex;
-  width: 180px;
+  width: 100%;
   height: fit-content;
   flex-direction: column;
   gap: 12px;
