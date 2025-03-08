@@ -1,4 +1,4 @@
-import { DodamShape } from '@b1nd/dds-web';
+import { DodamShape, DodamTypography } from '@b1nd/dds-web';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -13,8 +13,7 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   color: ${({ theme }) => theme.labelNormal};
-  font-size: 20px;
-  font-weight: 700;
+  ${DodamTypography.Heading1.Bold}
   margin-bottom: 16px;
 `;
 
@@ -26,14 +25,13 @@ export const HeaderSection = styled.div`
 `;
 
 export const SubTitle = styled.h2`
-  font-size: 14px;
-  font-weight: 500;
+  ${DodamTypography.Label.Medium}
   color: ${({ theme }) => theme.labelNormal};
 `;
 
 export const TabsContainer = styled.div`
   display: flex;
-  border-radius: 10px;
+  ${DodamShape.Medium}
   width: fit-content;
   padding: 5px;
   margin-bottom: 20px;
@@ -49,7 +47,7 @@ export const ContentSection = styled.div`
 
 export const ClubListSection = styled.div`
   width: 20vw;
-  border-radius: 10px;
+  ${DodamShape.Small}
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
   height: 90%;
   display: flex;
@@ -67,12 +65,12 @@ export const ClubListContent = styled.div`
   
   &::-webkit-scrollbar-track {
     background: #f1f1f1;
-    border-radius: 10px;
+    ${DodamShape.Small}
   }
   
   &::-webkit-scrollbar-thumb {
     background: #c1c1c1;
-    border-radius: 10px;
+    ${DodamShape.Small}
   }
   
   &::-webkit-scrollbar-thumb:hover {
@@ -88,8 +86,8 @@ export const LoadingWrapper = styled.div`
 `;
 
 export const LoadingText = styled.p`
-  font-size: 16px;
-  color: #666;
+  ${DodamTypography.Body1.Medium}
+  color: ${({ theme }) => theme.labelAlternative};
 `;
 
 export const ErrorWrapper = styled.div`
@@ -102,23 +100,19 @@ export const ErrorWrapper = styled.div`
 `;
 
 export const ErrorText = styled.p`
-  font-size: 16px;
-  color: #ff4444;
+  ${DodamTypography.Body1.Medium}
+  color: ${({ theme }) => theme.labelAlternative};
   margin-bottom: 16px;
   text-align: center;
 `;
 
 export const RetryButton = styled.button`
   padding: 8px 16px;
-  font-size: 14px;
-  font-weight: bold;
-  background-color: #0083F0;
+  ${DodamTypography.Label.Medium}
+  background-color: ${({ theme }) => theme.primaryNormal};
   border: none;
-  border-radius: 8px;
+  ${DodamShape.ExtraSmall}
   cursor: pointer;
-  &:hover {
-    background-color: #0070d1;
-  }
 `;
 
 export const EmptyClubList = styled.div`
@@ -139,9 +133,7 @@ export const RightSection = styled.div`
 
 export const ClubItem = styled.div<{ selected?: boolean }>`
   padding: 12px 20px;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
+  ${DodamTypography.Headline.Bold}
   line-height: 150%;
   cursor: pointer;
   color: ${({ theme }) => theme.labelNormal};
@@ -157,11 +149,10 @@ export const PriorityBadge = styled.div`
   align-items: center;
   width: 28px;
   height: 24px;
-  border-radius: 100px;
+  ${DodamShape.ExtraLarge}
   background-color: ${({ theme }) => theme.primaryNormal};
   color: ${({ theme }) => theme.staticWhite};
-  font-size: 14px;
-  font-weight: bold;
+  ${DodamTypography.Headline.Bold}
 `;
 
 export const SelectButton = styled.div`
@@ -172,11 +163,10 @@ export const SelectButton = styled.div`
   height: 24px;
   width: 46px;
   padding: 0 6px;
-  font-size: 14px;
-  font-weight: 700;
+  ${DodamShape.ExtraLarge}
   color: ${({ theme }) => theme.staticWhite};
   background-color: ${({ theme }) => theme.primaryNormal};
-  border-radius: 30px;
+  ${DodamTypography.Body1.Bold}
   user-select: none;
 `;
 
@@ -191,8 +181,7 @@ export const EssayTitleWrapper = styled.div`
 `;
 
 export const EssayTitle = styled.h2`
-  font-size: 16px;
-  font-weight: bold;
+  ${DodamTypography.Heading2.Medium}
   color: ${({ theme }) => theme.labelNormal};
 `;
 
@@ -205,7 +194,7 @@ export const DotSelector = styled.div`
 export const Dot = styled.div<{ active: boolean }>`
   width: 12px;
   height: 12px;
-  border-radius: 50%;
+  ${DodamShape.ExtraLarge}
   background-color: ${({ active }) => (active ? '#0083F0' : '#e0e0e0')};
   cursor: pointer;
   margin-left: -10px;
@@ -220,7 +209,7 @@ export const EssaySection = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.backgroundNormal};
-  border-radius: 10px;
+  ${DodamShape.Small}
   padding: 20px;
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
 `;
@@ -240,110 +229,24 @@ export const MegaphoneIcon = styled.img`
 `;
 
 export const EmptyStateText = styled.p`
-  font-size: 16px;
-  color: #666;
+  ${DodamTypography.Body1.Medium}
+  color: ${({ theme }) => theme.labelAlternative};
 `;
 
 export const EssayTextarea = styled.textarea`
   flex: 1;
-  font-size: 14px;
+  ${DodamTypography.Body2.Regular}
   color: ${({ theme }) => theme.labelNormal};
   border: none;
-  border-radius: 8px;
+  ${DodamShape.Small}
   background-color: ${({ theme }) => theme.backgroundNormal};
   resize: none;
-  &:focus {
-    outline: none;
-    border-color: #0083F0;
-  }
 `;
 
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: -20px;
-`;
-
-export const PopupOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-export const PopupContainer = styled.div`
-  background-color: #1E1E1E;
-  border-radius: 10px;
-  width: 400px;
-  overflow: hidden;
-  animation: fadeIn 0.3s ease;
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-`;
-
-export const PopupContent = styled.div`
-  padding: 24px;
-`;
-
-export const PopupTitle = styled.h2`
-  color: white;
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  text-align: center;
-`;
-
-export const PopupText = styled.p`
-  color: white;
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 24px;
-  text-align: center;
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-`;
-
-export const Button = styled.button`
-  padding: 12px 0;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 8px;
-  width: 100%;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-`;
-
-export const CancelButton = styled(Button)`
-  background-color: transparent;
-  border: none;
-  color: white;
-  
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-`;
-
-export const ConfirmButton = styled(Button)`
-  background-color: #0083F0;
-  border: none;
-  color: white;
-  
-  &:hover {
-    background-color: #0070d1;
-  }
 `;
 
 export const ClubDot = styled.div<{ active: boolean }>`
@@ -355,13 +258,6 @@ export const ClubDot = styled.div<{ active: boolean }>`
   margin-left: -30px;
 `;
 
-export const ClubDescriptionTitle = styled.h3`
-  font-size: 18px;
-  font-weight: bold;
-  color: #000000;
-  margin-bottom: 16px;
-`;
-
 export const ClubDescriptionSection = styled.div`
   position: absolute;
   top: -60px;
@@ -371,16 +267,11 @@ export const ClubDescriptionSection = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.backgroundNormal};
-  border-radius: 10px;
+  ${DodamShape.Large};
   padding: 20px;
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
   overflow-y: auto;
   color: ${({ theme }) => theme.labelNormal};
-`;
-
-export const ClubDescription = styled.p`
-  font-size: 14px;
-  line-height: 1.6;
 `;
 
 export const ApplyButton = styled.button<{ 
@@ -388,13 +279,12 @@ export const ApplyButton = styled.button<{
   isCreativeComplete?: boolean 
 }>`
   padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
+  ${DodamTypography.Body1.Bold}
   border: none;
-  background-color: #0083F0;
+  background-color: ${({ theme }) => theme.primaryNormal};
   opacity: ${({ isCreativeComplete }) => (isCreativeComplete ? 1 : 0.5)};
-  color: #fff;
-  border-radius: 8px;
+  color: ${({ theme }) => theme.staticWhite};
+  ${DodamShape.Medium};
   cursor: ${({ enabled }) => (enabled ? 'pointer' : 'not-allowed')};
   transition: background-color 0.2s ease, opacity 0.2s ease;
 `;

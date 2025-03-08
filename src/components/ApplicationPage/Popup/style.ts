@@ -1,3 +1,4 @@
+import { DodamTypography } from '@b1nd/dds-web';
 import styled from 'styled-components';
 
 export const ModalWrapper = styled.div<{ isOpen: boolean }>`
@@ -6,7 +7,7 @@ export const ModalWrapper = styled.div<{ isOpen: boolean }>`
   > div {
     width: 500px !important;
     border-radius: 12px !important;
-    background-color: #1E1E1E !important;
+    background-color: ${({ theme }) => theme.backgroundNormal} !important;
     position: fixed !important;
     top: 50% !important;
     left: 50% !important;
@@ -29,8 +30,7 @@ export const PopupContent = styled.div`
 
 export const PopupTitle = styled.h2`
   color: ${({ theme }) => theme.labelNormal};
-  font-size: 22px;
-  font-weight: 700;
+  ${DodamTypography.Heading1.Bold}
   margin-bottom: 6px;
   text-align: left;
   width: 100%;
@@ -38,7 +38,7 @@ export const PopupTitle = styled.h2`
 
 export const PopupText = styled.p`
   color: ${({ theme }) => theme.labelAlternative};
-  font-size: 16px;
+  ${DodamTypography.Body1.Medium}
   line-height: 1.6;
   margin-bottom: 20px;
   text-align: left;
@@ -54,8 +54,7 @@ export const ButtonContainer = styled.div`
 
 export const Button = styled.button`
   padding: 16px 0;
-  font-size: 18px;
-  font-weight: 700;
+  ${DodamTypography.Body1.Bold}
   border-radius: 10px;
   width: 200px;
   height: 50px;
@@ -75,7 +74,7 @@ export const CancelButton = styled(Button)`
 `;
 
 export const ConfirmButton = styled(Button)`
-  background-color: #0083F0;
+  background-color: ${({ theme }) => theme.primaryNormal};
   border: none;
   color: ${({ theme }) => theme.LabelNeutral};
   
