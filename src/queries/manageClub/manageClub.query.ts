@@ -6,7 +6,7 @@ import { B1ndToast } from "@b1nd/b1nd-toastify"
 import { useNavigate } from "react-router-dom"
 import { ClubErrorResponse } from "src/types/response/response.type"
 import { AxiosError } from "axios"
-import { patchClubParams } from "src/api/Club/club.params"
+import { patchClubParams, postMemberStatusParams } from "src/api/Club/club.params"
 
 export const useCreateClubMutation = () => {
   const queryClient = useQueryClient()
@@ -16,7 +16,7 @@ export const useCreateClubMutation = () => {
       clubApi.postClub(data)
     ),
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [QUERY_KEYS.clubs.getAll, QUERY_KEYS.clubApply.postClubApply, ]})
+      queryClient.invalidateQueries([QUERY_KEYS.clubs.getAll, QUERY_KEYS.clubs.getMine])
       nav('/')
     },
     onError: (error : ClubErrorResponse) => {
@@ -40,6 +40,24 @@ export const usePatchClubMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [QUERY_KEYS.clubs.getAll, QUERY_KEYS.clubApply.postClubApply, ]})
       nav('/')
+    },
+    onError: (error : AxiosError<ClubErrorResponse>) => {
+      if(error.response){
+        B1ndToast.showError(`${error.response.data.message}`)
+      }
+    }
+  })
+  return mutation
+}
+
+export const usePostMemberStatusMutation = () => {
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: (data:postMemberStatusParams) => (
+      clubApi.postMemberStatus(data)
+    ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [QUERY_KEYS.clubsMember.getJoinRequestMember]})
     },
     onError: (error : AxiosError<ClubErrorResponse>) => {
       if(error.response){

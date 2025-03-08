@@ -25,14 +25,20 @@ export const ClubListHead = styled.p`
 export const ClubItemContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  width: fit-content;
+  width: 100%;
   height: 100%;
   gap: 16px;
   overflow-y: scroll;
 
   @media only screen and (max-width: 1250px){
     grid-template-columns: repeat(3, 1fr);
-  }
+  } 
+  @media only screen and (max-width: 960px){
+    grid-template-columns: repeat(2, 1fr);
+  } 
+  @media only screen and (max-width: 740px){
+    grid-template-columns: repeat(1, 1fr);
+  } 
 `
 
 export const ClubMenu = styled.div`

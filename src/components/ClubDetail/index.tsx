@@ -1,6 +1,4 @@
 import * as S from "./style";
-import { useRecoilValue } from "recoil";
-import { themeModeAtom } from "src/store/theme/themeStore";
 import { Link, useParams } from "react-router-dom";
 import { EClub, EClubState } from "src/enum/club/club.enum";
 import {
@@ -14,8 +12,6 @@ import {
   XmarkCircle,
 } from "@b1nd/dds-web";
 import MDEditor from "@uiw/react-md-editor";
-import MemberItem from "@components/MemberItem";
-import { useGetClubDetailQuery } from "src/queries/useClub";
 import ClubDetailSkeleton from "@components/Common/ClubDetailSkeleton";
 import {
   useGetClubLeaderQuery,
@@ -24,6 +20,9 @@ import {
 import { useDeleteClubApplyMutation, usePostClubApplyMutation } from "src/queries/clubApply/clubApply.query";
 import { useTheme } from "styled-components";
 import { ClubDetailType } from "src/types/club/club.type";
+import { useGetClubDetailQuery } from "src/queries/useClub";
+import { useGetTime } from "src/queries/time/time.query";
+import MemberItem from "@components/MemberItem";
 interface ClubDetailProps {
   type: ClubDetailType;
   modalId?: number;
@@ -32,7 +31,6 @@ interface ClubDetailProps {
 
 const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { id } = useParams();
-  const currentTheme = useRecoilValue(themeModeAtom);
   const theme = useTheme()
   
   const postClubApplyMutation = usePostClubApplyMutation()
@@ -46,12 +44,16 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
 
   const { data: clubMemberData, isLoading: clubMemberIsLoading, isFetching } =
     useGetClubMemberQuery(type === "MODAL" ? modalId : +id!);
-    
+
+  const { data: timeData, isLoading: timeIsLoading } = useGetTime()
+
+  const date = new Date
+  const today = date.toLocaleDateString().replace(/. /g, '-0').replace('.', '')
+
   return (
     <S.ClubDetail>
       <S.ClubDetailContainer
         $type={type}
-        data-color-mode={currentTheme.toLowerCase()}
       >
         {type == "PAGE"
         ? (
@@ -64,7 +66,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             <Close $svgStyle={{ cursor: "pointer" }} color="labelNormal" />
           </div>
         )}
-        {clubDataIsLoading || leaderIsLoading || clubMemberIsLoading || isFetching
+        {clubDataIsLoading || leaderIsLoading || clubMemberIsLoading || isFetching || timeIsLoading
         ? (
           <ClubDetailSkeleton />
         )
@@ -111,37 +113,40 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             {clubMemberData?.isLeader
             && (
               <S.ClubDetailMenu>
-                <S.ClubDetailMenuInfoAndButton>
-                  동아리 개설
-                  <S.ClubDetailMenuButton>
-                    <DodamFilledButton
-                      size="Small"
-                      text="승인 신청하기"
-                      typography={["Caption1", "Bold"]}
-                      width={100}
-                      textTheme="staticWhite"
-                      enabled={
-                        clubMemberData?.students.length ==
-                        clubMemberData?.students.filter(
-                          (item) => item.status === EClubState.ALLOWED
-                        ).length
-                      }
-                      onClick={() => postClubApplyMutation.mutate(clubData!.id)}
-                    />
-                    <DodamFilledButton
-                      size="Small"
-                      text="취소하기"
-                      typography={["Caption1", "Bold"]}
-                      width={100}
-                      textTheme="staticWhite"
-                      backgroundColorType="Negative"
-                      onClick={() => deleteClubApplyMutation.mutate(clubData!.id)}
-                    />
-                  </S.ClubDetailMenuButton>
-                </S.ClubDetailMenuInfoAndButton>
-                <Link to={`/edit/${clubData?.id}`}>
-                  <DodamFilledButton size={'Small'} customStyle={{width:'fit-content'}} icon={<Pen size={20} color="staticWhite"/>}/>
-                </Link>
+                {timeData!.createEnd == today
+                  && (                    
+                  <S.ClubDetailMenuInfoAndButton>
+                    동아리 개설
+                    <S.ClubDetailMenuButton>
+                      <DodamFilledButton
+                        size="Small"
+                        text="승인 신청하기"
+                        typography={["Caption1", "Bold"]}
+                        width={100}
+                        textTheme="staticWhite"
+                        enabled={
+                          clubMemberData?.students.length ==
+                          clubMemberData?.students.filter(
+                            (item) => item.status === EClubState.ALLOWED
+                          ).length
+                        }
+                        onClick={() => postClubApplyMutation.mutate(clubData!.id)}
+                      />
+                      <DodamFilledButton
+                        size="Small"
+                        text="취소하기"
+                        typography={["Caption1", "Bold"]}
+                        width={100}
+                        textTheme="staticWhite"
+                        backgroundColorType="Negative"
+                        onClick={() => deleteClubApplyMutation.mutate(clubData!.id)}
+                      />
+                    </S.ClubDetailMenuButton>
+                  </S.ClubDetailMenuInfoAndButton>
+                  )}
+                  <S.ClubDetailEditButton to={`/edit/${clubData?.id}`}>
+                    <Pen size={20} color="staticWhite"/>
+                  </S.ClubDetailEditButton>
               </S.ClubDetailMenu>
             )}
 

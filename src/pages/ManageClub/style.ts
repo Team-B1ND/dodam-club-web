@@ -1,7 +1,6 @@
 import { DodamShape, DodamTypography } from "@b1nd/dds-web";
 import styled from "styled-components";
 import { hexToRgba } from '@b1nd/dds-web';
-import MDEditor from "@uiw/react-md-editor";
 
 export const CreateClubPaddingContainer = styled.div`
   padding: 58px 0;

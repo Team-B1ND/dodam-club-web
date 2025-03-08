@@ -16,12 +16,11 @@ export const ClubMiniItem = styled.div`
   width: 100%;
   height: fit-content;
   ${DodamTypography.Body2.Medium}
-`
-
-export const ClubMiniItemName = styled.p`
-  ${DodamTypography.Body2.Bold}
-  color: ${({ theme }) => theme.labelNormal};
-  cursor: pointer;
+  & p {
+    ${DodamTypography.Body2.Bold}
+    color: ${({ theme }) => theme.labelNormal};
+    cursor: pointer;
+  }
 `
 
 export const ClubMiniItemRequestContainer = styled.div`

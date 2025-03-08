@@ -7,4 +7,5 @@ export interface Student {
   code: string;
   profileImage?: string;
   status?: string;
+  studentId: number;
 }

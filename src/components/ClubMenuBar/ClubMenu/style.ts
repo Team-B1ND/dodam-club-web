@@ -29,11 +29,13 @@ export const MyClubIsNone = styled.div`
   ${DodamShape.Large}
   background-color: ${({ theme }) => theme.backgroundNormal};
   color: ${({ theme }) => theme.labelNormal};
-  ${DodamTypography.Caption1.Bold}
   gap: 4px;
+  p {
+    ${DodamTypography.Caption1.Bold}
+  }
 `
 
-export const ClubCreatePeriod = styled.p`
+export const ClubCreatePeriod = styled.span`
   ${DodamTypography.Caption2.Medium}
   color: ${({ theme }) => theme.labelAlternative};
 `

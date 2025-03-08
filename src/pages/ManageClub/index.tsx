@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import { themeModeAtom } from "src/store/theme/themeStore";
 import { useImageUpload } from 'src/hooks/image/useImageUpload';
 import imagePreviewAlt from 'src/assets/imagePreviewAlt.png';
-import MemberItem from '@components/MemberItem';
+import MemberItem from '@/components/MemberItem';
 import { Link, useParams } from 'react-router-dom';
 import useClubForm from 'src/hooks/club/useClubForm';
 import { useTheme } from 'styled-components';
@@ -239,7 +239,7 @@ const ManageClubPage = () => {
             {!clubId
             && (
               <S.CreateClubCustomInputContainer
-                $isError={fieldStates.studentIdsState.error === undefined}
+                $isError={fieldStates.studentIdsState.error !== undefined}
                 $isDisabled={!(!clubId)}
               >
                 부원 선택
