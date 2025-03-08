@@ -10,11 +10,12 @@ interface MemberItemProps {
   value: ClubMember | Student;
   type: "PICKER" | "STATUS" | "LIST";
   pickerStatus?: boolean;
+  isManagerPage? : boolean;
   onClick?: ((studentId:number) => void);
 }
 
-const MemberItem = ({value, type, pickerStatus, onClick}: MemberItemProps ) => {
-  const { profileImage, name, id, grade, room, status } = value
+const MemberItem = ({value, type, pickerStatus, onClick, isManagerPage}: MemberItemProps ) => {
+  const { profileImage, name, id, grade, room, status, studentId } = value
   const theme = useTheme()
 
   return (
@@ -32,7 +33,7 @@ const MemberItem = ({value, type, pickerStatus, onClick}: MemberItemProps ) => {
       {onClick && type === 'PICKER'
       ? (
         <S.MemberItemIconContainer 
-          onClick={() => onClick(id)}
+          onClick={() => onClick(isManagerPage ? studentId : id)}
           style={{ cursor:'pointer' }}
         >
           {pickerStatus

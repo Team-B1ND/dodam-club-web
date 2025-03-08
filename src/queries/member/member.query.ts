@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
 import { AxiosError } from "axios";
-import { ClubMember, ClubMemberResponse } from "src/types/club/club.type";
+import { ClubJoinRequest, ClubMember, ClubMemberResponse } from "src/types/club/club.type";
 import { QUERY_KEYS } from "../queryKey";
 import clubApi from "src/api/Club/club.api";
 import { Student } from "src/types/member/member.type";
@@ -43,3 +43,17 @@ export const useGetClubMemberQuery = (
     cacheTime: 1000 * 60 * 10,
     ...options,
   });
+
+export const useGetClubJoinRequestsMemberQuery = (
+  id: number,
+  options?: UseQueryOptions<
+    ClubJoinRequest[], 
+    AxiosError
+  >
+): UseQueryResult<ClubJoinRequest[], AxiosError> =>
+  useQuery<ClubJoinRequest[], AxiosError>([QUERY_KEYS.clubsMember.getJoinRequestMember, id], () => clubApi.getOthersJoinRequests(id), {
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 10,
+    ...options,
+  });
+
