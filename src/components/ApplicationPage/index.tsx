@@ -175,7 +175,6 @@ const ApplicationPage = () => {
       }
       
       if (requests.length > 0) {
-        console.log('요청 데이터:', requests);
         await clubApi.postJoinClubByRequestsBatch(requests);
       }
       
