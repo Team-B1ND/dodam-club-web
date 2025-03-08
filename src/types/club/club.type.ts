@@ -39,6 +39,7 @@ export interface ClubMemberResponse {
 
 export interface ClubProps {
   value: ClubResponse;
+  isEnded: boolean;
 }
 
 export interface ClubJoinRequest {

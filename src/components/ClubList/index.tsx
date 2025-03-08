@@ -7,11 +7,12 @@ import { EClub } from "src/enum/club/club.enum";
 import { Link } from "react-router-dom";
 import { useGetClubsQuery } from "src/queries/useClub";
 import ClubItemSkeleton from "@components/Common/ClubItemSkeleton";
+import { useClubTime } from "src/hooks/club/useClubTime";
 
 const ClubList = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
-
   const {data:clubData, isLoading, isFetching} = useGetClubsQuery();
+  const { timeData, timeIsLoading, today } = useClubTime()
 
   const changePage = () => {
     setIsCreativeClubPage(prev=>!prev)
@@ -34,7 +35,7 @@ const ClubList = () => {
         />
       </S.ClubMenu>
       <S.ClubItemContainer>
-          {(isLoading || isFetching)
+          {(isLoading || isFetching || timeIsLoading)
           ? Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx}/>)
           : clubData!
           .filter((item: ClubResponse) =>
@@ -44,12 +45,10 @@ const ClubList = () => {
           )
           .map((item: ClubResponse) => (
             <Link to={`/${item.id}`} key={item.id} style={{ height: "fit-content", display:'flex', alignItems:'center', justifyContent:'center'}}>
-              <ClubItem value={item} />
+              <ClubItem value={item} isEnded={timeData!.applicantStart < today} />
             </Link>
           ))}
-          
       </S.ClubItemContainer>
-
     </S.ClubListContainer>
   );
 };
