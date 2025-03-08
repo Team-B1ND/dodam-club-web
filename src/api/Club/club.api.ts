@@ -34,8 +34,12 @@ class ClubApi {
     return data.data
   }
   
-  public async postJoinClubByRequest({id}: {id: number}) {
-    await customAxios.post(`/clubs/join-requests/${id}`)
+  public async postJoinClubByRequest(requests: Array<{
+    clubId: number;
+    clubPriority?: 'CREATIVE_ACTIVITY_CLUB_1' | 'CREATIVE_ACTIVITY_CLUB_2' | 'CREATIVE_ACTIVITY_CLUB_3' | null;
+    introduction?: string;
+  }>) {
+    await customAxios.post(`/clubs/join-requests`, requests);
   }
 
   public async deleteJoinClubByRequest({id}: {id: number}) {
@@ -65,6 +69,15 @@ class ClubApi {
   public async postClubApply(id:number) {
     await customAxios.post(`/clubs/${id}/waiting`)
   }
+
+  public async postJoinClubByRequestsBatch(requests: Array<{
+    clubId: number;
+    clubPriority?: 'CREATIVE_ACTIVITY_CLUB_1' | 'CREATIVE_ACTIVITY_CLUB_2' | 'CREATIVE_ACTIVITY_CLUB_3' | null;
+    introduction?: string;
+  }>) {
+    await customAxios.post(`/clubs/join-requests`, requests);
+  }
+  
 }
 
 export default new ClubApi();
