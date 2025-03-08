@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
 import { AxiosError } from "axios";
-import { ClubResponse } from "src/types/club/club.type";
+import { ClubResponse, StudentApplyResponse } from "src/types/club/club.type";
 import { QUERY_KEYS } from "./queryKey";
 import clubApi from "src/api/Club/club.api";
 
@@ -17,7 +17,7 @@ export const useGetClubsQuery = (
   });
 
 export const useGetClubDetailQuery = (
-  { id }: { id: number },
+  id: number,
   options?: UseQueryOptions<
     ClubResponse, 
     AxiosError
@@ -36,6 +36,18 @@ export const useGetMyClubApplyQuery = (
   >
 ): UseQueryResult<ClubResponse[], AxiosError> =>
   useQuery<ClubResponse[], AxiosError>(QUERY_KEYS.clubs.getMine, () => clubApi.getMyClubApply(), {
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 10,
+    ...options,
+  });
+
+export const useGetStudentApplyQuery = (
+  options?: UseQueryOptions<
+    StudentApplyResponse[], 
+    AxiosError
+  >
+): UseQueryResult<StudentApplyResponse[],  AxiosError> =>
+  useQuery<StudentApplyResponse[], AxiosError>(QUERY_KEYS.clubs.getStudentApply, () => clubApi.getStudentApply(), {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     ...options,

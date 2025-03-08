@@ -1,8 +1,9 @@
 import customAxios from "src/libs/axios/customAxios";
 import { baseResponse } from "src/types/response/response.type";
 import { Student } from "src/types/member/member.type";
-import { Club, ClubJoinResponse, ClubMember, ClubMemberResponse, ClubResponse } from "src/types/club/club.type";
+import { Club, ClubJoinRequest, ClubJoinResponse, ClubMember, ClubMemberResponse, ClubResponse, EditClub, StudentApplyResponse } from "src/types/club/club.type";
 import { EClubState } from "src/enum/club/club.enum";
+import { postMemberStatusParams } from "./club.params";
 
 class ClubApi {
   public async postClub(data:Club): Promise<void> {
@@ -34,12 +35,8 @@ class ClubApi {
     return data.data
   }
   
-  public async postJoinClubByRequest(requests: Array<{
-    clubId: number;
-    clubPriority?: 'CREATIVE_ACTIVITY_CLUB_1' | 'CREATIVE_ACTIVITY_CLUB_2' | 'CREATIVE_ACTIVITY_CLUB_3' | null;
-    introduction?: string;
-  }>) {
-    await customAxios.post(`/clubs/join-requests`, requests);
+  public async postJoinClubByRequest({id}: {id: number}) {
+    await customAxios.post(`/clubs/join-requests/${id}`)
   }
 
   public async deleteJoinClubByRequest({id}: {id: number}) {
@@ -77,7 +74,6 @@ class ClubApi {
   }>) {
     await customAxios.post(`/clubs/join-requests`, requests);
   }
-  
 }
 
 export default new ClubApi();
