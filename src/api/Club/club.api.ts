@@ -39,11 +39,11 @@ class ClubApi {
     return data.data
   }
   
-  public async postJoinClubByRequest({id}: {id: number}) {
+  public async postJoinClubByRequest(id: number) {
     await customAxios.post(`/clubs/join-requests/${id}`)
   }
 
-  public async deleteJoinClubByRequest({id}: {id: number}) {
+  public async deleteJoinClubByRequest(id: number) {
     await customAxios.delete(`/clubs/join-requests/${id}`)
   }
 
@@ -55,7 +55,8 @@ class ClubApi {
   public async getMyJoinedClubs() {
     const { data } = await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/joined`)
     return data.data
-
+  }
+  
   public async getMyClubApply() {
     const { data }= await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/my`)
     data.data = data.data.filter((item) => item.state !== EClubState.DELETED)

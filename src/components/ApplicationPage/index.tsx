@@ -153,13 +153,14 @@ const ApplicationPage = () => {
       // 창체 동아리 신청
       for (let i = 0; i < selectedCreativeClubs.length; i++) {
         const clubId = selectedCreativeClubs[i];
+        // API 정의에 맞는 정확한 열거형 값 사용
         const priority = `CREATIVE_ACTIVITY_CLUB_${i + 1}` as 
           'CREATIVE_ACTIVITY_CLUB_1' | 
           'CREATIVE_ACTIVITY_CLUB_2' | 
           'CREATIVE_ACTIVITY_CLUB_3';
         
         requests.push({
-          clubId: clubId,
+          clubId,
           clubPriority: priority,
           introduction: ''
         });
@@ -171,14 +172,15 @@ const ApplicationPage = () => {
         const introduction = essayContents[clubKey] || '';
         
         requests.push({
-          clubId: clubId,
-          clubPriority: null,
-          introduction: introduction
+          clubId,
+          clubPriority: null,  // API 정의에 따라 null 사용 가능
+          introduction
         });
       }
       
       if (requests.length > 0) {
-        await clubApi.postJoinClubByRequest(requests);
+        console.log('요청 데이터:', requests); // 디버깅용
+        await clubApi.postJoinClubByRequestsBatch(requests);  // 함수명 수정
       }
       
       alert('동아리 입부 신청이 성공적으로 제출되었습니다!');
