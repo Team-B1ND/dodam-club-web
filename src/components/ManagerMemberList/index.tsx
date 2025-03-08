@@ -27,6 +27,12 @@ const ManagerMemberList = ({ id, selectedMember, setSelectedMember }: ManagerMem
       refetch()
     }
   }, [id])
+
+  useEffect(() => {
+    if(postMemberStatusMutation.isSuccess){
+      refetch()
+    }
+  }, [postMemberStatusMutation.isSuccess])
   
   return clubMemberIsLoading || isFetching
   ? (
@@ -63,7 +69,6 @@ const ManagerMemberList = ({ id, selectedMember, setSelectedMember }: ManagerMem
                 enabled={selectedMember !== 0}
                 onClick={() => {
                   postMemberStatusMutation.mutate({clubId:id, studentId:selectedMember, status:EClubState.ALLOWED})
-                  refetch()
                 }}
               />
               <DodamFilledButton
@@ -74,7 +79,6 @@ const ManagerMemberList = ({ id, selectedMember, setSelectedMember }: ManagerMem
                 enabled={selectedMember !== 0}
                 onClick={() => {
                   postMemberStatusMutation.mutate({clubId:id, studentId:selectedMember, status:EClubState.DELETED})
-                  refetch()
                 }}
               />
             </S.ManageButtonBar>
