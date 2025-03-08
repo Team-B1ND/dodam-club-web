@@ -1,6 +1,6 @@
 import * as S from './style'
-import { Avatar } from '@b1nd/dds-web';
-import { CheckmarkCircleFilled, CheckmarkCircleLine, DodamColor, ExclamationmarkCircle, XmarkCircle } from '@b1nd/dds-web';
+import { Avatar, Clock } from '@b1nd/dds-web';
+import { CheckmarkCircleFilled, CheckmarkCircleLine, DodamColor, XmarkCircle } from '@b1nd/dds-web';
 import { useTheme } from 'styled-components';
 import { ClubMember } from 'src/types/club/club.type';
 import { Student } from 'src/types/member/member.type';
@@ -10,11 +10,12 @@ interface MemberItemProps {
   value: ClubMember | Student;
   type: "PICKER" | "STATUS" | "LIST";
   pickerStatus?: boolean;
+  isManagerPage? : boolean;
   onClick?: ((studentId:number) => void);
 }
 
-const MemberItem = ({value, type, pickerStatus, onClick}: MemberItemProps ) => {
-  const { profileImage, name, id, grade, room, status } = value
+const MemberItem = ({value, type, pickerStatus, onClick, isManagerPage}: MemberItemProps ) => {
+  const { profileImage, name, id, grade, room, status, studentId } = value
   const theme = useTheme()
 
   return (
@@ -32,7 +33,7 @@ const MemberItem = ({value, type, pickerStatus, onClick}: MemberItemProps ) => {
       {onClick && type === 'PICKER'
       ? (
         <S.MemberItemIconContainer 
-          onClick={() => onClick(id)}
+          onClick={() => onClick(isManagerPage ? studentId : id)}
           style={{ cursor:'pointer' }}
         >
           {pickerStatus
@@ -46,7 +47,7 @@ const MemberItem = ({value, type, pickerStatus, onClick}: MemberItemProps ) => {
           ? <CheckmarkCircleFilled color={DodamColor.green50}/>
           : status === EClubState.REJECTED
             ? <XmarkCircle color={DodamColor.red50}/>
-            : <ExclamationmarkCircle color={DodamColor.yellow50}/>}
+            : <Clock color={DodamColor.yellow50}/>}
         </S.MemberItemIconContainer>
       )}
     </S.MemberItemContainer>

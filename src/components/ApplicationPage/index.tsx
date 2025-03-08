@@ -151,17 +151,13 @@ const ApplicationPage = () => {
       const requests = [];
       
       // 창체 동아리 신청
+      const priorities = ['CREATIVE_ACTIVITY_CLUB_1', 'CREATIVE_ACTIVITY_CLUB_2', 'CREATIVE_ACTIVITY_CLUB_3'] as const;
+
       for (let i = 0; i < selectedCreativeClubs.length; i++) {
         const clubId = selectedCreativeClubs[i];
-        // API 정의에 맞는 정확한 열거형 값 사용
-        const priority = `CREATIVE_ACTIVITY_CLUB_${i + 1}` as 
-          'CREATIVE_ACTIVITY_CLUB_1' | 
-          'CREATIVE_ACTIVITY_CLUB_2' | 
-          'CREATIVE_ACTIVITY_CLUB_3';
-        
         requests.push({
           clubId,
-          clubPriority: priority,
+          clubPriority: priorities[i],
           introduction: ''
         });
       }
@@ -173,21 +169,19 @@ const ApplicationPage = () => {
         
         requests.push({
           clubId,
-          clubPriority: null,  // API 정의에 따라 null 사용 가능
+          clubPriority: null,
           introduction
         });
       }
       
       if (requests.length > 0) {
-        console.log('요청 데이터:', requests); // 디버깅용
-        await clubApi.postJoinClubByRequestsBatch(requests);  // 함수명 수정
+        console.log('요청 데이터:', requests);
+        await clubApi.postJoinClubByRequestsBatch(requests);
       }
       
       alert('동아리 입부 신청이 성공적으로 제출되었습니다!');
-      setSelectedCreativeClubs([]);
-      setSelectedAutonomousClubs([]);
-      setCurrentClub(null);
-      setEssayContents({});
+      // 나머지 성공 처리 코드
+      
     } catch (error) {
       console.error('Error submitting club application:', error);
       alert('동아리 입부 신청 중 오류가 발생했습니다. 다시 시도해주세요.');

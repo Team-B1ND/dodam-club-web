@@ -1,4 +1,5 @@
-import { DodamShape, DodamTypography } from "@b1nd/dds-web";
+import { DodamColor, DodamShape, DodamTypography } from "@b1nd/dds-web";
+import { Link } from "react-router-dom";
 import { ClubDetailType } from "src/types/club/club.type";
 import styled from "styled-components";
 
@@ -69,7 +70,7 @@ export const ClubDetailMainContainer = styled.div`
   display: flex;
   padding: 0 20px;
   gap: 20px;
-  height: 100%;
+  height: fit-content;
 `
 
 export const ClubDeatilMemberList = styled.div`
@@ -78,6 +79,7 @@ export const ClubDeatilMemberList = styled.div`
   width: 200px;
   color: ${({ theme }) => theme.labelAlternative};
   ${DodamTypography.Body2.Bold}
+  height: fit-content;
 `
 
 export const ClubDetailDescription = styled.div`
@@ -116,4 +118,13 @@ export const ClubDetailMenuInfoAndButton = styled.div`
 export const ClubDetailMenuButton = styled.div`
   display: flex;
   gap: 8px;
+`
+
+export const ClubDetailEditButton = styled(Link)`
+  display: flex;
+  ${DodamShape.Medium}
+  padding: 8px;
+  border: none;
+  background-color: ${DodamColor.blue50};
+  cursor: pointer;
 `

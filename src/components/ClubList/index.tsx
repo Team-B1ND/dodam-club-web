@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import * as S from "./style";
 import {  DodamSegmentedButton } from "@b1nd/dds-web";
 import ClubItem from "./ClubItem";
@@ -43,7 +43,7 @@ const ClubList = () => {
               : item.type === EClub.SELF_DIRECT_CLUB
           )
           .map((item: ClubResponse) => (
-            <Link to={`/${item.id}`} key={item.id} style={{ height: "fit-content" }}>
+            <Link to={`/${item.id}`} key={item.id} style={{ height: "fit-content", display:'flex', alignItems:'center', justifyContent:'center'}}>
               <ClubItem value={item} />
             </Link>
           ))}

@@ -22,7 +22,7 @@ function App() {
       <RecoilRoot>
         <ThemeProviderContainer>
           <B1ndToastContainer autoClose={1000} limit={1} />
-          <Router/>
+          <Router />
         </ThemeProviderContainer>
       </RecoilRoot>
     </QueryClientProvider>

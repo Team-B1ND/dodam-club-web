@@ -2,17 +2,18 @@ import * as S from './style'
 import ClubMiniList from './ClubMiniList'
 import { ClubMenuProps} from 'src/types/club/club.type';
 import { EClub } from 'src/enum/club/club.enum';
-import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery } from 'src/queries/useClub';
+import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery, useGetStudentApplyQuery } from 'src/queries/useClub';
 import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/joinRequest.query';
 import ClubMenuSkeleton from '@components/Common/ClubMenuSkeleton';
 
-const ClubMenu = ({ name, type } : ClubMenuProps) => {
+const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
   const { data: myClubApply, isLoading: applyIsLoading } = useGetMyClubApplyQuery()
   const { data: myClub, isLoading: myClubIsLoading } = useGetMyJoinedClubQuery()
-  const { data: joinRequestList, isLoading: joinRequestIsLoading, isFetching:joinRequestIsFetching } = useGetJoinRequestsQuery()
-  
+  const { data: joinRequestList, isLoading: joinRequestIsLoading } = useGetJoinRequestsQuery()
+  const { data: studentClubApply, isLoading: studentApplyIsLoading } = useGetStudentApplyQuery()
+
   return(
-    applyIsLoading || myClubIsLoading || joinRequestIsLoading || joinRequestIsFetching)
+    applyIsLoading || myClubIsLoading || joinRequestIsLoading || studentApplyIsLoading)
   ? (
     <ClubMenuSkeleton/>
   )
@@ -67,9 +68,35 @@ const ClubMenu = ({ name, type } : ClubMenuProps) => {
         : (type === "LeaderApply" && myClubApply!.length <= 0)
         ? (
           <S.MyClubIsNone>
-            아직 동아리 개설을 <br/> 신청하지 않았어요!
+            <p>아직 동아리 개설을</p>
+            <p>신청하지 않았어요!</p>
             <S.ClubCreatePeriod>
-              신청 마감 : 2025. 03. 19.
+              신청 마감 : {time.createEnd.replace(/-/g,'.')}
+            </S.ClubCreatePeriod>
+          </S.MyClubIsNone>
+        )
+        : (type === "StudentApply" && studentClubApply!.length > 0)
+        ? (
+          <S.MyClubList>
+            <ClubMiniList
+              name="창체"
+              type={type}
+              value={studentClubApply!.filter((item) => (item.club.type === EClub.CREATIVE_CLUB))}
+            />
+            <ClubMiniList
+              name="자율"
+              type={type}
+              value={studentClubApply!.filter((item) => (item.club.type === EClub.SELF_DIRECT_CLUB))}
+            />
+          </S.MyClubList>
+        )
+        : (type === "StudentApply" && studentClubApply!.length <= 0)
+        ? (
+          <S.MyClubIsNone>
+            <p>아직 동아리에</p>
+            <p>신청하지 않았어요!</p>
+            <S.ClubCreatePeriod>
+              신청 마감 : {time.applicantEnd.replace(/-/g,'.')}
             </S.ClubCreatePeriod>
           </S.MyClubIsNone>
         )

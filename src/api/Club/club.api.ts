@@ -14,11 +14,6 @@ class ClubApi {
     return data.data
   }
 
-  public async getClubs(): Promise<ClubResponse[]> {
-    const { data } = await customAxios.get<baseResponse<ClubResponse[]>>(`/clubs`)
-    return data.data
-  }
-
   public async getClub(id: number) {
     const { data } = await customAxios.get<baseResponse<ClubResponse>>(`/clubs/${id}`)
     return data.data
@@ -71,12 +66,30 @@ class ClubApi {
     await customAxios.post(`/clubs/${id}/waiting`)
   }
 
+  public async patchClub({data, id}:{data: EditClub, id:number}) {
+    await customAxios.patch(`/clubs/${id}`, data)
+  }
+
+  public async getStudentApply() {
+    const { data } = await customAxios.get<baseResponse<StudentApplyResponse[]>>(`clubs/my/join-requests`)
+    return data.data
+  }
+
+  public async getOthersJoinRequests(id:number) {
+    const { data } = await customAxios.get<baseResponse<ClubJoinRequest[]>>(`clubs/${id}/join-requests`)
+    return data.data
+  }
+
   public async postJoinClubByRequestsBatch(requests: Array<{
     clubId: number;
     clubPriority?: 'CREATIVE_ACTIVITY_CLUB_1' | 'CREATIVE_ACTIVITY_CLUB_2' | 'CREATIVE_ACTIVITY_CLUB_3' | null;
     introduction?: string;
   }>) {
     await customAxios.post(`/clubs/join-requests`, requests);
+  }
+
+  public async postMemberStatus(data:postMemberStatusParams) {
+    await customAxios.post(`clubs/status`, data)
   }
 }
 

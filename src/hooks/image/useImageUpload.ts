@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { uploadImage } from "src/api/Image/Image.api";
+import { useQueryClient } from "react-query";
+import { usePostImage } from "src/queries/image/image.query";
 
 interface UseImageUploadReturn {
   imageFile: File | null;
   previewUrl: string;
+  setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
   handleImageChange: (file: File | null) => void;
   resetImage: () => void;
 }
@@ -11,6 +13,9 @@ interface UseImageUploadReturn {
 export const useImageUpload = () : UseImageUploadReturn => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
+
+  const postImageMutation = usePostImage();
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     if (imageFile) {
@@ -21,8 +26,7 @@ export const useImageUpload = () : UseImageUploadReturn => {
   }, [imageFile]);
 
   const uploadImageAndPreview = async (formData: FormData) => {
-    const url = await uploadImage(formData) as string
-    setPreviewUrl(url)
+    postImageMutation.mutate(formData)
   };
 
   const handleImageChange = (file: File | null) => {
@@ -34,9 +38,16 @@ export const useImageUpload = () : UseImageUploadReturn => {
     setPreviewUrl('');
   };
 
+  useEffect(() => {
+    if(queryClient.getQueryData(["image"])){
+      setPreviewUrl(queryClient.getQueryData(["image"])!)
+    }
+  }, [queryClient.getQueryData(["image"])])
+
   return {
     imageFile,
     previewUrl,
+    setPreviewUrl,
     handleImageChange,
     resetImage,
   };
