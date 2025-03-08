@@ -345,7 +345,6 @@ export const ConfirmButton = styled(Button)`
   }
 `;
 
-
 export const ClubDot = styled.div<{ active: boolean }>`
   position: relative;
   display: flex;

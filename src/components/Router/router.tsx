@@ -15,12 +15,11 @@ const Router = () => {
           <Route path='edit/:clubId' element={<ManageClubPage/>}/>
           <Route path='/:id' element={<ClubDetail type='PAGE'/>}/>
           <Route path='/register' element={<RegisterPage/>}/>
+          <Route path='/:id' element={<ClubDetail type='PAGE'/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
   )
-
 }
 
 export default Router
-

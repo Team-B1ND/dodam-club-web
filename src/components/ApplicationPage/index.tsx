@@ -126,7 +126,6 @@ const ApplicationPage = () => {
   const currentClubsList = isCreativeClubSelected 
     ? creativeClubs 
     : autonomousClubs;
-
   const getClubNameById = (clubId: number): string => {
     const club = clubList?.find(club => club.id === clubId);
     return club ? club.name : '';
@@ -361,7 +360,6 @@ const ApplicationPage = () => {
           {isSubmitting ? '제출 중...' : '동아리 입부 신청하기'}
         </S.ApplyButton>
       </S.ButtonWrapper>
-      
       <ClubApplicationPopup 
         isOpen={isModalOpen} 
         onClose={closeModal}
