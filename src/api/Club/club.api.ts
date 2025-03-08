@@ -80,7 +80,6 @@ class ClubApi {
     return data.data
   }
 
-<<<<<<< HEAD
   public async postJoinClubByRequestsBatch(requests: Array<{
     clubId: number;
     clubPriority?: 'CREATIVE_ACTIVITY_CLUB_1' | 'CREATIVE_ACTIVITY_CLUB_2' | 'CREATIVE_ACTIVITY_CLUB_3' | null;
@@ -89,8 +88,6 @@ class ClubApi {
     await customAxios.post(`/clubs/join-requests`, requests);
   }
 
-=======
->>>>>>> 764403870a70f68f0346005d6ab73390300ab184
   public async postMemberStatus(data:postMemberStatusParams) {
     await customAxios.post(`clubs/status`, data)
   }
