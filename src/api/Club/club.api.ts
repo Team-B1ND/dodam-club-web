@@ -55,7 +55,6 @@ class ClubApi {
   public async getMyJoinedClubs() {
     const { data } = await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/joined`)
     return data.data
-  }
 
   public async getMyClubApply() {
     const { data }= await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/my`)
