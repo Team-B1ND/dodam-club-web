@@ -64,17 +64,17 @@ export const ClubListContent = styled.div`
   }
   
   &::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background-color: ${({ theme }) => theme.labelAssistive};
     ${DodamShape.Small}
   }
   
   &::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
+    background-color:${({ theme }) => theme.labelAlternative};
     ${DodamShape.Small}
   }
   
   &::-webkit-scrollbar-thumb:hover {
-    background: #a1a1a1;
+    background-color: ${({ theme }) => theme.LabelNeutral};
   }
 `;
 
@@ -134,7 +134,6 @@ export const RightSection = styled.div`
 export const ClubItem = styled.div<{ selected?: boolean }>`
   padding: 12px 20px;
   ${DodamTypography.Headline.Bold}
-  line-height: 150%;
   cursor: pointer;
   color: ${({ theme }) => theme.labelNormal};
   transition: background-color 0.2s ease;

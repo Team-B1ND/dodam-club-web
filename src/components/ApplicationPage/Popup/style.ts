@@ -1,4 +1,4 @@
-import { DodamTypography } from '@b1nd/dds-web';
+import { DodamShape, DodamTypography } from '@b1nd/dds-web';
 import styled from 'styled-components';
 
 export const ModalWrapper = styled.div<{ isOpen: boolean }>`
@@ -6,7 +6,7 @@ export const ModalWrapper = styled.div<{ isOpen: boolean }>`
   
   > div {
     width: 500px !important;
-    border-radius: 12px !important;
+    ${DodamShape.Medium}
     background-color: ${({ theme }) => theme.backgroundNormal} !important;
     position: fixed !important;
     top: 50% !important;
@@ -39,7 +39,6 @@ export const PopupTitle = styled.h2`
 export const PopupText = styled.p`
   color: ${({ theme }) => theme.labelAlternative};
   ${DodamTypography.Body1.Medium}
-  line-height: 1.6;
   margin-bottom: 20px;
   text-align: left;
   width: 100%;
@@ -55,7 +54,7 @@ export const ButtonContainer = styled.div`
 export const Button = styled.button`
   padding: 16px 0;
   ${DodamTypography.Body1.Bold}
-  border-radius: 10px;
+  ${DodamShape.Small}
   width: 200px;
   height: 50px;
   cursor: pointer;
