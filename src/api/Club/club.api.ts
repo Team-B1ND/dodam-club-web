@@ -55,7 +55,6 @@ class ClubApi {
 
   public async getMyClubApply() {
     const { data } = await customAxios.get<baseResponse<ClubResponse[]>>(`clubs/my`)
-    data.data = data.data.filter((item) => item.state !== EClubState.DELETED)
     return data.data
   }
 

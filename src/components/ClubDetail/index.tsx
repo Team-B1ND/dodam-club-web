@@ -1,6 +1,4 @@
 import * as S from "./style";
-import { useRecoilValue } from "recoil";
-import { themeModeAtom } from "src/store/theme/themeStore";
 import { Link, useParams } from "react-router-dom";
 import { EClub, EClubState } from "src/enum/club/club.enum";
 import {
@@ -33,7 +31,6 @@ interface ClubDetailProps {
 
 const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { id } = useParams();
-  const currentTheme = useRecoilValue(themeModeAtom);
   const theme = useTheme()
   
   const postClubApplyMutation = usePostClubApplyMutation()
@@ -57,7 +54,6 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
     <S.ClubDetail>
       <S.ClubDetailContainer
         $type={type}
-        data-color-mode={currentTheme.toLowerCase()}
       >
         {type == "PAGE"
         ? (

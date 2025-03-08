@@ -1,6 +1,6 @@
 import * as S from './style'
 import { Avatar, Clock } from '@b1nd/dds-web';
-import { CheckmarkCircleFilled, CheckmarkCircleLine, DodamColor, ExclamationmarkCircle, XmarkCircle } from '@b1nd/dds-web';
+import { CheckmarkCircleFilled, CheckmarkCircleLine, DodamColor, XmarkCircle } from '@b1nd/dds-web';
 import { useTheme } from 'styled-components';
 import { ClubMember } from 'src/types/club/club.type';
 import { Student } from 'src/types/member/member.type';
