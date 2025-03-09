@@ -23,6 +23,7 @@ import { ClubDetailType } from "src/types/club/club.type";
 import { useGetClubDetailQuery } from "src/queries/useClub";
 import { useGetTime } from "src/queries/time/time.query";
 import MemberItem from "src/components/MemberItem";
+import { useClubTime } from "src/hooks/club/useClubTime";
 interface ClubDetailProps {
   type: ClubDetailType;
   modalId?: number;
@@ -45,8 +46,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { data: clubMemberData, isLoading: clubMemberIsLoading, isFetching } =
     useGetClubMemberQuery(type === "MODAL" ? modalId : +id!);
 
-  const { timeData, timeIsLoading, today } = useClubTime()
-
+  const { timeData, timeIsLoading, today} = useClubTime()
   return (
     <S.ClubDetail>
       <S.ClubDetailContainer

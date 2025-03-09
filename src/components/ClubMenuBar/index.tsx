@@ -11,8 +11,6 @@ import { useClubTime } from 'src/hooks/club/useClubTime'
 
 const ClubMenuBar = () => {
   const navigate = useNavigate();
-
-  const { data:timeData, isLoading } = useGetTime();
   const { data: myClub, isLoading: clubIsLoading } = useGetMyClubApplyQuery()
   const { timeData, timeIsLoading, today } = useClubTime()
 
@@ -79,5 +77,5 @@ const ClubMenubarContainer = styled.div`
   overflow-y: scroll;
   padding: 58px 32px 0 0 ;
   white-space: nowrap;
-  
+  overflow-x: hidden;
 `

@@ -17,11 +17,11 @@ const ClubItem = ({ value, isEnded } : ClubProps) => {
             {name}
           </S.ClubItemName>
           {isEnded
-          && (state === EClubState.PENDING || state === EClubState.WAITING)
+          && ( (state === EClubState.PENDING || state === EClubState.WAITING)
             ? <Clock color={DodamColor.yellow50} size={24}/>
             : state === EClubState.DELETED || state === EClubState.REJECTED
               ? <XmarkCircle color={DodamColor.red50} size={24}/>
-              : <CheckmarkCircleFilled color={DodamColor.green50} size={24}/>
+              : <CheckmarkCircleFilled color={DodamColor.green50} size={24}/>)
           }
         </S.ClubItemNameState>
         <S.ClubItemDescription>{shortDescription}</S.ClubItemDescription>
