@@ -100,6 +100,8 @@ export default ClubMenuBar
 const ClubMenubarContainer = styled.div`
   display: flex;
   width: 100%;
+  height: 100%;
+  overflow-y: scroll;
   flex-direction: column;
   gap: 16px;
   white-space: nowrap; 
