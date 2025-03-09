@@ -47,7 +47,7 @@ const ResponseHandler = async (error: AxiosError) => {
         console.error("Failed to refresh access token:", error);
         token.clearToken();
         window.alert("세션이 만료되었습니다.");
-        window.location.href = "/login";
+        window.location.href = "https://dodam.b1nd.com/sign";
       }
     }
   }
