@@ -3,7 +3,7 @@ import { DodamShape, DodamTypography, } from "@b1nd/dds-web";
 
 export const ClubListContainer = styled.div`
   flex-grow: 1;
-  width: fit-content;
+  width: 100%;
   height: 100%;
   ${DodamShape.Large};
   display: flex;
@@ -15,14 +15,13 @@ export const ClubListContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  @media  (max-width: 1069px){
-    margin: 28px 0  70px 0;
-  } 
+  
+ 
 `
 
 export const ClubListHead = styled.p`
   ${DodamTypography.Heading1.Bold}
-  width: fit-content;
+  width: 100%;
 `
 
 export const ClubItemContainer = styled.div`

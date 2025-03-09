@@ -22,6 +22,8 @@ export const useCreateClubMutation = () => {
     onError: (error : ClubErrorResponse) => {
       if(error.code == '400'){
         B1ndToast.showError(`error_${error.message} : 이름이 중복됩니다.`)
+      }else if(error.code == '403'){
+        B1ndToast.showError(`error_${error.message} : 개설 기간이 아닙니다.`)
       }else{
         B1ndToast.showError(`error_${error.message} : 서버 오류`)
       }
