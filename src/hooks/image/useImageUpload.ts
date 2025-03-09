@@ -1,48 +1,53 @@
-import { useState, useEffect } from "react";
-import { useQueryClient } from "react-query";
-import { usePostImage } from "src/queries/image/image.query";
+import { useState, useEffect, useCallback } from 'react'
+import { useQueryClient } from 'react-query'
+import { usePostImage } from 'src/queries/image/image.query'
 
 interface UseImageUploadReturn {
-  imageFile: File | null;
-  previewUrl: string;
-  setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
-  handleImageChange: (file: File | null) => void;
-  resetImage: () => void;
+  imageFile: File | null
+  previewUrl: string
+  setPreviewUrl: React.Dispatch<React.SetStateAction<string>>
+  handleImageChange: (file: File | null) => void
+  resetImage: () => void
 }
 
-export const useImageUpload = () : UseImageUploadReturn => {
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string>('');
+export const useImageUpload = (): UseImageUploadReturn => {
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string>('')
 
-  const postImageMutation = usePostImage();
+  const postImageMutation = usePostImage()
   const queryClient = useQueryClient()
+
+  const uploadImageAndPreview = useCallback(
+    async (formData: FormData) => {
+      postImageMutation.mutate(formData)
+    },
+    [postImageMutation]
+  )
 
   useEffect(() => {
     if (imageFile) {
-      const formData = new FormData
+      const formData = new FormData()
       formData.append('file', imageFile)
       uploadImageAndPreview(formData)
     }
-  }, [imageFile]);
-
-  const uploadImageAndPreview = async (formData: FormData) => {
-    postImageMutation.mutate(formData)
-  };
+  }, [imageFile, uploadImageAndPreview])
 
   const handleImageChange = (file: File | null) => {
-    setImageFile(file);
-  };
+    setImageFile(file)
+  }
 
   const resetImage = () => {
-    setImageFile(null);
-    setPreviewUrl('');
-  };
+    setImageFile(null)
+    setPreviewUrl('')
+  }
+
+  const imageData = queryClient.getQueryData(['image'])
 
   useEffect(() => {
-    if(queryClient.getQueryData(["image"])){
-      setPreviewUrl(queryClient.getQueryData(["image"])!)
+    if (imageData) {
+      setPreviewUrl(imageData as string)
     }
-  }, [queryClient.getQueryData(["image"])])
+  }, [imageData])
 
   return {
     imageFile,
@@ -50,5 +55,5 @@ export const useImageUpload = () : UseImageUploadReturn => {
     setPreviewUrl,
     handleImageChange,
     resetImage,
-  };
-};
+  }
+}

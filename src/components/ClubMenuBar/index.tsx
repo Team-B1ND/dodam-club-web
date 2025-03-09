@@ -1,14 +1,18 @@
 import { DodamFilledButton, DodamModal } from '@b1nd/dds-web'
 import ClubMenu from './ClubMenu'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import ClubMemberManager from '@components/ClubMemberManager'
+import { useGetTime } from 'src/queries/time/time.query'
+import ClubMemberManager from 'src/components/ClubMemberManager'
 import { useState } from 'react'
 import { useGetMyClubApplyQuery } from 'src/queries/useClub'
 import { EClub } from 'src/enum/club/club.enum'
 import { useClubTime } from 'src/hooks/club/useClubTime'
 
 const ClubMenuBar = () => {
+  const navigate = useNavigate();
+
+  const { data:timeData, isLoading } = useGetTime();
   const { data: myClub, isLoading: clubIsLoading } = useGetMyClubApplyQuery()
   const { timeData, timeIsLoading, today } = useClubTime()
 
@@ -19,14 +23,14 @@ const ClubMenuBar = () => {
   timeData!.applicantStart < today
   ? (
     <ClubMenubarContainer>
-      <Link to={'/create'}>
         <DodamFilledButton
           size={"Large"}
           text="동아리 개설 신청하기"
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
+          onClick={()=>navigate("/create")}
         />
-      </Link>
+      
       <ClubMenu name="소속된 동아리" type="MyClub" time={timeData!}/>
       <ClubMenu name="내 개설 신청" type="LeaderApply" time={timeData!}/>
       <ClubMenu name="받은 부원 제안" type="Request" time={timeData!}/>
@@ -34,14 +38,15 @@ const ClubMenuBar = () => {
   )
   : (
     <ClubMenubarContainer>
-      <Link to={'/register'}>
+      
         <DodamFilledButton
           size={"Large"}
           text="동아리 입부 신청하기"
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
+          onClick={()=>navigate('/register')}
         />
-      </Link>
+      
       <ClubMenu name="소속된 동아리" type="MyClub" time={timeData!}/>
       <ClubMenu name="내 신청" type="StudentApply" time={timeData!}/>
       {(myClub!.filter((item) => item.type === EClub.SELF_DIRECT_CLUB).length > 0)
@@ -72,6 +77,7 @@ const ClubMenubarContainer = styled.div`
   width: 14vw;
   gap: 16px;
   overflow-y: scroll;
-  padding: 58px 0;
+  padding: 58px 32px 0 0 ;
   white-space: nowrap;
+  
 `

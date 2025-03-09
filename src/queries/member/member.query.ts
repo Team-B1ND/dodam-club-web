@@ -56,4 +56,3 @@ export const useGetClubJoinRequestsMemberQuery = (
     cacheTime: 1000 * 60 * 10,
     ...options,
   });
-

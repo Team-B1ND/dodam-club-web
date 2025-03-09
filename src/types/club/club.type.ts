@@ -95,4 +95,5 @@ export interface ClubMenuItemStudentProps {
   value: StudentApplyResponse[]
   type: "StudentApply"
 }
+
 export type ClubDetailType = "MODAL" | "PAGE";
