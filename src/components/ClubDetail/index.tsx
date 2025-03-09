@@ -154,7 +154,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             )}
 
             <S.ClubDetailMainContainer>
-              <S.ClubDeatilMemberList>
+              <S.ClubDetailMemberList>
                 부원
                 {clubMemberData!.students.map((item) => (
                   <MemberItem
@@ -163,7 +163,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                     key={item.id}
                   />
                 ))}
-              </S.ClubDeatilMemberList>
+              </S.ClubDetailMemberList>
               <S.ClubDetailDescription>
                 설명
                 <S.ClubDetailMarkDownViewer>

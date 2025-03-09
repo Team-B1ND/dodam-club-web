@@ -74,10 +74,11 @@ export const ClubDetailMainContainer = styled.div`
   height: fit-content;
 `
 
-export const ClubDeatilMemberList = styled.div`
+export const ClubDetailMemberList = styled.div`
   display: flex;
   flex-direction: column;
   width: 200px;
+  min-width: 200px;
   color: ${({ theme }) => theme.labelAlternative};
   ${DodamTypography.Body2.Bold}
   height: fit-content;
