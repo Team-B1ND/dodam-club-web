@@ -7,18 +7,19 @@ import ClubMemberManager from 'src/components/ClubMemberManager'
 import { useState } from 'react'
 import { useGetMyClubApplyQuery } from 'src/queries/useClub'
 import { EClub } from 'src/enum/club/club.enum'
-import { useClubTime } from 'src/hooks/club/useClubTime'
 
 const ClubMenuBar = () => {
   const navigate = useNavigate();
-  const { data: myClub, isLoading: clubIsLoading } = useGetMyClubApplyQuery()
-  const { timeData, timeIsLoading, today } = useClubTime()
 
+  const { data:timeData, isLoading } = useGetTime();
+  const { data: myClub, isLoading: clubIsLoading } = useGetMyClubApplyQuery()
+  const date = new Date
+  const today = date.toLocaleDateString().replace(/. /g, '-0').replace('.', '')
   const [ isOpen, setIsOpen ] = useState(false);
   const handleOpen = () => setIsOpen((prev) => !prev)
 
-  return (timeIsLoading || clubIsLoading) ||
-  timeData!.applicantStart < today
+  return (isLoading || clubIsLoading) ||
+  timeData!.createEnd < today
   ? (
     <ClubMenubarContainer>
         <DodamFilledButton
@@ -26,6 +27,7 @@ const ClubMenuBar = () => {
           text="동아리 개설 신청하기"
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
+          customStyle={{minWidth:"50px"}}
           onClick={()=>navigate("/create")}
         />
       
@@ -42,6 +44,7 @@ const ClubMenuBar = () => {
           text="동아리 입부 신청하기"
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
+          customStyle={{minWidth:'180px'}}
           onClick={()=>navigate('/register')}
         />
       
@@ -55,13 +58,14 @@ const ClubMenuBar = () => {
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
           onClick={handleOpen}
+          customStyle={{minWidth:'180px'}}
         />
       )}
       <DodamModal
         isOpen={isOpen}
         background={true}
       >
-        <ClubMemberManager close={handleOpen} myClub={myClub!} isLoading={timeIsLoading}/>
+        <ClubMemberManager close={handleOpen} myClub={myClub!} isLoading={isLoading}/>
       </DodamModal>
     </ClubMenubarContainer>
   )
@@ -71,11 +75,8 @@ export default ClubMenuBar
 
 const ClubMenubarContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
-  width: 14vw;
   gap: 16px;
-  overflow-y: scroll;
-  padding: 58px 32px 0 0 ;
-  white-space: nowrap;
-  overflow-x: hidden;
+  white-space: nowrap; 
 `
