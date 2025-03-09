@@ -2,7 +2,6 @@ import { Dialog, DodamDialog, DodamFilledButton, DodamModal } from '@b1nd/dds-we
 import ClubMenu from './ClubMenu'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { useGetTime } from 'src/queries/time/time.query'
 import ClubMemberManager from 'src/components/ClubMemberManager'
 import { useState } from 'react'
 import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery } from 'src/queries/useClub'
@@ -19,8 +18,8 @@ const ClubMenuBar = () => {
   const [ isOpen, setIsOpen ] = useState(false);
   const handleOpen = () => setIsOpen((prev) => !prev)
 
-  return (timeIsLoading || clubIsLoading || joinedIsLoading) ||
-  timeData!.createEnd < today
+  return (timeIsLoading || clubIsLoading) ||
+  (timeData!.createStart <= today && today <= timeData!.createEnd)
   ? (
     <ClubMenubarContainer>
         <DodamFilledButton
