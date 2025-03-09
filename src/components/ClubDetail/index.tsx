@@ -112,8 +112,8 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             </S.ClubDetailHeader>
             {clubMemberData!.isLeader && (
               <S.ClubDetailMenu>
-                {timeData!.createEnd >= today &&
-                  timeData!.applicantStart <= today && (
+                {timeData!.createStart <= today &&
+                  today <= timeData!.createEnd && (
                     <S.ClubDetailMenuInfoAndButton>
                       동아리 개설
                       <S.ClubDetailMenuButton>
