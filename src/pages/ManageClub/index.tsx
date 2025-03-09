@@ -147,6 +147,7 @@ const ManageClubPage = () => {
               }
               value={fields.name.value}
               onChange={fields.name.onChange}
+              onRemoveClick={() => setValue('name', '')}
             />
 
             <S.CreateClubCustomInputContainer
@@ -198,6 +199,7 @@ const ManageClubPage = () => {
               }
               value={fields.subject.value}
               onChange={fields.subject.onChange}
+              onRemoveClick={() => setValue('subject', '')}
             />
 
             <DodamFilledTextField
@@ -212,6 +214,7 @@ const ManageClubPage = () => {
               }
               value={fields.shortDescription.value}
               onChange={fields.shortDescription.onChange}
+              onRemoveClick={() => setValue('shortDescription', '')}
             />
 
             <S.CreateClubCustomInputDivider>
