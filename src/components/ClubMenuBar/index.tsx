@@ -39,7 +39,7 @@ const ClubMenuBar = () => {
   )
   : (
     <ClubMenubarContainer>
-      {/* {timeData!.applicantEnd < today && ( */}
+      {timeData!.applicantEnd < today && (
         <>
           <DodamFilledButton
             size={"Large"}
@@ -63,7 +63,7 @@ const ClubMenuBar = () => {
             />
           </DodamModal>
         </>
-      {/* )} */}
+      )}
         <DodamFilledButton
           size={"Large"}
           text="동아리 입부 신청하기"
