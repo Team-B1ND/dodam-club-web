@@ -99,7 +99,7 @@ const ManageClubPage = () => {
 
   useEffect(() => {
     reset(clubDatail)
-  }, [clubDatail, handlers, setPreviewUrl, reset])
+  }, [clubDatail, reset])
   return (
     <S.CreateClubPaddingContainer>
       <S.CreateClubContainer data-color-mode={currentTheme.toLowerCase()}>
