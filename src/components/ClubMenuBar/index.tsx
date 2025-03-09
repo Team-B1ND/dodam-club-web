@@ -89,7 +89,7 @@ const ClubMenuBar = () => {
         isOpen={isOpen}
         background={true}
       >
-        <ClubMemberManager close={handleOpen} myClub={myClub!} isLoading={isLoading}/>
+        <ClubMemberManager close={handleOpen} myClub={myClub!} isLoading={clubIsLoading}/>
       </DodamModal>
     </ClubMenubarContainer>
   )
