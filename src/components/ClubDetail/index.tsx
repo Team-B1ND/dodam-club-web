@@ -164,7 +164,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
               <S.ClubDetailDescription>
                 설명
                 <S.ClubDetailMarkDownViewer>
-                  <MDEditor.Markdown
+                  <S.MarkDownViewer
                     source={clubData!.description}
                     style={{ backgroundColor: `${theme.backgroundNormal}` }}
                   />

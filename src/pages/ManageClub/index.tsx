@@ -65,7 +65,7 @@ const ManageClubPage = () => {
 
   const {
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isValid },
     watch,
     setValue,
     getValues,
@@ -90,12 +90,12 @@ const ManageClubPage = () => {
   }, [typeWatch])
 
   useEffect(() => {
-    if (clubDatail?.image) {
-      setPreviewUrl(clubDatail.image)
+    if (clubDatail) {
+      setPreviewUrl(clubDatail?.image)
     } else {
       handlers.updateImage(previewUrl)
     }
-  }, [previewUrl])
+  }, [previewUrl, clubDatail])
 
   useEffect(() => {
     reset(clubDatail)
@@ -104,6 +104,7 @@ const ManageClubPage = () => {
   useEffect(() => {
     clearErrors('studentIds')
   }, [idWatch])
+
   return (
     <S.CreateClubPaddingContainer>
       <S.CreateClubContainer data-color-mode={currentTheme.toLowerCase()}>
@@ -119,24 +120,24 @@ const ManageClubPage = () => {
           <S.CreateClubForm
             onSubmit={handleSubmit(
               (data) => {
-                if(data.type === EClub.SELF_DIRECT_CLUB && data.studentIds.length < 9){
-                  setError('studentIds', { 
-                    type: 'selfDirectClub', 
-                    message: '자율동아리는 10명 이상의 인원이 개설 가능합니다. ( 자신 포함 )' 
-                  })
-                }else if(data.type === EClub.CREATIVE_CLUB && data.studentIds.length < 4){
-                  setError('studentIds', { 
-                    type: 'creativeClub', 
-                    message: '창체동아리는 5명 이상, 18명 이하의 인원으로만 개설 가능합니다. ( 자신 포함 )' 
-                  });
-                }else{
-                  if (clubDatail) {
-                    const { type, studentIds, state, ...patchData } = data
+                if(clubDatail) {
+                  const { type, studentIds, state, ...patchData } = data
                     patchClubMutation.mutate({
                       data: patchData,
                       id: clubDatail.id,
                     })
-                  } else {
+                }else{
+                  if(data.type === EClub.SELF_DIRECT_CLUB && data.studentIds.length < 9){
+                    setError('studentIds', { 
+                      type: 'selfDirectClub', 
+                      message: '자율동아리는 10명 이상의 인원이 개설 가능합니다. ( 자신 포함 )' 
+                    })
+                  }else if(data.type === EClub.CREATIVE_CLUB && data.studentIds.length < 4){
+                    setError('studentIds', { 
+                      type: 'creativeClub', 
+                      message: '창체동아리는 5명 이상, 18명 이하의 인원으로만 개설 가능합니다. ( 자신 포함 )' 
+                    });
+                  }else{
                     createClubMutation.mutate(data)
                   }
                 }
@@ -185,11 +186,14 @@ const ManageClubPage = () => {
                 disabled={!!clubId}
               >
                 <option value={EClub.SELF_DIRECT_CLUB}>자율 동아리</option>
-                {clubApplyData!.filter(
-                  (item) => item.type === EClub.CREATIVE_CLUB
-                ).length === 1 || (
+                {(clubDatail
+                ? (
                   <option value={EClub.CREATIVE_CLUB}>창체 동아리</option>
-                )}
+                )
+                : clubApplyData!.filter((item) => item.type === EClub.CREATIVE_CLUB).length === 1) || (
+                  <option value={EClub.CREATIVE_CLUB}>창체 동아리</option>
+                )
+                }
               </S.CreateClubTypeSelect>
               {fieldStates.typeState.error
                 ? fieldStates.typeState.error.message

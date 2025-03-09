@@ -1,4 +1,5 @@
 import { DodamColor, DodamShape, DodamTypography } from "@b1nd/dds-web";
+import MDEditor from "@uiw/react-md-editor";
 import { Link } from "react-router-dom";
 import { ClubDetailType } from "src/types/club/club.type";
 import styled from "styled-components";
@@ -78,6 +79,7 @@ export const ClubDeatilMemberList = styled.div`
   display: flex;
   flex-direction: column;
   width: 200px;
+  min-width: 200px;
   color: ${({ theme }) => theme.labelAlternative};
   ${DodamTypography.Body2.Bold}
   height: fit-content;
@@ -128,4 +130,17 @@ export const ClubDetailEditButton = styled(Link)`
   border: none;
   background-color: ${DodamColor.blue50};
   cursor: pointer;
+`
+
+export const MarkDownViewer = styled(MDEditor.Markdown)`
+  background-color: ${({ theme }) => theme.backgroundNormal};
+  & * {
+    color: ${({ theme }) => theme.labelNormal};
+  }
+  & pre {
+    background-color: ${({ theme }) => theme.labelStrong};
+  }
+  & span {
+    color: ${({ theme }) => theme.labelDisabled};
+  }
 `
