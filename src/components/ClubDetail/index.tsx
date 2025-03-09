@@ -106,7 +106,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 부장 :&nbsp;
                 {leaderData!.grade}
                 {leaderData!.room}
-                {leaderData!.number}
+                {leaderData!.number < 10 ? `0${leaderData!.number}` : leaderData?.number!}
                 {leaderData!.name}
               </p>
             </S.ClubDetailHeader>

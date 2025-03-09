@@ -52,6 +52,7 @@ const ClubList = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                textDecoration: 'none'
               }}
             >
               <ClubItem value={item} />

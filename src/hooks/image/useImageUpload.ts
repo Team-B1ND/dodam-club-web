@@ -30,7 +30,8 @@ export const useImageUpload = (): UseImageUploadReturn => {
       formData.append('file', imageFile)
       uploadImageAndPreview(formData)
     }
-  }, [imageFile, uploadImageAndPreview])
+    console.log('what')
+  }, [imageFile])
 
   const handleImageChange = (file: File | null) => {
     setImageFile(file)

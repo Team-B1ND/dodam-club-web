@@ -95,7 +95,7 @@ const ManageClubPage = () => {
     } else {
       handlers.updateImage(previewUrl)
     }
-  }, [previewUrl, clubDatail, reset, handlers, setPreviewUrl])
+  }, [previewUrl])
 
   useEffect(() => {
     reset(clubDatail)
