@@ -84,7 +84,7 @@ const ManageClubPage = () => {
   })
 
   const typeWatch = watch('type')
-
+  const idWatch = watch('studentIds')
   useEffect(() => {
     setIsSelf((prev) => !prev)
   }, [typeWatch])
@@ -100,6 +100,10 @@ const ManageClubPage = () => {
   useEffect(() => {
     reset(clubDatail)
   }, [clubDatail, reset])
+
+  useEffect(() => {
+    clearErrors('studentIds')
+  }, [idWatch])
   return (
     <S.CreateClubPaddingContainer>
       <S.CreateClubContainer data-color-mode={currentTheme.toLowerCase()}>

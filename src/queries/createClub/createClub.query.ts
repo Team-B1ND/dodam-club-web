@@ -12,6 +12,7 @@ export const useCreateClubQuery = () => {
       clubApi.postClub(data),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: [QUERY_KEYS.clubs.getAll, QUERY_KEYS.clubApply.postClubApply]})
+      window.location.replace('/club');
     },
     onError: (error : ClubErrorResponse) => {
       B1ndToast.showError(`error! ${error.message} : 이름이 중복됩니다.`)
