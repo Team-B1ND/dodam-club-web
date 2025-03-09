@@ -10,15 +10,15 @@ import { useClubTime } from 'src/hooks/club/useClubTime'
 
 const ClubMenuBar = () => {
   const navigate = useNavigate();
-  const { data: myClub, isLoading: clubIsLoading } = useGetMyClubApplyQuery()
   const { timeData, timeIsLoading, today } = useClubTime();
+  const { data: myClub, isLoading: clubIsLoading } = useGetMyClubApplyQuery()
   const { data: joinedClub, isLoading:joinedIsLoading } = useGetMyJoinedClubQuery()
 
   const [ resultIsOpen, setResultIsOpen ] = useState(false);
   const [ isOpen, setIsOpen ] = useState(false);
   const handleOpen = () => setIsOpen((prev) => !prev)
 
-  return (timeIsLoading || clubIsLoading) ||
+  return (timeIsLoading || clubIsLoading || joinedIsLoading) ||
   (timeData!.createStart <= today && today <= timeData!.createEnd)
   ? (
     <ClubMenubarContainer>

@@ -124,10 +124,10 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                           width={100}
                           textTheme='staticWhite'
                           enabled={
-                            (clubData?.type === EClub.CREATIVE_CLUB ? 5 : 10) <
+                            ((clubData?.type === EClub.CREATIVE_CLUB ? 5 : 10) <
                             clubMemberData!.students.filter(
                               (item) => item.status === EClubState.ALLOWED
-                            ).length
+                            ).length) && (clubData?.state === EClubState.WAITING)
                           }
                           onClick={() =>
                             postClubApplyMutation.mutate(clubData!.id)
