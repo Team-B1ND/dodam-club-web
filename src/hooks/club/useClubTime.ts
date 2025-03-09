@@ -1,12 +1,13 @@
-import { useGetTime } from 'src/queries/time/time.query';
+import { useGetTime } from 'src/queries/time/time.query'
+import dayjs from 'dayjs'
 
 export const useClubTime = () => {
-  const { data:timeData, isLoading:timeIsLoading } = useGetTime();
-  const date = new Date
-  const today = date.toLocaleDateString().replace(/. /g, '-0').replace('.', '')
+  const { data: timeData, isLoading: timeIsLoading } = useGetTime()
+
+  const today = dayjs().format('YYYY-MM-DD')
   return {
     timeData,
     timeIsLoading,
-    today
+    today,
   }
 }
