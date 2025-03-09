@@ -21,7 +21,8 @@ const ManagerMemberList = ({
     isLoading: clubMemberIsLoading,
     isFetching,
     refetch,
-  } = useGetClubJoinRequestsMemberQuery(id ?? 7, { enabled: !id })
+  } = useGetClubJoinRequestsMemberQuery(id ?? 1, { enabled: !id })
+  
   const postMemberStatusMutation = usePostMemberStatusMutation()
 
   const handleMemberSelect = (id: number) => {

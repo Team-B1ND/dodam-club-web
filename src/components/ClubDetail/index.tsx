@@ -45,10 +45,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { data: clubMemberData, isLoading: clubMemberIsLoading, isFetching } =
     useGetClubMemberQuery(type === "MODAL" ? modalId : +id!);
 
-  const { data: timeData, isLoading: timeIsLoading } = useGetTime()
-
-  const date = new Date
-  const today = date.toLocaleDateString().replace(/. /g, '-0').replace('.', '')
+  const { timeData, timeIsLoading, today } = useClubTime()
 
   return (
     <S.ClubDetail>
@@ -82,7 +79,8 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 </S.ClubDetailHeaderSubject>
                 <S.ClubDetailHeaderName>
                   {clubData!.name}
-                  {clubData!.state === EClubState.ALLOWED
+                  {timeData!.applicantStart < today
+                  && clubData!.state === EClubState.ALLOWED
                   ? (
                     <CheckmarkCircleFilled
                       size={28}
@@ -113,7 +111,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             {clubMemberData?.isLeader
             && (
               <S.ClubDetailMenu>
-                {timeData!.createEnd == today
+                {timeData!.createEnd > today
                   && (                    
                   <S.ClubDetailMenuInfoAndButton>
                     동아리 개설
@@ -125,7 +123,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                         width={100}
                         textTheme="staticWhite"
                         enabled={
-                          clubMemberData?.students.length ==
+                          (clubData?.type === EClub.CREATIVE_CLUB ? 5 : 10 ) <
                           clubMemberData?.students.filter(
                             (item) => item.status === EClubState.ALLOWED
                           ).length

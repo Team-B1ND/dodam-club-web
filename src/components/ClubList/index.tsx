@@ -8,10 +8,11 @@ import { Link } from "react-router-dom";
 import { useGetClubsQuery } from "src/queries/useClub";
 import ClubItemSkeleton from "src/components/Common/ClubItemSkeleton";
 
+
 const ClubList = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
-
   const {data:clubData, isLoading, isFetching} = useGetClubsQuery();
+  const { timeData, timeIsLoading, today } = useClubTime()
 
   const changePage = () => {
     setIsCreativeClubPage(prev=>!prev)
