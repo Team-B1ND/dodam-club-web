@@ -104,4 +104,7 @@ const ClubMenubarContainer = styled.div`
   flex-direction: column;
   gap: 16px;
   white-space: nowrap; 
+  & a {
+    text-decoration: none;
+  }
 `
