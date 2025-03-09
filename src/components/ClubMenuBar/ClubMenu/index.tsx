@@ -71,7 +71,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
             <p>아직 동아리 개설을</p>
             <p>신청하지 않았어요!</p>
             <S.ClubCreatePeriod>
-              신청 마감 : {time.createEnd.replace(/-/g,'.')}
+              신청 마감 : {time?.createEnd.replace(/-/g,'.')}
             </S.ClubCreatePeriod>
           </S.MyClubIsNone>
         )
