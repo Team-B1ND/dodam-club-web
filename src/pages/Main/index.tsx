@@ -1,5 +1,5 @@
-import ClubList from "@components/ClubList";
-import ClubMenuBar from "@components/ClubMenuBar";
+import ClubList from "src/components/ClubList";
+import ClubMenuBar from "src/components/ClubMenuBar";
 
 const MainPage = () => {
 

@@ -12,7 +12,7 @@ import {
   XmarkCircle,
 } from "@b1nd/dds-web";
 import MDEditor from "@uiw/react-md-editor";
-import ClubDetailSkeleton from "@components/Common/ClubDetailSkeleton";
+import ClubDetailSkeleton from "src/components/Common/ClubDetailSkeleton";
 import {
   useGetClubLeaderQuery,
   useGetClubMemberQuery,
@@ -22,7 +22,7 @@ import { useTheme } from "styled-components";
 import { ClubDetailType } from "src/types/club/club.type";
 import { useGetClubDetailQuery } from "src/queries/useClub";
 import { useGetTime } from "src/queries/time/time.query";
-import MemberItem from "@components/MemberItem";
+import MemberItem from "src/components/MemberItem";
 interface ClubDetailProps {
   type: ClubDetailType;
   modalId?: number;

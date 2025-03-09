@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ManageClubPage from 'src/pages/ManageClub';
 import MainPage from 'src/pages/Main';
 import RegisterPage from 'src/pages/RegisterPage';
-import ClubDetail from '@components/ClubDetail';
+import ClubDetail from 'src/components/ClubDetail';
 
 const Router = () => {
   return (

@@ -6,7 +6,7 @@ import { ClubResponse } from "src/types/club/club.type";
 import { EClub } from "src/enum/club/club.enum";
 import { Link } from "react-router-dom";
 import { useGetClubsQuery } from "src/queries/useClub";
-import ClubItemSkeleton from "@components/Common/ClubItemSkeleton";
+import ClubItemSkeleton from "src/components/Common/ClubItemSkeleton";
 
 const ClubList = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);

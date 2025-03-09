@@ -4,7 +4,7 @@ import { ClubMenuProps} from 'src/types/club/club.type';
 import { EClub } from 'src/enum/club/club.enum';
 import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery, useGetStudentApplyQuery } from 'src/queries/useClub';
 import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/joinRequest.query';
-import ClubMenuSkeleton from '@components/Common/ClubMenuSkeleton';
+import ClubMenuSkeleton from 'src/components/Common/ClubMenuSkeleton';
 
 const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
   const { data: myClubApply, isLoading: applyIsLoading } = useGetMyClubApplyQuery()

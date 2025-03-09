@@ -23,7 +23,7 @@ import {
   useGetMyClubApplyQuery,
 } from 'src/queries/useClub'
 import { useGetAllMemberQuery } from 'src/queries/member/member.query'
-import CreateClubSkeleton from '@components/Common/CreateClubSkeleton'
+import CreateClubSkeleton from 'src/components/Common/CreateClubSkeleton'
 
 const ManageClubPage = () => {
   const theme = useTheme()
@@ -115,7 +115,6 @@ const ManageClubPage = () => {
             onSubmit={handleSubmit(
               (data) => {
                 if (clubDatail) {
-                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   const { type, studentIds, state, ...patchData } = data
                   patchClubMutation.mutate({
                     data: patchData,

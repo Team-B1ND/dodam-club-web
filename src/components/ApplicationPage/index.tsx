@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style';
-import megaphoneIcon from '../../assets/megaphone.svg';
+import megaphoneIcon from 'src/assets/megaphone.svg';
 import { useGetClubsQuery } from 'src/queries/useClub';
 import clubApi from 'src/api/Club/club.api';
 import { ChevronLeft, DodamSegmentedButton, DodamTheme } from "@b1nd/dds-web";

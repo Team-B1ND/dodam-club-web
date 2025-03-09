@@ -1,10 +1,9 @@
-import './App.css';
 import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query'
-import Router from '@components/Router/router';
-import ThemeProviderContainer from '@components/Common/ThemeProviderContainer';
+import Router from 'src/components/Router/router';
+import ThemeProviderContainer from 'src/components/Common/ThemeProviderContainer';
 import { RecoilRoot } from 'recoil';
 import { B1ndToastContainer } from '@b1nd/b1nd-toastify';
 
