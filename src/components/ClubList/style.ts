@@ -4,7 +4,7 @@ import { DodamShape, DodamTypography, } from "@b1nd/dds-web";
 export const ClubListContainer = styled.div`
   flex-grow: 1;
   width: fit-content;
-  margin: 58px 0;
+  height: 100%;
   ${DodamShape.Large};
   display: flex;
   flex-direction: column;
@@ -29,10 +29,13 @@ export const ClubItemContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  height: 100%;
+  height: 600px;
   gap: 16px;
+  overflow: hidden;
   overflow-y: scroll;
-
+  &::-webkit-scrollbar {
+    display: none;
+  }
   @media only screen and (max-width: 1250px){
     grid-template-columns: repeat(3, 1fr);
   } 

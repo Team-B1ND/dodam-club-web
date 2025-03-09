@@ -7,7 +7,8 @@ export const ClubDetail = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 58px 0;
+  width: 100%;
+  padding: 58px 32px 58px 0;
   flex-grow: 1;
 `
 

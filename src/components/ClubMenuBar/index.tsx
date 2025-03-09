@@ -27,7 +27,6 @@ const ClubMenuBar = () => {
           text="동아리 개설 신청하기"
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
-          customStyle={{minWidth:'180px'}}
           onClick={()=>navigate("/create")}
         />
       
@@ -78,6 +77,7 @@ const ClubMenubarContainer = styled.div`
   flex-direction: column;
   gap: 16px;
   overflow-y: scroll;
-  padding: 58px 0;
+  padding: 58px 32px 0 0 ;
   white-space: nowrap;
+  
 `

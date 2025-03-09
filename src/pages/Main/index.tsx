@@ -1,12 +1,17 @@
 import ClubList from "src/components/ClubList";
 import ClubMenuBar from "src/components/ClubMenuBar";
+import { ClubDataBox,ClubSidebar } from "./style";
 
 const MainPage = () => {
 
   return (
     <>
-      <ClubList />
-      <ClubMenuBar />
+      <ClubDataBox>
+        <ClubList />
+      </ClubDataBox>
+      <ClubSidebar>
+        <ClubMenuBar />
+      </ClubSidebar>
     </>
   );
 };

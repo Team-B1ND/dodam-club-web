@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { hexToRgba } from '@b1nd/dds-web';
 
 export const CreateClubPaddingContainer = styled.div`
-  padding: 58px 0;
+  width: 100%;
+  padding: 58px 32px 58px 0;
   flex-grow: 1;
 `
 export const CreateClubContainer = styled.div`

@@ -10,7 +10,7 @@ import { themeModeAtom } from 'src/store/theme/themeStore'
 import { useImageUpload } from 'src/hooks/image/useImageUpload'
 import imagePreviewAlt from 'src/assets/imagePreviewAlt.png'
 import MemberItem from 'src/components/MemberItem'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useClubForm from 'src/hooks/club/useClubForm'
 import { useTheme } from 'styled-components'
 import { B1ndToast } from '@b1nd/b1nd-toastify'
@@ -26,6 +26,7 @@ import { useGetAllMemberQuery } from 'src/queries/member/member.query'
 import CreateClubSkeleton from 'src/components/Common/CreateClubSkeleton'
 
 const ManageClubPage = () => {
+  const navigate = useNavigate();
   const theme = useTheme()
   const currentTheme = useRecoilValue(themeModeAtom)
   const { clubId } = useParams()
@@ -102,9 +103,9 @@ const ManageClubPage = () => {
   return (
     <S.CreateClubPaddingContainer>
       <S.CreateClubContainer data-color-mode={currentTheme.toLowerCase()}>
-        <Link to={'/'} style={{ display: 'flex', width: '24px' }}>
+        <div onClick={()=>navigate('/')} style={{ display: 'flex', width: '24px' }}>
           <Close $svgStyle={{ cursor: 'pointer' }} color={theme.labelNormal} />
-        </Link>
+        </div>
         <S.CreateClubHeader>
           {!clubId ? '동아리 개설' : '동아리 정보 수정'}
         </S.CreateClubHeader>
