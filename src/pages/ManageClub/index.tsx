@@ -169,7 +169,7 @@ const ManageClubPage = () => {
             <S.CreateClubCustomInputContainer
               $isError={fieldStates.typeState.error !== undefined}
               $isDisabled={
-                !clubId || clubDatail?.state !== EClubState.ALLOWED
+                !(!clubId || clubDatail?.state !== EClubState.ALLOWED)
                   ? false
                   : true
               }
