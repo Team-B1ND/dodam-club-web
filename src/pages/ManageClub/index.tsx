@@ -91,7 +91,7 @@ const ManageClubPage = () => {
   }, [typeWatch])
 
   useEffect(() => {
-    if (clubDatail) {
+    if (clubDatail && previewUrl == '') {
       setPreviewUrl(clubDatail?.image)
     } else {
       handlers.updateImage(previewUrl)

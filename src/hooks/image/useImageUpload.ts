@@ -15,13 +15,13 @@ export const useImageUpload = (): UseImageUploadReturn => {
   const [previewUrl, setPreviewUrl] = useState<string>('')
 
   const postImageMutation = usePostImage()
-  const queryClient = useQueryClient()
 
   const uploadImageAndPreview = useCallback(
     async (formData: FormData) => {
       postImageMutation.mutate(formData, {
         onSuccess: (data) => {
           setPreviewUrl(data)
+          console.log('what')
         }
       })
     },
@@ -34,7 +34,6 @@ export const useImageUpload = (): UseImageUploadReturn => {
       formData.append('file', imageFile)
       uploadImageAndPreview(formData)
     }
-    console.log('what')
   }, [imageFile])
 
   const handleImageChange = (file: File | null) => {
