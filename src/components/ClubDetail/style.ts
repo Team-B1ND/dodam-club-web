@@ -75,7 +75,7 @@ export const ClubDetailMainContainer = styled.div`
   height: fit-content;
 `
 
-export const ClubDeatilMemberList = styled.div`
+export const ClubDetailMemberList = styled.div`
   display: flex;
   flex-direction: column;
   width: 200px;

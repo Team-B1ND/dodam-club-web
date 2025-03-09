@@ -26,7 +26,7 @@ import { useGetAllMemberQuery } from 'src/queries/member/member.query'
 import CreateClubSkeleton from 'src/components/Common/CreateClubSkeleton'
 
 const ManageClubPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const theme = useTheme()
   const currentTheme = useRecoilValue(themeModeAtom)
   const { clubId } = useParams()
@@ -85,6 +85,7 @@ const ManageClubPage = () => {
 
   const typeWatch = watch('type')
   const idWatch = watch('studentIds')
+
   useEffect(() => {
     setIsSelf((prev) => !prev)
   }, [typeWatch])
@@ -105,10 +106,19 @@ const ManageClubPage = () => {
     clearErrors('studentIds')
   }, [idWatch])
 
+  // 필터링된 멤버 리스트
+  const filteredMembers = allMember?.filter((item) => {
+    // 동아리 유형에 따라 필터링
+    if (typeWatch === EClub.CREATIVE_CLUB) {
+      return item.grade === 2 // 2학년 학생만
+    }
+    return true // 자율 동아리인 경우 전체 학생
+  })
+
   return (
     <S.CreateClubPaddingContainer>
       <S.CreateClubContainer data-color-mode={currentTheme.toLowerCase()}>
-        <div onClick={()=>navigate('/')} style={{ display: 'flex', width: '24px' }}>
+        <div onClick={() => navigate('/')} style={{ display: 'flex', width: '24px' }}>
           <Close $svgStyle={{ cursor: 'pointer' }} color={theme.labelNormal} />
         </div>
         <S.CreateClubHeader>
@@ -170,7 +180,7 @@ const ManageClubPage = () => {
             <S.CreateClubCustomInputContainer
               $isError={fieldStates.typeState.error !== undefined}
               $isDisabled={
-                !clubId || clubDatail?.state !== EClubState.ALLOWED
+                !(!clubId || clubDatail?.state !== EClubState.ALLOWED)
                   ? false
                   : true
               }
@@ -288,6 +298,7 @@ const ManageClubPage = () => {
                 ? fieldStates.descriptionState.error.message
                 : '후에 지원자와 선생님이 보게 될 동아리의 설명 / 홍보글을 작성해주세요. 마크다운 문법을 사용 가능합니다.'}
             </S.CreateClubCustomInputContainer>
+
             {!clubId && (
               <S.CreateClubCustomInputContainer
                 $isError={fieldStates.studentIdsState.error !== undefined}
@@ -307,7 +318,7 @@ const ManageClubPage = () => {
                       placeholder='이름으로 검색'
                     />
                     <S.CreateClubMemberList>
-                      {allMember!
+                      {filteredMembers!
                         .filter(
                           (item) =>
                             fields.studentIds.value.indexOf(item.id) === -1
@@ -349,9 +360,7 @@ const ManageClubPage = () => {
               </S.CreateClubCustomInputContainer>
             )}
 
-            <S.CreateClubSubmit
-              type='submit'
-            >
+            <S.CreateClubSubmit type='submit'>
               <DodamFilledButton
                 size='Medium'
                 text={!clubId ? '개설 완료하기' : '수정 완료하기'}

@@ -19,7 +19,11 @@ export const useImageUpload = (): UseImageUploadReturn => {
 
   const uploadImageAndPreview = useCallback(
     async (formData: FormData) => {
-      postImageMutation.mutate(formData)
+      postImageMutation.mutate(formData, {
+        onSuccess: (data) => {
+          setPreviewUrl(data)
+        }
+      })
     },
     [postImageMutation]
   )
@@ -42,13 +46,6 @@ export const useImageUpload = (): UseImageUploadReturn => {
     setPreviewUrl('')
   }
 
-  const imageData = queryClient.getQueryData(['image'])
-
-  useEffect(() => {
-    if (imageData) {
-      setPreviewUrl(imageData as string)
-    }
-  }, [imageData])
 
   return {
     imageFile,

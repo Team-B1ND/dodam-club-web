@@ -1,6 +1,6 @@
-import { DodamShape, DodamTypography } from "@b1nd/dds-web";
-import styled from "styled-components";
-import { hexToRgba } from '@b1nd/dds-web';
+import { DodamShape, DodamTypography } from '@b1nd/dds-web'
+import styled from 'styled-components'
+import { hexToRgba } from '@b1nd/dds-web'
 
 export const CreateClubPaddingContainer = styled.div`
   width: 100%;
@@ -28,7 +28,7 @@ export const CreateClubForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px 12px 60px ;
+  padding: 16px 12px 60px;
 `
 
 export const CreateClubSubmit = styled.button`
@@ -39,14 +39,18 @@ export const CreateClubSubmit = styled.button`
   z-index: 100;
 `
 
-export const CreateClubCustomInputContainer = styled.div<{ $isError: boolean; $isDisabled: boolean }>`
+export const CreateClubCustomInputContainer = styled.div<{
+  $isError: boolean
+  $isDisabled: boolean
+}>`
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
   ${DodamTypography.Label.Medium}
-  opacity: ${({$isDisabled}) => $isDisabled && '65%'};
-  color: ${({ theme, $isError }) => $isError ? theme.statusNegative : theme.labelAlternative};
+  opacity: ${({ $isDisabled }) => $isDisabled && '65%'};
+  color: ${({ theme, $isError }) =>
+    $isError ? theme.statusNegative : theme.labelAlternative};
   white-space: pre-line;
   & div {
     background-color: ${({ theme }) => theme.backgroundNormal};
@@ -56,13 +60,16 @@ export const CreateClubCustomInputContainer = styled.div<{ $isError: boolean; $i
   }
 `
 
-
-export const CreateClubCustomInput = styled.div<{ $isError: boolean; }>`
+export const CreateClubCustomInput = styled.div<{ $isError: boolean }>`
   width: 100%;
   height: 56px;
   ${DodamShape.Medium}
-  border: 1px ${({ theme, $isError }) => $isError ? theme.lineAlternative : theme.statusNegative} solid;
-  background-color: ${({ theme, $isError }) => $isError ? hexToRgba(theme.backgroundNormal, 0.65) : hexToRgba('#E52222', 0.03)};
+  border: 1px ${({ theme, $isError }) =>
+    $isError ? theme.lineAlternative : theme.statusNegative} solid;
+  background-color: ${({ theme, $isError }) =>
+    $isError
+      ? hexToRgba(theme.backgroundNormal, 0.65)
+      : hexToRgba('#E52222', 0.03)};
 `
 
 export const PreviewClubImage = styled.img`
@@ -79,11 +86,12 @@ export const CreateClubCustomInputDivider = styled.div`
   gap: 16px;
 `
 
-export const CreateClubMemberContainer = styled.div<{ $isError: boolean; }>`
+export const CreateClubMemberContainer = styled.div<{ $isError: boolean }>`
   display: flex;
   width: 100%;
   ${DodamShape.Medium}
-  border: 1px ${({ theme, $isError }) => $isError ? theme.lineAlternative : theme.statusNegative} solid;
+  border: 1px ${({ theme, $isError }) =>
+    $isError ? theme.lineAlternative : theme.statusNegative} solid;
   height: 600px;
   padding: 16px;
   gap: 16px;
@@ -117,17 +125,24 @@ export const CreateClubMemberSelected = styled.div`
   overflow-y: scroll;
 `
 
-export const CreateClubTypeSelect = styled.select<{ $isError: boolean; $isDisabled: boolean; }>`
+export const CreateClubTypeSelect = styled.select<{
+  $isError: boolean
+  $isDisabled: boolean
+}>`
   width: 100%;
   height: 56px;
   ${DodamShape.Medium}
   ${DodamTypography.Headline.Medium}
-  border: 1px ${({ theme, $isError }) => $isError ? theme.lineAlternative : theme.statusNegative} solid;
-  background-color: ${({ theme, $isError }) => $isError ? hexToRgba(theme.backgroundNormal, 0.65) : hexToRgba('#E52222', 0.03)};
-  color: ${({ theme }) => theme.labelAlternative};
-  
+  border: 1px ${({ theme, $isError }) =>
+    $isError ? theme.lineAlternative : theme.statusNegative} solid;
+  background-color: ${({ theme, $isError }) =>
+    $isError
+      ? hexToRgba(theme.backgroundNormal, 0.65)
+      : hexToRgba('#E52222', 0.03)};
+  color: ${({ theme }) => theme.labelNormal};
+
   padding: 0 16px;
-  cursor: ${({ $isDisabled }) => $isDisabled ? 'default' : 'pointer'};
+  cursor: ${({ $isDisabled }) => ($isDisabled ? 'default' : 'pointer')};
   outline: none;
   appearance: none;
 `
