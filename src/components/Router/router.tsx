@@ -1,4 +1,4 @@
-import Layout from 'src/components/Common/layout';
+import Layout from '../Common/layout/index';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ManageClubPage from 'src/pages/ManageClub';
 import MainPage from 'src/pages/Main';
