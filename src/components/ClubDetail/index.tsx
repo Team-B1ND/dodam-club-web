@@ -79,7 +79,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 </S.ClubDetailHeaderSubject>
                 <S.ClubDetailHeaderName>
                   {clubData!.name}
-                  {timeData!.applicantStart < today
+                  {(timeData!.createStart <= today && today <= timeData!.createEnd)
                   && clubData!.state === EClubState.ALLOWED
                   ? (
                     <CheckmarkCircleFilled
@@ -108,10 +108,10 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 {leaderData!.name}
               </p>
             </S.ClubDetailHeader>
-            {clubMemberData?.isLeader
+            {clubMemberData!.isLeader
             && (
               <S.ClubDetailMenu>
-                {timeData!.createEnd > today
+                {(timeData!.createEnd >= today && timeData!.applicantStart > today)
                   && (                    
                   <S.ClubDetailMenuInfoAndButton>
                     동아리 개설
@@ -124,7 +124,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                         textTheme="staticWhite"
                         enabled={
                           (clubData?.type === EClub.CREATIVE_CLUB ? 5 : 10 ) <
-                          clubMemberData?.students.filter(
+                          clubMemberData!.students.filter(
                             (item) => item.status === EClubState.ALLOWED
                           ).length
                         }

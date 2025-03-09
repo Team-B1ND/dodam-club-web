@@ -41,11 +41,9 @@ const ApplicationPage = () => {
     if (selectedCreativeClubs.length === 3) {
       setIsButtonEnabled(true);
       return;
-    }
-    
-    if (isCreativeClubSelected) {
+    }else if(selectedCreativeClubs.length < 3){
       setIsButtonEnabled(false);
-      return;
+      return
     }
     
     const completedAutonomousClubs = selectedAutonomousClubs.filter(

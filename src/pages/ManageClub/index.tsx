@@ -115,14 +115,26 @@ const ManageClubPage = () => {
           <S.CreateClubForm
             onSubmit={handleSubmit(
               (data) => {
-                if (clubDatail) {
-                  const { type, studentIds, state, ...patchData } = data
-                  patchClubMutation.mutate({
-                    data: patchData,
-                    id: clubDatail.id,
+                if(data.type === EClub.SELF_DIRECT_CLUB && data.studentIds.length < 9){
+                  setError('studentIds', { 
+                    type: 'selfDirectClub', 
+                    message: '자율동아리는 10명 이상의 인원이 개설 가능합니다. ( 자신 포함 )' 
                   })
-                } else {
-                  createClubMutation.mutate(data)
+                }else if(data.type === EClub.CREATIVE_CLUB && data.studentIds.length < 4){
+                  setError('studentIds', { 
+                    type: 'creativeClub', 
+                    message: '창체동아리는 5명 이상, 18명 이하의 인원으로만 개설 가능합니다. ( 자신 포함 )' 
+                  });
+                }else{
+                  if (clubDatail) {
+                    const { type, studentIds, state, ...patchData } = data
+                    patchClubMutation.mutate({
+                      data: patchData,
+                      id: clubDatail.id,
+                    })
+                  } else {
+                    createClubMutation.mutate(data)
+                  }
                 }
               },
               () => {
@@ -294,7 +306,6 @@ const ManageClubPage = () => {
                         )
                         .filter((item) => item.name.includes(searchData))
                         .sort((a, b) => a.grade - b.grade || a.room - b.room)
-                        // .filter((item) => item.)
                         .map((item) => (
                           <MemberItem
                             value={item}
@@ -332,7 +343,6 @@ const ManageClubPage = () => {
 
             <S.CreateClubSubmit
               type='submit'
-              onClick={() => handlers.validateStudentIds(isSubmitting)}
             >
               <DodamFilledButton
                 size='Medium'
