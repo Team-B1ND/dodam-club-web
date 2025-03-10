@@ -81,6 +81,7 @@ const ManagerMemberList = ({
                     studentId: selectedMember,
                     status: EClubState.ALLOWED,
                   })
+                  refetch()
                 }}
               />
               <DodamFilledButton
@@ -95,6 +96,7 @@ const ManagerMemberList = ({
                     studentId: selectedMember,
                     status: EClubState.DELETED,
                   })
+                  refetch()
                 }}
               />
             </S.ManageButtonBar>
