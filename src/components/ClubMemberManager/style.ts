@@ -33,6 +33,7 @@ export const ClubManagerSelecter = styled.select`
   ${DodamShape.Medium}
   ${DodamTypography.Body2.Bold}
   background-color: transparent;
+  color: ${({ theme }) => theme.labelNormal};
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
   width: 160px;
   height: 48px;
