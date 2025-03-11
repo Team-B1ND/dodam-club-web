@@ -16,26 +16,27 @@ export const useGetJoinRequestsQuery = (
     ...options,
   });
 
-export const usePostJoinRequestMutation = () => {
-  const queryClient = useQueryClient()
-  const mutation = useMutation({
-    mutationFn: (id:{id:number}) =>
-    clubApi.postJoinClubByRequest(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey : [QUERY_KEYS.joinRequest.getJoinRequests]})
-    }
-  });
-  return mutation;
-}
-
-export const useDeleteJoinRequestMutation = () => {
-  const queryClient = useQueryClient()
-  const mutation = useMutation({
-    mutationFn: (id:{id:number}) =>
-      clubApi.deleteJoinClubByRequest(id),
-    onSuccess: () =>{
-      queryClient.invalidateQueries({queryKey :[QUERY_KEYS.joinRequest.getJoinRequests]})
-    }
-  });
-  return mutation;
-}
+  export const usePostJoinRequestMutation = () => {
+    const queryClient = useQueryClient();
+    const mutation = useMutation({
+      mutationFn: ({ id }: { id: number }) =>
+        clubApi.postJoinClubByRequest(id),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.joinRequest.getJoinRequests] });
+      },
+    });
+    return mutation;
+  };
+  
+  export const useDeleteJoinRequestMutation = () => {
+    const queryClient = useQueryClient();
+    const mutation = useMutation({
+      mutationFn: ({ id }: { id: number }) =>
+        clubApi.deleteJoinClubByRequest(id), 
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.joinRequest.getJoinRequests] });
+      },
+    });
+    return mutation;
+  };
+  

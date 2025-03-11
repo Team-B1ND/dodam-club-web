@@ -18,7 +18,7 @@ import {
 } from "@b1nd/dds-web";
 import { Link } from "react-router-dom";
 import { EClubState } from "src/enum/club/club.enum";
-import ClubDetail from "@components/ClubDetail";
+import ClubDetail from "src/components/ClubDetail";
 import { useDeleteJoinRequestMutation, usePostJoinRequestMutation } from "src/queries/joinRequest/joinRequest.query";
 
 const ClubMiniList = ({
@@ -26,6 +26,11 @@ const ClubMiniList = ({
   value,
   type,
 }: ClubMenuItemProps | ClubMenuItemMyClubProps | ClubMenuItemStudentProps) => {
+  
+  if (!value || value.length === 0) {
+    return null; 
+  }
+  
   const [isOpen, setIsopen] = useState({
     REQUEST_ACCEPT: Object.fromEntries(
       value.map((item) =>
@@ -72,8 +77,9 @@ const ClubMiniList = ({
     return "club" in props;
   };
 
+
+
   return (
-    value.length > 0 && (
       <S.ClubListContainer>
         {name}
         {miniList.map((item) => (
@@ -172,7 +178,6 @@ const ClubMiniList = ({
         ))}
       </S.ClubListContainer>
     )
-  );
 };
 
 export default ClubMiniList;

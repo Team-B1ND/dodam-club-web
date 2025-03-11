@@ -1,4 +1,3 @@
-import React from 'react';
 import ApplicationPage from 'src/components/ApplicationPage';
 import * as S from './style';
 

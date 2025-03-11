@@ -6,13 +6,14 @@ import { ClubResponse } from "src/types/club/club.type";
 import { EClub } from "src/enum/club/club.enum";
 import { Link } from "react-router-dom";
 import { useGetClubsQuery } from "src/queries/useClub";
-import ClubItemSkeleton from "@components/Common/ClubItemSkeleton";
+import ClubItemSkeleton from "src/components/Common/ClubItemSkeleton";
+import { useClubTime } from "src/hooks/club/useClubTime";
+
 
 const ClubList = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
-
   const {data:clubData, isLoading, isFetching} = useGetClubsQuery();
-
+  const {timeData, today, timeIsLoading} = useClubTime()
   const changePage = () => {
     setIsCreativeClubPage(prev=>!prev)
   }
@@ -34,21 +35,34 @@ const ClubList = () => {
         />
       </S.ClubMenu>
       <S.ClubItemContainer>
-          {(isLoading || isFetching)
-          ? Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx}/>)
-          : clubData!
+      {isLoading || isFetching || timeIsLoading ? (
+        Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx} />)
+      ) : clubData && clubData.length > 0 ? (
+        clubData
           .filter((item: ClubResponse) =>
             isCreativeClubPage
               ? item.type === EClub.CREATIVE_CLUB
               : item.type === EClub.SELF_DIRECT_CLUB
           )
           .map((item: ClubResponse) => (
-            <Link to={`/${item.id}`} key={item.id} style={{ height: "fit-content", display:'flex', alignItems:'center', justifyContent:'center'}}>
-              <ClubItem value={item} />
+            <Link
+              to={`/${item.id}`}
+              key={item.id}
+              style={{
+                height: "fit-content",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textDecoration: 'none'
+              }}
+            >
+              <ClubItem value={item} isEnded={timeData!.applicantStart < today} />
             </Link>
-          ))}
-          
-      </S.ClubItemContainer>
+          ))
+      ) : (
+        <S.NoClubMessage>올라온 동아리가 없습니다.</S.NoClubMessage>
+      )}
+    </S.ClubItemContainer>
 
     </S.ClubListContainer>
   );

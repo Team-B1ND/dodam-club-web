@@ -4,7 +4,7 @@ import { ClubMenuProps} from 'src/types/club/club.type';
 import { EClub } from 'src/enum/club/club.enum';
 import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery, useGetStudentApplyQuery } from 'src/queries/useClub';
 import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/joinRequest.query';
-import ClubMenuSkeleton from '@components/Common/ClubMenuSkeleton';
+import ClubMenuSkeleton from 'src/components/Common/ClubMenuSkeleton';
 
 const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
   const { data: myClubApply, isLoading: applyIsLoading } = useGetMyClubApplyQuery()
@@ -71,7 +71,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
             <p>아직 동아리 개설을</p>
             <p>신청하지 않았어요!</p>
             <S.ClubCreatePeriod>
-              신청 마감 : {time.createEnd.replace(/-/g,'.')}
+              신청 마감 : {time?.createEnd.replace(/-/g,'.')}
             </S.ClubCreatePeriod>
           </S.MyClubIsNone>
         )

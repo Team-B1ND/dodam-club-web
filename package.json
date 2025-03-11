@@ -1,20 +1,22 @@
 {
-  "name": "b1nd-boilerplate-vite",
+  "name": "dodamdodam-cub",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@b1nd/b1nd-styled-components-util": "^1.0.4",
     "@b1nd/b1nd-toastify": "^2.0.1",
     "@b1nd/dds-web": "^0.1.29",
     "@types/node": "^22.13.4",
     "@uiw/react-md-editor": "^4.0.5",
     "axios": "^1.7.9",
+    "buffer": "^6.0.3",
+    "dayjs": "^1.11.13",
     "js-cookie": "^3.0.5",
     "path": "^0.12.7",
     "react": "^18.3.1",
@@ -22,22 +24,26 @@
     "react-hook-form": "^7.54.2",
     "react-query": "^3.39.3",
     "react-router-dom": "^7.2.0",
+    "react-scripts": "^5.0.1",
     "recoil": "^0.7.7",
-    "styled-components": "^6.1.15",
-    "vite-tsconfig-paths": "^5.1.4"
+    "styled-components": "^6.1.15"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.17.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.16",
-    "globals": "^15.13.0",
-    "typescript": "~5.6.2",
-    "typescript-eslint": "^8.18.1",
-    "vite": "^6.0.3"
+    "typescript": "^4.9.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

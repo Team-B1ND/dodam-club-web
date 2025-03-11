@@ -1,4 +1,5 @@
 import { DodamShape, DodamTypography } from '@b1nd/dds-web';
+import MDEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -12,9 +13,16 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
+  display: flex;
+  align-items: center;
   color: ${({ theme }) => theme.labelNormal};
   ${DodamTypography.Heading1.Bold}
   margin-bottom: 16px;
+  div{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
 `;
 
 export const HeaderSection = styled.div`
@@ -53,6 +61,9 @@ export const ClubListSection = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.backgroundNormal};
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ClubListContent = styled.div`
@@ -60,7 +71,7 @@ export const ClubListContent = styled.div`
   overflow-y: auto;
   flex: 1;
   &::-webkit-scrollbar {
-    width: 6px;
+    display: none;
   }
   
   &::-webkit-scrollbar-track {
@@ -288,3 +299,16 @@ export const ApplyButton = styled.button<{
   cursor: ${({ enabled }) => (enabled ? 'pointer' : 'not-allowed')};
   transition: background-color 0.2s ease, opacity 0.2s ease;
 `;
+
+export const MarkDownViewer = styled(MDEditor.Markdown)`
+  background-color: ${({ theme }) => theme.backgroundNormal};
+  & * {
+    color: ${({ theme }) => theme.labelNormal};
+  }
+  & pre {
+    background-color: ${({ theme }) => theme.labelStrong};
+  }
+  & span {
+    color: ${({ theme }) => theme.labelDisabled};
+  }
+`
