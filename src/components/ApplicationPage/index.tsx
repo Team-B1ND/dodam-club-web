@@ -3,11 +3,10 @@ import * as S from './style';
 import megaphoneIcon from 'src/assets/megaphone.svg';
 import { useGetClubsQuery } from 'src/queries/useClub';
 import clubApi from 'src/api/Club/club.api';
-import { ChevronLeft, DodamSegmentedButton, DodamTheme } from "@b1nd/dds-web";
+import { DodamSegmentedButton, DodamTheme } from "@b1nd/dds-web";
 import { useTheme } from 'styled-components';
-import MDEditor from '@uiw/react-md-editor';
-import ClubApplicationPopup from './Popup/index';
 import { useNavigate } from 'react-router-dom';
+import ClubApplicationPopup from './Popup/index';
 
 interface ClubResponse {
   id: number;
@@ -23,7 +22,6 @@ interface EssayData {
 
 const ApplicationPage = () => {
   const navigate = useNavigate();
-
   const theme = useTheme() as DodamTheme;
   const { data: clubList, isLoading, isError } = useGetClubsQuery();
   const [selectedCreativeClubs, setSelectedCreativeClubs] = useState<number[]>([]);
@@ -36,24 +34,7 @@ const ApplicationPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [joinedClubs, setJoinedClubs] = useState<ClubResponse[]>([]);
   const [loadingJoinedClubs, setLoadingJoinedClubs] = useState(true);
-  
-  useEffect(() => {
-    const fetchJoinedClubs = async () => {
-      try {
-        setLoadingJoinedClubs(true);
-        const response = await clubApi.getMyJoinedClubs();
-        setJoinedClubs((response as ClubResponse[]) || []);
-      } catch (error) {
-        console.error('가입된 동아리 정보를 불러오는 중 오류가 발생했습니다:', error);
-        setJoinedClubs([]);
-      } finally {
-        setLoadingJoinedClubs(false);
-      }
-    };
-    
-    fetchJoinedClubs();
-  }, []);
-  
+
   const hasJoinedCreativeClub = (joinedClubs || []).some(
     club => club.type === 'CREATIVE_ACTIVITY_CLUB' && club.myStatus === 'ALLOWED'
   );
@@ -64,26 +45,15 @@ const ApplicationPage = () => {
 
   const creativeClubs = clubList?.filter(club => club.type === 'CREATIVE_ACTIVITY_CLUB') || [];
   const autonomousClubs = clubList?.filter(club => club.type === 'SELF_DIRECT_ACTIVITY_CLUB') || [];
+  
+  const currentClubsList = isCreativeClubSelected ? creativeClubs : autonomousClubs;
 
   useEffect(() => {
-    if (isCreativeClubSelected) {
-      if (hasJoinedCreativeClub) {
-        setIsButtonEnabled(false);
-        return;
-      }
-      
-      setIsButtonEnabled(selectedCreativeClubs.length === 0 || selectedCreativeClubs.length === 3);
-      return;
-    }
-    
-    const completedAutonomousClubs = selectedAutonomousClubs.filter(
-      clubId => {
-        const clubKey = clubId.toString();
-        return essayContents[clubKey] && essayContents[clubKey].trim() !== '';
-      }
-    );
-    
-    setIsButtonEnabled(completedAutonomousClubs.length > 0);
+    fetchJoinedClubs();
+  }, []);
+  
+  useEffect(() => {
+    updateButtonState();
   }, [
     selectedCreativeClubs, 
     selectedAutonomousClubs, 
@@ -92,10 +62,49 @@ const ApplicationPage = () => {
     hasJoinedCreativeClub
   ]);
 
+  const fetchJoinedClubs = async () => {
+    try {
+      setLoadingJoinedClubs(true);
+      const response = await clubApi.getMyJoinedClubs();
+      setJoinedClubs((response as ClubResponse[]) || []);
+    } catch (error) {
+      console.error('가입된 동아리 정보를 불러오는 중 오류가 발생했습니다:', error);
+      setJoinedClubs([]);
+    } finally {
+      setLoadingJoinedClubs(false);
+    }
+  };
+  const updateButtonState = () => {
+    let canApply = false;
+    const canApplyCreative = !hasJoinedCreativeClub && selectedCreativeClubs.length === 3;
+    const canApplyAutonomous = selectedAutonomousClubs.length > 0;
+    canApply = canApplyCreative || canApplyAutonomous;
+    setIsButtonEnabled(canApply);
+  };
+
+  const getClubNameById = (clubId: number): string => {
+    const club = clubList?.find(club => club.id === clubId);
+    return club ? club.name : '';
+  };
+
+  const getSelectedClubNames = (clubIds: number[]): string[] => {
+    return clubIds.map(id => getClubNameById(id));
+  };
+  
+  const getPriorityNumber = (clubId: number) => {
+    const index = selectedCreativeClubs.indexOf(clubId);
+    return index !== -1 ? index + 1 : null;
+  };
+
+  const getCurrentClubName = (): string => {
+    if (currentClub === null) return '';
+    return getClubNameById(currentClub);
+  };
+
   const changePage = () => {
     setIsCreativeClubSelected(prev => !prev);
     setCurrentClub(null);
-  }
+  };
 
   const handleCreativeClubClick = (club: ClubResponse) => {
     if (hasJoinedCreativeClub) {
@@ -143,33 +152,14 @@ const ApplicationPage = () => {
     }
   };
 
-  const getSelectedClubNames = (clubIds: number[]): string[] => {
-    return clubIds.map(id => getClubNameById(id));
-  };
-  
-  const getPriorityNumber = (clubId: number) => {
-    const index = selectedCreativeClubs.indexOf(clubId);
-    return index !== -1 ? index + 1 : null;
-  };
-
   const handleEssayChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (currentClub !== null) {
       const clubKey = currentClub.toString();
-      const updatedEssayContents = {
+      setEssayContents({
         ...essayContents,
         [clubKey]: event.target.value
-      };
-      setEssayContents(updatedEssayContents);
+      });
     }
-  };
-  
-  const currentClubsList = isCreativeClubSelected 
-    ? creativeClubs 
-    : autonomousClubs;
-  
-  const getClubNameById = (clubId: number): string => {
-    const club = clubList?.find(club => club.id === clubId);
-    return club ? club.name : '';
   };
 
   const handleApplyButtonClick = () => {
@@ -188,18 +178,18 @@ const ApplicationPage = () => {
     
     try {
       setIsSubmitting(true);
-      
       const requests = [];
-      
       const priorities = ['CREATIVE_ACTIVITY_CLUB_1', 'CREATIVE_ACTIVITY_CLUB_2', 'CREATIVE_ACTIVITY_CLUB_3'] as const;
-
-      for (let i = 0; i < selectedCreativeClubs.length; i++) {
-        const clubId = selectedCreativeClubs[i];
-        requests.push({
-          clubId,
-          clubPriority: priorities[i],
-          introduction: ''
-        });
+  
+      if (!hasJoinedCreativeClub) {
+        for (let i = 0; i < selectedCreativeClubs.length; i++) {
+          const clubId = selectedCreativeClubs[i];
+          requests.push({
+            clubId,
+            clubPriority: priorities[i],
+            introduction: ''
+          });
+        }
       }
       
       for (const clubId of selectedAutonomousClubs) {
@@ -215,9 +205,10 @@ const ApplicationPage = () => {
       
       if (requests.length > 0) {
         await clubApi.postJoinClubByRequestsBatch(requests);
+        alert('동아리 입부 신청이 성공적으로 제출되었습니다!');
+      } else {
+        alert('신청할 동아리를 선택해주세요.');
       }
-      
-      alert('동아리 입부 신청이 성공적으로 제출되었습니다!');
       
     } catch (error) {
       console.error('Error submitting club application:', error);
@@ -227,198 +218,229 @@ const ApplicationPage = () => {
     }
   };
 
-  const getCurrentClubName = (): string => {
-    if (currentClub === null) return '';
-    return getClubNameById(currentClub);
-  };
+  const renderEmptyState = (message: string) => (
+    <S.EmptyState>
+      <S.MegaphoneIcon src={megaphoneIcon} alt="메가폰" />
+      <S.EmptyStateText>{message}</S.EmptyStateText>
+    </S.EmptyState>
+  );
 
-  const renderRightSection = () => {
-    if (isCreativeClubSelected) {
-      if (hasJoinedCreativeClub) {
-        return (
-          <S.RightSection>
-            <S.ClubDescriptionSection>
-              <S.EmptyState>
-                <S.MegaphoneIcon src={megaphoneIcon} alt="메가폰" />
-                <S.EmptyStateText>이미 창체 동아리에 가입되어 있습니다.</S.EmptyStateText>
-              </S.EmptyState>
-            </S.ClubDescriptionSection>
-          </S.RightSection>
-        );
-      }
-
-      const selectedClub = currentClubsList.find(club => club.id === currentClub);
+  const renderCreativeClubRightSection = () => {
+    if (hasJoinedCreativeClub) {
       return (
-        <S.RightSection>
-          <S.ClubDescriptionSection>
-            {selectedClub ? (
-              <S.MarkDownViewer
-                source={selectedClub.description}
-              />
-            ) : (
-              <S.EmptyState>
-                <S.MegaphoneIcon src={megaphoneIcon} alt="메가폰" />
-                <S.EmptyStateText>신청할 동아리를 선택해주세요.</S.EmptyStateText>
-              </S.EmptyState>
-            )}
-          </S.ClubDescriptionSection>
-        </S.RightSection>
-      );
-    } else {
-      return (
-        <S.RightSection>
-          <S.EssaySection>
-            {selectedAutonomousClubs.length > 0 && currentClub !== null ? (
-              <S.EssayTextarea 
-                placeholder="희망 분야, 다짐 등을 작성해주세요." 
-                value={essayContents[currentClub.toString()] || ''}
-                onChange={handleEssayChange}
-              />
-            ) : (
-              <S.EmptyState>
-                <S.MegaphoneIcon src={megaphoneIcon} alt="메가폰" />
-                <S.EmptyStateText>신청할 동아리를 선택해주세요.</S.EmptyStateText>
-              </S.EmptyState>
-            )}
-          </S.EssaySection>
-        </S.RightSection>
+        <S.ClubDescriptionSection>
+          {renderEmptyState('이미 창체 동아리에 가입되어 있습니다.')}
+        </S.ClubDescriptionSection>
       );
     }
+
+    const selectedClub = currentClubsList.find(club => club.id === currentClub);
+    return (
+      <S.ClubDescriptionSection>
+        {selectedClub ? (
+          <S.MarkDownViewer source={selectedClub.description} />
+        ) : (
+          renderEmptyState('신청할 동아리를 선택해주세요.')
+        )}
+      </S.ClubDescriptionSection>
+    );
   };
-  
-  return (
-    <S.Container>
-      <S.Title>동아리 신청</S.Title>
-      {loadingJoinedClubs ? (
+
+  const renderAutonomousClubRightSection = () => (
+    <S.EssaySection>
+      {selectedAutonomousClubs.length > 0 && currentClub !== null ? (
+        <S.EssayTextarea 
+          placeholder="희망 분야, 다짐 등을 작성해주세요. (선택사항)" 
+          value={essayContents[currentClub.toString()] || ''}
+          onChange={handleEssayChange}
+        />
+      ) : (
+        renderEmptyState('신청할 동아리를 선택해주세요.')
+      )}
+    </S.EssaySection>
+  );
+
+  const renderRightSection = () => (
+    <S.RightSection>
+      {isCreativeClubSelected 
+        ? renderCreativeClubRightSection() 
+        : renderAutonomousClubRightSection()}
+    </S.RightSection>
+  );
+
+  const renderClubList = () => {
+    if (isLoading) {
+      return (
+        <S.LoadingWrapper>
+          <S.LoadingText>동아리 목록을 불러오는 중...</S.LoadingText>
+        </S.LoadingWrapper>
+      );
+    }
+    
+    if (isError) {
+      return (
+        <S.ErrorWrapper>
+          <S.ErrorText>동아리 목록을 불러오는 중 오류가 발생했습니다.</S.ErrorText>
+          <S.RetryButton onClick={() => window.location.reload()}>
+            다시 시도
+          </S.RetryButton>
+        </S.ErrorWrapper>
+      );
+    }
+    
+    if (currentClubsList.length === 0) {
+      return (
+        <S.EmptyClubList>
+          <S.EmptyStateText>
+            {isCreativeClubSelected ? '창체 동아리가 ' : '자율 동아리가 '} 
+            없습니다.
+          </S.EmptyStateText>
+        </S.EmptyClubList>
+      );
+    }
+    
+    return (
+      <S.ClubListContent>
+        {currentClubsList.map(club => {
+          const isJoinedAutonomousClub = !isCreativeClubSelected && joinedAutonomousClubIds.includes(club.id);
+          
+          return (
+            <S.ClubItem
+              key={club.id}
+              onClick={() => {
+                const clubData = club as ClubResponse;
+                if (!isJoinedAutonomousClub) {
+                  (isCreativeClubSelected 
+                    ? handleCreativeClubClick(clubData)
+                    : handleAutonomousClubClick(clubData))
+                }
+              }}
+              selected={
+                isCreativeClubSelected 
+                  ? selectedCreativeClubs.includes(club.id)
+                  : selectedAutonomousClubs.includes(club.id)
+              }
+              style={isJoinedAutonomousClub ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+            >
+              {club.name}
+              {isCreativeClubSelected ? (
+                getPriorityNumber(club.id) && (
+                  <S.PriorityBadge>{getPriorityNumber(club.id)}</S.PriorityBadge>
+                )
+              ) : (
+                isJoinedAutonomousClub ? (
+                  <S.SelectButton style={{ backgroundColor: '#cccccc' }}>가입됨</S.SelectButton>
+                ) : (
+                  selectedAutonomousClubs.includes(club.id) && (
+                    <S.SelectButton>선택</S.SelectButton>
+                  )
+                )
+              )}
+            </S.ClubItem>
+          );
+        })}
+      </S.ClubListContent>
+    );
+  };
+
+  const renderEssayTitle = () => {
+    const selectedClubIds = isCreativeClubSelected 
+      ? selectedCreativeClubs 
+      : selectedAutonomousClubs;
+
+    if (selectedClubIds.length > 0) {
+      return (
+        <S.EssayTitleWrapper>
+          <S.EssayTitle>
+            {getCurrentClubName()} 동아리 {isCreativeClubSelected ? '소개' : '자기소개'}
+            {!isCreativeClubSelected && ' (선택사항)'}
+          </S.EssayTitle>
+          <S.DotSelector>
+            {selectedClubIds.map((clubId) => (
+              <S.ClubDot 
+                key={clubId}
+                active={clubId === currentClub}
+                onClick={() => setCurrentClub(clubId)}
+              >
+                <S.Dot active={clubId === currentClub} />
+              </S.ClubDot>
+            ))}
+          </S.DotSelector>
+        </S.EssayTitleWrapper>
+      );
+    }
+
+    return (
+      <S.EssayTitleWrapper>
+        <S.EssayTitle>
+          {isCreativeClubSelected 
+            ? (hasJoinedCreativeClub 
+              ? '이미 창체 동아리에 가입되어 있습니다' 
+              : '창체 동아리 선택') 
+            : '자율 동아리 선택'}
+        </S.EssayTitle>
+      </S.EssayTitleWrapper>
+    );
+  };
+
+  if (loadingJoinedClubs) {
+    return (
+      <S.Container>
+        <S.Title>동아리 신청</S.Title>
         <S.LoadingWrapper>
           <S.LoadingText>가입 정보를 불러오는 중...</S.LoadingText>
         </S.LoadingWrapper>
-      ) : (
-        <>
-          <S.HeaderSection>
-            <S.SubTitle>동아리 선택</S.SubTitle>
-            {(isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs).length > 0 ? (
-              <S.EssayTitleWrapper>
-                <S.EssayTitle>
-                  {getCurrentClubName()} 동아리 {isCreativeClubSelected ? '소개' : '자기소개'}
-                </S.EssayTitle>
-                <S.DotSelector>
-                  {(isCreativeClubSelected ? selectedCreativeClubs : selectedAutonomousClubs).map((clubId) => (
-                    <S.ClubDot 
-                      key={clubId}
-                      active={clubId === currentClub}
-                      onClick={() => setCurrentClub(clubId)}
-                    >
-                      <S.Dot
-                        active={clubId === currentClub}
-                      />
-                    </S.ClubDot>
-                  ))}
-                </S.DotSelector>
-              </S.EssayTitleWrapper>
-            ) : (
-              <S.EssayTitleWrapper>
-                <S.EssayTitle>
-                  {isCreativeClubSelected ? 
-                    (hasJoinedCreativeClub ? 
-                      '이미 창체 동아리에 가입되어 있습니다' : 
-                      '창체 동아리 선택') : 
-                    '자율 동아리 선택'}
-                </S.EssayTitle>
-              </S.EssayTitleWrapper>
-            )}
-          </S.HeaderSection>
-          
-          <S.TabsContainer>
-            <DodamSegmentedButton
-              num={2}
-              type="block"
-              data={[
-                { text: '창체동아리', isAtv: isCreativeClubSelected },
-                { text: '자율동아리', isAtv: !isCreativeClubSelected }
-              ]}
-              width={200}
-              height={45}
-              onClick={changePage}
-            />
-          </S.TabsContainer>
-          <S.ContentSection>
-            <S.ClubListSection>
-              {isLoading ? (
-                <S.LoadingWrapper>
-                  <S.LoadingText>동아리 목록을 불러오는 중...</S.LoadingText>
-                </S.LoadingWrapper>
-              ) : isError ? (
-                <S.ErrorWrapper>
-                  <S.ErrorText>동아리 목록을 불러오는 중 오류가 발생했습니다.</S.ErrorText>
-                  <S.RetryButton onClick={() => window.location.reload()}>
-                    다시 시도
-                  </S.RetryButton>
-                </S.ErrorWrapper>
-              ) : (
-                <S.ClubListContent>
-                  {currentClubsList.length === 0 ? (
-                    <S.EmptyClubList>
-                      <S.EmptyStateText>
-                        {isCreativeClubSelected ? '창체 동아리가 ' : '자율 동아리가 '} 
-                        없습니다.
-                      </S.EmptyStateText>
-                    </S.EmptyClubList>
-                  ) : (
-                    currentClubsList.map(club => {
-                      return (
-                        <S.ClubItem
-                          key={club.id}
-                          onClick={() => {
-                            const clubData = club as ClubResponse;
-                            (isCreativeClubSelected 
-                              ? handleCreativeClubClick(clubData)
-                              : handleAutonomousClubClick(clubData))
-                          }}
-                          selected={
-                            isCreativeClubSelected 
-                              ? selectedCreativeClubs.includes(club.id)
-                              : selectedAutonomousClubs.includes(club.id)
-                          }
-                        >
-                          {club.name}
-                          {isCreativeClubSelected ? (
-                            getPriorityNumber(club.id) && (
-                              <S.PriorityBadge>{getPriorityNumber(club.id)}</S.PriorityBadge>
-                            )
-                          ) : (
-                            selectedAutonomousClubs.includes(club.id) && (
-                              <S.SelectButton>선택</S.SelectButton>
-                            )
-                          )}
-                        </S.ClubItem>
-                      );
-                    })
-                  )}
-                </S.ClubListContent>
-              )}
-            </S.ClubListSection>
-            {renderRightSection()}
-          </S.ContentSection>
-          <S.ButtonWrapper>
-            <S.ApplyButton 
-              enabled={isButtonEnabled && !isSubmitting}
-              isCreativeComplete={selectedCreativeClubs.length === 3}
-              onClick={handleApplyButtonClick}
-              disabled={!isButtonEnabled || isSubmitting}
-            >
-              {isSubmitting ? '제출 중...' : '동아리 입부 신청하기'}
-            </S.ApplyButton>
-          </S.ButtonWrapper>
-          <ClubApplicationPopup 
-            isOpen={isModalOpen} 
-            onClose={closeModal}
-            onConfirm={handleApply}
-            selectedCreativeClubs={getSelectedClubNames(selectedCreativeClubs)}
-            selectedAutonomousClubs={getSelectedClubNames(selectedAutonomousClubs)}
-          />
-        </>
-      )}
+      </S.Container>
+    );
+  }
+
+  return (
+    <S.Container>
+      <S.Title>동아리 신청</S.Title>
+      <S.HeaderSection>
+        <S.SubTitle>동아리 선택</S.SubTitle>
+        {renderEssayTitle()}
+      </S.HeaderSection>
+      
+      <S.TabsContainer>
+        <DodamSegmentedButton
+          num={2}
+          type="block"
+          data={[
+            { text: '창체동아리', isAtv: isCreativeClubSelected },
+            { text: '자율동아리', isAtv: !isCreativeClubSelected }
+          ]}
+          width={200}
+          height={45}
+          onClick={changePage}
+        />
+      </S.TabsContainer>
+      
+      <S.ContentSection>
+        <S.ClubListSection>
+          {renderClubList()}
+        </S.ClubListSection>
+        {renderRightSection()}
+      </S.ContentSection>
+      
+      <S.ButtonWrapper>
+        <S.ApplyButton 
+          enabled={isButtonEnabled && !isSubmitting}
+          isCreativeComplete={selectedCreativeClubs.length === 3}
+          onClick={handleApplyButtonClick}
+          disabled={!isButtonEnabled || isSubmitting}
+        >
+          {isSubmitting ? '제출 중...' : '동아리 입부 신청하기'}
+        </S.ApplyButton>
+      </S.ButtonWrapper>
+      
+      <ClubApplicationPopup 
+        isOpen={isModalOpen} 
+        onClose={closeModal}
+        onConfirm={handleApply}
+        selectedCreativeClubs={getSelectedClubNames(selectedCreativeClubs)}
+        selectedAutonomousClubs={getSelectedClubNames(selectedAutonomousClubs)}
+      />
     </S.Container>
   );
 };
