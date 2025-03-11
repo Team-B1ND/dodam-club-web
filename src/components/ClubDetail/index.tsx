@@ -83,9 +83,9 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                 </S.ClubDetailHeaderSubject>
                 <S.ClubDetailHeaderName>
                   {clubData!.name}
-                  {timeData!.createStart <= today &&
-                  today <= timeData!.createEnd &&
-                  clubData!.state === EClubState.ALLOWED ? (
+                  {(timeData!.createStart <= today &&
+                  today <= timeData!.createEnd) &&
+                  (clubData!.state === EClubState.ALLOWED ? (
                     <CheckmarkCircleFilled
                       size={28}
                       color={DodamColor.green50}
@@ -94,7 +94,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                     <XmarkCircle size={28} color={DodamColor.red50} />
                   ) : (
                     <Clock size={28} color={DodamColor.yellow50} />
-                  )}
+                  ))}
                 </S.ClubDetailHeaderName>
                 <S.ClubDetailHeaderShortDescription>
                   {clubData!.shortDescription}
