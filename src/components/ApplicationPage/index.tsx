@@ -342,7 +342,7 @@ const ApplicationPage = () => {
                 )
               ) : (
                 isJoinedAutonomousClub ? (
-                  <S.SelectButton style={{ backgroundColor: '#cccccc' }}>가입됨</S.SelectButton>
+                  null
                 ) : (
                   selectedAutonomousClubs.includes(club.id) && (
                     <S.SelectButton>선택</S.SelectButton>
