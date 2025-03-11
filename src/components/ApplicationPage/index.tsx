@@ -3,7 +3,7 @@ import * as S from './style';
 import megaphoneIcon from 'src/assets/megaphone.svg';
 import { useGetClubsQuery } from 'src/queries/useClub';
 import clubApi from 'src/api/Club/club.api';
-import { DodamSegmentedButton, DodamTheme } from "@b1nd/dds-web";
+import { DodamSegmentedButton, DodamErrorBoundary } from "@b1nd/dds-web";
 import { useTheme } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import ClubApplicationPopup from './Popup/index';
@@ -21,8 +21,6 @@ interface EssayData {
 }
 
 const ApplicationPage = () => {
-  const navigate = useNavigate();
-  const theme = useTheme() as DodamTheme;
   const { data: clubList, isLoading, isError } = useGetClubsQuery();
   const [selectedCreativeClubs, setSelectedCreativeClubs] = useState<number[]>([]);
   const [selectedAutonomousClubs, setSelectedAutonomousClubs] = useState<number[]>([]);
@@ -286,17 +284,6 @@ const ApplicationPage = () => {
       );
     }
     
-    if (isError) {
-      return (
-        <S.ErrorWrapper>
-          <S.ErrorText>동아리 목록을 불러오는 중 오류가 발생했습니다.</S.ErrorText>
-          <S.RetryButton onClick={() => window.location.reload()}>
-            다시 시도
-          </S.RetryButton>
-        </S.ErrorWrapper>
-      );
-    }
-    
     if (currentClubsList.length === 0) {
       return (
         <S.EmptyClubList>
@@ -431,7 +418,9 @@ const ApplicationPage = () => {
       
       <S.ContentSection>
         <S.ClubListSection>
-          {renderClubList()}
+          <DodamErrorBoundary text='불러오는 중 에러가 발생했습니다.'>
+            {renderClubList()}
+          </DodamErrorBoundary>
         </S.ClubListSection>
         {renderRightSection()}
       </S.ContentSection>

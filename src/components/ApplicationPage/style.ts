@@ -101,31 +101,6 @@ export const LoadingText = styled.p`
   color: ${({ theme }) => theme.labelAlternative};
 `;
 
-export const ErrorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 20px;
-`;
-
-export const ErrorText = styled.p`
-  ${DodamTypography.Body1.Medium}
-  color: ${({ theme }) => theme.labelAlternative};
-  margin-bottom: 16px;
-  text-align: center;
-`;
-
-export const RetryButton = styled.button`
-  padding: 8px 16px;
-  ${DodamTypography.Label.Medium}
-  background-color: ${({ theme }) => theme.primaryNormal};
-  border: none;
-  ${DodamShape.ExtraSmall}
-  cursor: pointer;
-`;
-
 export const EmptyClubList = styled.div`
   display: flex;
   justify-content: center;
