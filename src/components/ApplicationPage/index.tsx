@@ -4,8 +4,6 @@ import megaphoneIcon from 'src/assets/megaphone.svg';
 import { useGetClubsQuery } from 'src/queries/useClub';
 import clubApi from 'src/api/Club/club.api';
 import { DodamSegmentedButton, DodamErrorBoundary } from "@b1nd/dds-web";
-import { useTheme } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import ClubApplicationPopup from './Popup/index';
 
 interface ClubResponse {
