@@ -1,11 +1,9 @@
-import React from 'react';
 import * as S from './style';
 import megaphoneIcon from 'src/assets/megaphone.svg';
 import { useGetClubsQuery } from 'src/queries/useClub';
 import { DodamSegmentedButton, DodamErrorBoundary } from "@b1nd/dds-web";
 import ClubApplicationPopup from './Popup/index';
 import useClubApplication from 'src/hooks/club/useClubApplication';
-import { ClubResponse } from 'src/types/club/club.type';
 
 const ApplicationPage = () => {
   const { data: clubList, isLoading, isError } = useGetClubsQuery();
@@ -21,7 +19,6 @@ const ApplicationPage = () => {
       isButtonEnabled,
       isSubmitting,
       isModalOpen,
-      joinedClubs,
       loadingJoinedClubs,
       hasJoinedCreativeClub,
       joinedAutonomousClubIds,
@@ -55,7 +52,6 @@ const ApplicationPage = () => {
   );
 
   const renderCreativeClubRightSection = () => {
-    // 이미 창체 동아리에 가입된 경우
     if (hasJoinedCreativeClub) {
       return (
         <S.ClubDescriptionSection>
@@ -64,7 +60,6 @@ const ApplicationPage = () => {
       );
     }
 
-    // 동아리가 선택되지 않은 경우
     if (currentClub === null) {
       return (
         <S.ClubDescriptionSection>
@@ -73,7 +68,6 @@ const ApplicationPage = () => {
       );
     }
 
-    // 선택된 동아리 정보 찾기
     const selectedClub = currentClubsList.find(club => club.id === currentClub);
     
     return (
@@ -88,7 +82,6 @@ const ApplicationPage = () => {
   };
 
   const renderAutonomousClubRightSection = () => {
-    // 동아리가 선택되지 않은 경우
     if (currentClub === null || selectedAutonomousClubs.length === 0) {
       return (
         <S.EssaySection>
@@ -97,7 +90,6 @@ const ApplicationPage = () => {
       );
     }
 
-    // 이미 가입된 자율 동아리인 경우
     if (joinedAutonomousClubIds.includes(currentClub)) {
       return (
         <S.EssaySection>
@@ -148,11 +140,9 @@ const ApplicationPage = () => {
     return (
       <S.ClubListContent>
         {currentClubsList.map(club => {
-          // 이미 가입된 동아리인지 확인
           const isJoinedAutonomousClub = !isCreativeClubSelected && joinedAutonomousClubIds.includes(club.id);
           const isDisabled = (isCreativeClubSelected && hasJoinedCreativeClub) || isJoinedAutonomousClub;
           
-          // 현재 선택된 상태인지 확인
           const isSelected = isCreativeClubSelected 
             ? selectedCreativeClubs.includes(club.id)
             : selectedAutonomousClubs.includes(club.id);
@@ -161,7 +151,6 @@ const ApplicationPage = () => {
             <S.ClubItem
               key={club.id}
               onClick={() => {
-                // 이미 가입된 동아리는 클릭 불가
                 if (!isDisabled) {
                   (isCreativeClubSelected 
                     ? handleCreativeClubClick(club)
@@ -195,7 +184,6 @@ const ApplicationPage = () => {
       ? selectedCreativeClubs 
       : selectedAutonomousClubs;
 
-    // 선택된 동아리가 있는 경우
     if (selectedClubIds.length > 0 && currentClub !== null) {
       return (
         <S.EssayTitleWrapper>
@@ -203,7 +191,6 @@ const ApplicationPage = () => {
             {getCurrentClubName()} 동아리 {isCreativeClubSelected ? '소개' : '자기소개'}
             {!isCreativeClubSelected && ' (선택사항)'}
           </S.EssayTitle>
-          {/* 여러 동아리가 선택된 경우 도트 선택기 표시 */}
           {selectedClubIds.length > 1 && (
             <S.DotSelector>
               {selectedClubIds.map((clubId) => (
@@ -221,7 +208,6 @@ const ApplicationPage = () => {
       );
     }
 
-    // 선택된 동아리가 없는 경우
     return (
       <S.EssayTitleWrapper>
         <S.EssayTitle>
@@ -235,7 +221,6 @@ const ApplicationPage = () => {
     );
   };
 
-  // 로딩 중인 경우
   if (loadingJoinedClubs) {
     return (
       <S.Container>
@@ -282,7 +267,6 @@ const ApplicationPage = () => {
         <S.ApplyButton 
           enabled={isButtonEnabled && !isSubmitting}
           isCreativeComplete={
-            // 창체 동아리: 3개 선택 완료 또는 자율 동아리 탭에서 1개 이상 선택
             (isCreativeClubSelected && selectedCreativeClubs.length === 3) || 
             (!isCreativeClubSelected && selectedAutonomousClubs.length > 0)
           }
