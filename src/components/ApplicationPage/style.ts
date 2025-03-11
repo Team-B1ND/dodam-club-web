@@ -240,6 +240,7 @@ export const EssayTextarea = styled.textarea`
   ${DodamShape.Small}
   background-color: ${({ theme }) => theme.backgroundNormal};
   resize: none;
+  outline: none;
 `;
 
 export const ButtonWrapper = styled.div`
