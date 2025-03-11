@@ -146,12 +146,12 @@ export const PriorityBadge = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 28px;
-  height: 24px;
+  width: 26px;
+  height: 22px;
   ${DodamShape.ExtraLarge}
   background-color: ${({ theme }) => theme.primaryNormal};
   color: ${({ theme }) => theme.staticWhite};
-  ${DodamTypography.Headline.Bold}
+  ${DodamTypography.Label.Bold}
 `;
 
 export const SelectButton = styled.div`
@@ -159,7 +159,7 @@ export const SelectButton = styled.div`
   align-items: center; 
   justify-content: center; 
   text-align: center;
-  height: 24px;
+  height: 22px;
   width: 46px;
   padding: 0 6px;
   ${DodamShape.ExtraLarge}
