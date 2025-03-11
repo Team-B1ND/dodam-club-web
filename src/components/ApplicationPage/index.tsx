@@ -202,9 +202,8 @@ const ApplicationPage = () => {
         <S.RightSection>
           <S.ClubDescriptionSection>
             {selectedClub ? (
-              <MDEditor.Markdown 
-                source={selectedClub.description} 
-                style={{ backgroundColor: theme.backgroundNormal}} 
+              <S.MarkDownViewer
+                source={selectedClub.description}
               />
             ) : (
               <S.EmptyState>

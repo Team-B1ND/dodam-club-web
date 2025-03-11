@@ -1,4 +1,5 @@
 import { DodamShape, DodamTypography } from '@b1nd/dds-web';
+import MDEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -298,3 +299,16 @@ export const ApplyButton = styled.button<{
   cursor: ${({ enabled }) => (enabled ? 'pointer' : 'not-allowed')};
   transition: background-color 0.2s ease, opacity 0.2s ease;
 `;
+
+export const MarkDownViewer = styled(MDEditor.Markdown)`
+  background-color: ${({ theme }) => theme.backgroundNormal};
+  & * {
+    color: ${({ theme }) => theme.labelNormal};
+  }
+  & pre {
+    background-color: ${({ theme }) => theme.labelStrong};
+  }
+  & span {
+    color: ${({ theme }) => theme.labelDisabled};
+  }
+`
