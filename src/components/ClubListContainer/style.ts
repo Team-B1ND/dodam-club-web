@@ -22,7 +22,7 @@ export const ClubItemContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  height: 600px;
+  height: 100%;
   gap: 16px;
   overflow: hidden;
   overflow-y: scroll;

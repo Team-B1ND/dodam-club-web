@@ -27,11 +27,7 @@ const ClubMenuBar = () => {
         />
       <Suspense fallback={<ClubMenuSkeleton/>}>
         <ClubMenu name="소속된 동아리" type="MyClub" time={timeData!}/>
-      </Suspense>
-      <Suspense fallback={<ClubMenuSkeleton/>}>
         <ClubMenu name="내 개설 신청" type="LeaderApply" time={timeData!}/>
-      </Suspense>
-      <Suspense fallback={<ClubMenuSkeleton/>}>
         <ClubMenu name="받은 부원 제안" type="Request" time={timeData!}/>
       </Suspense>
     </ClubMenubarContainer>

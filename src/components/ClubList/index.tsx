@@ -1,14 +1,11 @@
-import { Suspense, useState } from "react";
-import * as S from "./style";
-import {  DodamSegmentedButton } from "@b1nd/dds-web";
+import { DodamTypography } from "@b1nd/dds-web";
 import ClubItem from "./ClubItem";
 import { ClubResponse } from "src/types/club/club.type";
 import { EClub } from "src/enum/club/club.enum";
 import { Link } from "react-router-dom";
 import { useGetClubsQuery } from "src/queries/useClub";
-import ClubItemSkeleton from "src/components/Common/ClubItemSkeleton";
 import { useClubTime } from "src/hooks/club/useClubTime";
-
+import styled from "styled-components";
 
 const ClubList = ({isCreativeClubPage}: {isCreativeClubPage: boolean}) => {
   const { data: clubData } = useGetClubsQuery();
@@ -39,10 +36,18 @@ const ClubList = ({isCreativeClubPage}: {isCreativeClubPage: boolean}) => {
             </Link>
           ))
       ) : (
-        <S.NoClubMessage>올라온 동아리가 없습니다.</S.NoClubMessage>
+        <NoClubMessage>올라온 동아리가 없습니다.</NoClubMessage>
       )}
     </>
   );
 };
 
 export default ClubList;
+
+const NoClubMessage = styled.div`
+  width: 100%;
+  text-align: center;
+  ${DodamTypography.Body1.Medium};
+  color: ${({theme})=>theme.labelNormal};
+  margin-top: 20px;
+`;

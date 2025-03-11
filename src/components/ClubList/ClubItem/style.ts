@@ -15,6 +15,7 @@ export const ClubItemImage = styled.img`
   border: transparent;
   width: 200px;
   height: 200px;
+  object-fit:cover;
 `
 
 export const ClubItemInfoContainer = styled.div`
