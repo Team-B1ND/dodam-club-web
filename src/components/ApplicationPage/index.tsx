@@ -74,12 +74,19 @@ const ApplicationPage = () => {
       setLoadingJoinedClubs(false);
     }
   };
+
   const updateButtonState = () => {
-    let canApply = false;
-    const canApplyCreative = !hasJoinedCreativeClub && selectedCreativeClubs.length === 3;
-    const canApplyAutonomous = selectedAutonomousClubs.length > 0;
-    canApply = canApplyCreative || canApplyAutonomous;
-    setIsButtonEnabled(canApply);
+    const validCreativeSelection = 
+      !isCreativeClubSelected || 
+      hasJoinedCreativeClub || 
+      selectedCreativeClubs.length === 0 || 
+      selectedCreativeClubs.length === 3;
+    
+    const hasAnySelection = 
+      (isCreativeClubSelected && !hasJoinedCreativeClub && selectedCreativeClubs.length > 0) || 
+      (!isCreativeClubSelected && selectedAutonomousClubs.length > 0);
+
+    setIsButtonEnabled(hasAnySelection && validCreativeSelection);
   };
 
   const getClubNameById = (clubId: number): string => {
@@ -114,6 +121,7 @@ const ApplicationPage = () => {
     if (selectedCreativeClubs.includes(club.id)) {
       const updatedClubs = selectedCreativeClubs.filter(id => id !== club.id);
       setSelectedCreativeClubs(updatedClubs);
+      
       if (currentClub === club.id) {
         setCurrentClub(updatedClubs.length > 0 ? updatedClubs[0] : null);
       }
@@ -181,7 +189,7 @@ const ApplicationPage = () => {
       const requests = [];
       const priorities = ['CREATIVE_ACTIVITY_CLUB_1', 'CREATIVE_ACTIVITY_CLUB_2', 'CREATIVE_ACTIVITY_CLUB_3'] as const;
   
-      if (!hasJoinedCreativeClub) {
+      if (!hasJoinedCreativeClub && selectedCreativeClubs.length === 3) {
         for (let i = 0; i < selectedCreativeClubs.length; i++) {
           const clubId = selectedCreativeClubs[i];
           requests.push({
@@ -206,6 +214,7 @@ const ApplicationPage = () => {
       if (requests.length > 0) {
         await clubApi.postJoinClubByRequestsBatch(requests);
         alert('동아리 입부 신청이 성공적으로 제출되었습니다!');
+        fetchJoinedClubs();
       } else {
         alert('신청할 동아리를 선택해주세요.');
       }
@@ -309,7 +318,7 @@ const ApplicationPage = () => {
               key={club.id}
               onClick={() => {
                 const clubData = club as ClubResponse;
-                if (!isJoinedAutonomousClub) {
+                if (!isJoinedAutonomousClub && !(isCreativeClubSelected && hasJoinedCreativeClub)) {
                   (isCreativeClubSelected 
                     ? handleCreativeClubClick(clubData)
                     : handleAutonomousClubClick(clubData))
@@ -320,7 +329,11 @@ const ApplicationPage = () => {
                   ? selectedCreativeClubs.includes(club.id)
                   : selectedAutonomousClubs.includes(club.id)
               }
-              style={isJoinedAutonomousClub ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+              style={
+                (isCreativeClubSelected && hasJoinedCreativeClub) || isJoinedAutonomousClub
+                  ? { opacity: 0.5, cursor: 'not-allowed' }
+                  : {}
+              }
             >
               {club.name}
               {isCreativeClubSelected ? (
@@ -426,7 +439,7 @@ const ApplicationPage = () => {
       <S.ButtonWrapper>
         <S.ApplyButton 
           enabled={isButtonEnabled && !isSubmitting}
-          isCreativeComplete={selectedCreativeClubs.length === 3}
+          isCreativeComplete={selectedCreativeClubs.length === 3 || (!isCreativeClubSelected && selectedAutonomousClubs.length > 0)}
           onClick={handleApplyButtonClick}
           disabled={!isButtonEnabled || isSubmitting}
         >
