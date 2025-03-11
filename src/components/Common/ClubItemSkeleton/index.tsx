@@ -27,8 +27,10 @@ export default ClubItemSkeleton
 const ClubItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 8px;
-  width: 200px;
+  width: 220px;
   height: 280px;
   overflow: hidden;
 `

@@ -21,28 +21,25 @@ export const ClubItemInfoContainer = styled.div`
   display: flex;
   padding: 0px 6px;
   flex-direction: column;
-`
-
-export const ClubItemSubject = styled.p`
-  ${DodamTypography.Label.Medium}
-  color: ${({ theme }) => theme.labelAlternative};
+  > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    ${DodamTypography.Body1.Medium}
+    color: ${({ theme }) => theme.labelNormal};
+  }
+  > span {
+    ${DodamTypography.Label.Medium}
+    color: ${({ theme }) => theme.labelAlternative};
+  }
 `
 
 export const ClubItemNameState = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
-
-export const ClubItemName = styled.p`
-  color: ${({ theme }) => theme.labelNormal};
-  ${DodamTypography.Heading2.Bold}
-`
-
-export const ClubItemDescription = styled.p`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  ${DodamTypography.Body1.Medium}
-  color: ${({ theme }) => theme.labelNormal};
+  > p {
+    color: ${({ theme }) => theme.labelNormal};
+    ${DodamTypography.Heading2.Bold}
+  }
 `

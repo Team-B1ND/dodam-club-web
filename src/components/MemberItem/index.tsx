@@ -20,35 +20,34 @@ const MemberItem = ({value, type, pickerStatus, onClick, isManagerPage}: MemberI
 
   return (
     <S.MemberItemContainer >
-      {!profileImage
-      ? <Avatar size='large'/>
-      : <S.MemberItemProfileImage src={profileImage} onError={(e)=>(e.target)}/>}
-      <S.MemberInfoContainer>
-        {name}
-        <S.MemberGradeAndRoom>
-          {grade}-{room}
-        </S.MemberGradeAndRoom> 
-      </S.MemberInfoContainer>
-      <S.MemberItemBar/>
+      <div style={{display:'flex', gap:'12px'}}>
+        {!profileImage
+        ? <Avatar size='large'/>
+        : <S.MemberItemProfileImage src={profileImage} alt='X'/>}
+        <S.MemberInfoContainer>
+          {name}
+          <p>{grade}-{room}</p>
+        </S.MemberInfoContainer>
+      </div>
       {onClick && type === 'PICKER'
       ? (
-        <S.MemberItemIconContainer 
+        <div
           onClick={() => onClick(isManagerPage ? studentId : id)}
           style={{ cursor:'pointer' }}
         >
           {pickerStatus
           ? <CheckmarkCircleFilled color={theme.primaryNormal}/>
           : <CheckmarkCircleLine color={theme.lineNormal}/>} 
-        </S.MemberItemIconContainer>)
+        </div>)
       : type === "STATUS" 
       && (
-        <S.MemberItemIconContainer>
+        <div>
           {status == EClubState.ALLOWED
           ? <CheckmarkCircleFilled color={DodamColor.green50}/>
           : status === EClubState.REJECTED
             ? <XmarkCircle color={DodamColor.red50}/>
             : <Clock color={DodamColor.yellow50}/>}
-        </S.MemberItemIconContainer>
+        </div>
       )}
     </S.MemberItemContainer>
   )

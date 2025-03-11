@@ -2,24 +2,23 @@ import { Close } from '@b1nd/dds-web'
 import * as S from './style'
 import { useEffect, useState } from 'react'
 import { EClub, EClubState } from 'src/enum/club/club.enum'
-import { ClubResponse } from 'src/types/club/club.type'
 import ManagerMemberList from 'src/components/ManagerMemberList'
+import { useGetMyClubApplyQuery } from 'src/queries/useClub'
 
-const ClubMemberManager = ({ close, myClub, isLoading }: { close: () => void, myClub: ClubResponse[], isLoading: boolean }) => {
+const ClubMemberManager = ({ close }: { close: () => void }) => {
   const [selectedClub, setSelectedClub] = useState<number>();
   const [selectedMember, setSelectedMember] = useState<number>(0);
+  const { data: myClub } = useGetMyClubApplyQuery()
 
   useEffect(() => {
-    if (!isLoading) {
-      setSelectedClub(myClub.filter((item) => item.state === EClubState.ALLOWED && item.type === EClub.SELF_DIRECT_CLUB)[0].id)
+    if(!selectedClub){
+      setSelectedClub(myClub!.filter((item) => item.state === EClubState.ALLOWED && item.type === EClub.SELF_DIRECT_CLUB)[0].id)
     }
-  }, [myClub, isLoading]);
+  }, [myClub]);
 
   const handleSelectedClub = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedClub(+e.target.value);
   };
-
-  if (isLoading) return null; 
 
   return (
     <S.ClubManager>
@@ -28,10 +27,10 @@ const ClubMemberManager = ({ close, myClub, isLoading }: { close: () => void, my
           <Close $svgStyle={{ cursor: "pointer" }} color="labelNormal" />
         </div>
         <S.ClubManagerMain>
-          {myClub.length > 0 && (
+          {myClub!.length > 0 && (
             <S.ClubManagerSelecter
               value={selectedClub}
-              onChange={(e) => handleSelectedClub(e)}
+              onChange={handleSelectedClub}
             >
               {myClub!
                 .filter((item) => item.state === EClubState.ALLOWED && item.type === EClub.SELF_DIRECT_CLUB)

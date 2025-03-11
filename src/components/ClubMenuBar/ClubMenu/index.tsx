@@ -4,20 +4,13 @@ import { ClubMenuProps} from 'src/types/club/club.type';
 import { EClub } from 'src/enum/club/club.enum';
 import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery, useGetStudentApplyQuery } from 'src/queries/useClub';
 import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/joinRequest.query';
-import ClubMenuSkeleton from 'src/components/Common/ClubMenuSkeleton';
-
 const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
-  const { data: myClubApply, isLoading: applyIsLoading } = useGetMyClubApplyQuery()
-  const { data: myClub, isLoading: myClubIsLoading } = useGetMyJoinedClubQuery()
-  const { data: joinRequestList, isLoading: joinRequestIsLoading } = useGetJoinRequestsQuery()
-  const { data: studentClubApply, isLoading: studentApplyIsLoading } = useGetStudentApplyQuery()
+  const { data: myClubApply } = useGetMyClubApplyQuery({enabled:type === 'LeaderApply'})
+  const { data: myClub } = useGetMyJoinedClubQuery({enabled:type === 'MyClub'})
+  const { data: joinRequestList } = useGetJoinRequestsQuery({enabled:type === 'Request'})
+  const { data: studentClubApply } = useGetStudentApplyQuery({enabled:type === 'StudentApply'})
 
-  return(
-    applyIsLoading || myClubIsLoading || joinRequestIsLoading || studentApplyIsLoading)
-  ? (
-    <ClubMenuSkeleton/>
-  )
-  : (
+  return (
     <S.ClubMenuContainer>
       {name}
         {(type === "Request" && joinRequestList!.length > 0)

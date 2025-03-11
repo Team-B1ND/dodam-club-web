@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import * as S from "./style";
 import {  DodamSegmentedButton } from "@b1nd/dds-web";
 import ClubItem from "./ClubItem";
@@ -10,35 +10,14 @@ import ClubItemSkeleton from "src/components/Common/ClubItemSkeleton";
 import { useClubTime } from "src/hooks/club/useClubTime";
 
 
-const ClubList = () => {
-  const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
-  const {data:clubData, isLoading, isFetching} = useGetClubsQuery();
-  const {timeData, today, timeIsLoading} = useClubTime()
-  const changePage = () => {
-    setIsCreativeClubPage(prev=>!prev)
-  }
+const ClubList = ({isCreativeClubPage}: {isCreativeClubPage: boolean}) => {
+  const { data: clubData } = useGetClubsQuery();
+  const { timeData, today } = useClubTime();
   
   return (
-    <S.ClubListContainer>
-      <S.ClubListHead>동아리</S.ClubListHead>
-      <S.ClubMenu>
-        <DodamSegmentedButton
-          num={2}
-          type="block"
-          data={[
-            { text: '창체동아리', isAtv: isCreativeClubPage },
-            { text: '자율동아리', isAtv: !isCreativeClubPage }
-          ]}
-          width={280}
-          height={56}
-          onClick={changePage}
-        />
-      </S.ClubMenu>
-      <S.ClubItemContainer>
-      {isLoading || isFetching || timeIsLoading ? (
-        Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx} />)
-      ) : clubData && clubData.length > 0 ? (
-        clubData
+    <>
+      {clubData!.length > 0 ? (
+        clubData!
           .filter((item: ClubResponse) =>
             isCreativeClubPage
               ? item.type === EClub.CREATIVE_CLUB
@@ -62,9 +41,7 @@ const ClubList = () => {
       ) : (
         <S.NoClubMessage>올라온 동아리가 없습니다.</S.NoClubMessage>
       )}
-    </S.ClubItemContainer>
-
-    </S.ClubListContainer>
+    </>
   );
 };
 
