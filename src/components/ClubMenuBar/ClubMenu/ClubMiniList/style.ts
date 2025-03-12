@@ -27,10 +27,3 @@ export const ClubMiniItemRequestContainer = styled.div`
   display: flex;
   gap: 4px;
 `
-
-export const ClubMiniItemStudentApply = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`

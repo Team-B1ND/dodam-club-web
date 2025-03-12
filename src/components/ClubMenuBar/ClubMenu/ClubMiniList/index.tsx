@@ -30,14 +30,6 @@ const ClubMiniList = ({
   if (!value || value.length === 0) {
     return null; 
   }
-
-  if(type ==='StudentApply'){
-    value.sort((a, b) => 
-      a.priority!.charAt(a.priority!.length-1) < b.priority!.charAt(b.priority!.length-1) 
-        ? -1
-        : 1
-    )
-  }
   
   const [isOpen, setIsopen] = useState({
     REQUEST_ACCEPT: Object.fromEntries(
@@ -170,14 +162,11 @@ const ClubMiniList = ({
                   </DodamModal>
                 </S.ClubMiniItem>
             )
-            : (type === "StudentApply" && isMyClubType(item) && 'priority' in item) 
+            : (type === "StudentApply" && isMyClubType(item)) 
             ? (
-              <S.ClubMiniItemStudentApply>
-                {name == '창체' && <p>{item.priority?.charAt(item.priority.length-1)}지망</p>}
-                <Link to={`/${item.club.id}`}>
-                  <p>{item.club.name}</p>
-                </Link>
-              </S.ClubMiniItemStudentApply>
+              <Link to={`/${item.club.id}`}>
+                <p>{item.club.name}</p>
+              </Link>
             )
             : (type === "MyClub" && !isMyClubType(item)) && (
               <Link to={`/${item.id}`}>
