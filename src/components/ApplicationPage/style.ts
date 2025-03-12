@@ -50,7 +50,7 @@ export const ContentSection = styled.div`
   flex-direction: row;
   gap: 20px;
   height: calc(100% - 140px);
-  height: 75%;
+  height: 70%;
 `;
 
 export const ClubListSection = styled.div`
@@ -67,21 +67,21 @@ export const ClubListSection = styled.div`
 `;
 
 export const ClubListContent = styled.div`
+  height: 350px;
   padding: 12px 0px;
   overflow-y: auto;
   flex: 1;
+  ${DodamShape.Small}
   &::-webkit-scrollbar {
     display: none;
   }
   
   &::-webkit-scrollbar-track {
     background-color: ${({ theme }) => theme.labelAssistive};
-    ${DodamShape.Small}
   }
   
   &::-webkit-scrollbar-thumb {
     background-color:${({ theme }) => theme.labelAlternative};
-    ${DodamShape.Small}
   }
   
   &::-webkit-scrollbar-thumb:hover {
@@ -99,31 +99,6 @@ export const LoadingWrapper = styled.div`
 export const LoadingText = styled.p`
   ${DodamTypography.Body1.Medium}
   color: ${({ theme }) => theme.labelAlternative};
-`;
-
-export const ErrorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 20px;
-`;
-
-export const ErrorText = styled.p`
-  ${DodamTypography.Body1.Medium}
-  color: ${({ theme }) => theme.labelAlternative};
-  margin-bottom: 16px;
-  text-align: center;
-`;
-
-export const RetryButton = styled.button`
-  padding: 8px 16px;
-  ${DodamTypography.Label.Medium}
-  background-color: ${({ theme }) => theme.primaryNormal};
-  border: none;
-  ${DodamShape.ExtraSmall}
-  cursor: pointer;
 `;
 
 export const EmptyClubList = styled.div`
@@ -187,7 +162,7 @@ export const EssayTitleWrapper = styled.div`
   justify-content: space-between;
   margin-left: auto;
   width: 70%;
-  margin-right: -10px;
+  margin-right: 1%;
 `;
 
 export const EssayTitle = styled.h2`
@@ -219,7 +194,7 @@ export const EssaySection = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.backgroundNormal};
-  ${DodamShape.Small}
+  ${DodamShape.Large}
   padding: 20px;
   border: 1px ${({ theme }) => theme.lineAlternative} solid;
 `;
