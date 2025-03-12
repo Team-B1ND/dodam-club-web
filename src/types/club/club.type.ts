@@ -70,7 +70,7 @@ export interface ClubJoinResponse {
 }
 
 export interface StudentApplyResponse extends ClubJoinResponse {
-  priority: null;
+  priority: null | string;
   introduction: string;
 }
 
