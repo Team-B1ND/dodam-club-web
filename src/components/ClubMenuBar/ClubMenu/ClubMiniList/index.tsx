@@ -173,7 +173,7 @@ const ClubMiniList = ({
             : (type === "StudentApply" && isMyClubType(item) && 'priority' in item) 
             ? (
               <S.ClubMiniItemStudentApply>
-                <p>{item.priority?.charAt(item.priority.length-1)}지망</p>
+                {name == '창체' && <p>{item.priority?.charAt(item.priority.length-1)}지망</p>}
                 <Link to={`/${item.club.id}`}>
                   <p>{item.club.name}</p>
                 </Link>
