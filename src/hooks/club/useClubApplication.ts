@@ -30,12 +30,12 @@ export default function useClubApplication({ clubList = [] }: UseClubApplication
 
   // 가입된 동아리 여부 확인
   const hasJoinedCreativeClub = (joinedClubs || []).some(
-    club => club.type === 'CREATIVE_ACTIVITY_CLUB' && club.state === 'ALLOWED'
+    club => club.type === 'CREATIVE_ACTIVITY_CLUB' && (club.myStatus || club.state) === 'ALLOWED'
   );
-  
+
   // 가입된 자율 동아리 ID 목록
   const joinedAutonomousClubIds = (joinedClubs || [])
-    .filter(club => club.type === 'SELF_DIRECT_ACTIVITY_CLUB' && club.state === 'ALLOWED')
+    .filter(club => club.type === 'SELF_DIRECT_ACTIVITY_CLUB' && (club.myStatus || club.state) === 'ALLOWED')
     .map(club => club.id);
 
   // 클럽 데이터 필터링

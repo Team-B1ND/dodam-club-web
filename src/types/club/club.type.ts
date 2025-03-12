@@ -57,6 +57,7 @@ export interface ClubResponse {
   type: string;
   teacher: string;
   state: string;
+  myStatus?: string;
   createdAt?: string;
   modifiedAt?: string;
 }
