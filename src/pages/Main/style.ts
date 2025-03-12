@@ -12,7 +12,7 @@ export const ClubSidebar= styled.div`
 width: 20%;
 padding: 58px 32px;
 @media (max-width: 1069px){
-    padding: 20px 0 72px 32px;
+    padding: 20px 32px 72px 24px;
   } 
 `
 

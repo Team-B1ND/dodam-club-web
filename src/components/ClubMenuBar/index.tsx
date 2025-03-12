@@ -68,7 +68,6 @@ const ClubMenuBar = () => {
           text="동아리 입부 신청하기"
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
-          customStyle={{minWidth:'180px'}}
           onClick={()=>navigate('/register')}
         />
       <ClubMenu name="소속된 동아리" type="MyClub" time={timeData!}/>
@@ -81,7 +80,6 @@ const ClubMenuBar = () => {
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
           onClick={handleOpen}
-          customStyle={{minWidth:'180px'}}
         />
       )}
       <DodamModal
