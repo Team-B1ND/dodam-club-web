@@ -29,6 +29,9 @@ export const ClubItemContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  @media (max-width: 1069px){
+    grid-template-columns: repeat(5, 1fr);
+  }
   @media only screen and (max-width: 1250px){
     grid-template-columns: repeat(3, 1fr);
   } 
