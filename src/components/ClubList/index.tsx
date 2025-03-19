@@ -32,7 +32,7 @@ const ClubList = ({isCreativeClubPage}: {isCreativeClubPage: boolean}) => {
                 textDecoration: 'none'
               }}
             >
-              <ClubItem value={item} isEnded={timeData!.applicantStart < today} />
+              <ClubItem value={item} isEnded={timeData!.applicantStart < today && timeData!.applicantEnd > today} />
             </Link>
           ))
       ) : (
