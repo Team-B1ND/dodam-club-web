@@ -11,7 +11,6 @@ import {
   Pen,
   XmarkCircle,
 } from '@b1nd/dds-web'
-import MDEditor from '@uiw/react-md-editor'
 import ClubDetailSkeleton from 'src/components/Common/ClubDetailSkeleton'
 import {
   useGetClubLeaderQuery,
@@ -24,7 +23,6 @@ import {
 import { useTheme } from 'styled-components'
 import { ClubDetailType } from 'src/types/club/club.type'
 import { useGetClubDetailQuery } from 'src/queries/useClub'
-import { useGetTime } from 'src/queries/time/time.query'
 import MemberItem from 'src/components/MemberItem'
 import { useClubTime } from 'src/hooks/club/useClubTime'
 interface ClubDetailProps {
@@ -52,7 +50,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
     isFetching,
   } = useGetClubMemberQuery(type === 'MODAL' ? modalId : +id!)
 
-  const { timeData, timeIsLoading, today } = useClubTime()
+  const { timeData, today } = useClubTime()
   return (
     <S.ClubDetail>
       <S.ClubDetailContainer $type={type}>
@@ -68,8 +66,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
         {clubDataIsLoading ||
         leaderIsLoading ||
         clubMemberIsLoading ||
-        isFetching ||
-        timeIsLoading ? (
+        isFetching ? (
           <ClubDetailSkeleton />
         ) : (
           <>
@@ -124,10 +121,10 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
                           width={100}
                           textTheme='staticWhite'
                           enabled={
-                            ((clubData?.type === EClub.CREATIVE_CLUB ? 5 : 10) <=
+                            (clubData?.type === EClub.CREATIVE_CLUB ? 5 : 10) <=
                             clubMemberData!.students.filter(
                               (item) => item.status === EClubState.ALLOWED
-                            ).length) && (clubData?.state === EClubState.WAITING)
+                            ).length && (clubData?.state === EClubState.WAITING)
                           }
                           onClick={() =>
                             postClubApplyMutation.mutate(clubData!.id)
