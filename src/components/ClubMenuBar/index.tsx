@@ -46,6 +46,7 @@ const ClubMenuBar = () => {
             textTheme="staticWhite"
             typography={["Body2", "Bold"]}
             onClick={() => setResultIsOpen(true)}
+            
           />
           <DodamModal isOpen={resultIsOpen} background={true}>
             <Dialog
@@ -69,6 +70,7 @@ const ClubMenuBar = () => {
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
           onClick={()=>navigate('/register')}
+          
         />
       <ClubMenu name="소속된 동아리" type="MyClub" time={timeData!}/>
       <ClubMenu name="내 신청" type="StudentApply" time={timeData!}/>
