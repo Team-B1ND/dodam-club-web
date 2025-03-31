@@ -4,6 +4,7 @@ import { ClubDataBox,ClubSidebar,ClubBox } from "./style";
 import { Suspense } from "react";
 import ClubMenuListSkeleton from "src/components/Common/ClubMenuListSkeleton";
 import ClubListContainer from "src/components/ClubListContainer";
+import { useClubTime } from "src/hooks/club/useClubTime";
 
 const MainPage = () => {
 

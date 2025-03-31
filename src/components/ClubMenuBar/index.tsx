@@ -1,93 +1,38 @@
-import { Dialog, DodamDialog, DodamFilledButton, DodamModal } from '@b1nd/dds-web'
 import ClubMenu from './ClubMenu'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import ClubMemberManager from 'src/components/ClubMemberManager'
-import { useState } from 'react'
-import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery } from 'src/queries/useClub'
-import { EClub } from 'src/enum/club/club.enum'
+import { Suspense } from 'react'
 import { useClubTime } from 'src/hooks/club/useClubTime'
+import ClubMenuSkeleton from '../Common/ClubMenuSkeleton'
+import ClubInteractionButton from './ClubInteractionButton'
 
 const ClubMenuBar = () => {
-  const navigate = useNavigate();
-  const { timeData, timeIsLoading, today } = useClubTime();
-  const { data: myClub, isLoading: clubIsLoading } = useGetMyClubApplyQuery()
-  const { data: joinedClub, isLoading:joinedIsLoading } = useGetMyJoinedClubQuery()
+  const { timeData, today } = useClubTime();
 
-  const [ resultIsOpen, setResultIsOpen ] = useState(false);
-  const [ isOpen, setIsOpen ] = useState(false);
-  const handleOpen = () => setIsOpen((prev) => !prev)
-
-  return (timeIsLoading || clubIsLoading || joinedIsLoading) ||
-  (timeData!.createStart <= today && today <= timeData!.createEnd)
-  ? (
+  return (
     <ClubMenubarContainer>
-        <DodamFilledButton
-          size={"Large"}
-          text="동아리 개설 신청하기"
-          textTheme="staticWhite"
-          typography={["Body2", "Bold"]}
-          customStyle={{minWidth:"50px"}}
-          onClick={()=>navigate("/create")}
-        />
-      
-      <ClubMenu name="소속된 동아리" type="MyClub" time={timeData!}/>
-      <ClubMenu name="내 개설 신청" type="LeaderApply" time={timeData!}/>
-      <ClubMenu name="받은 부원 제안" type="Request" time={timeData!}/>
-    </ClubMenubarContainer>
-  )
-  : (
-    <ClubMenubarContainer>
-      {timeData!.applicantEnd < today && (
+      <Suspense fallback={<ClubInteractionButton type="LOADING"/>}>
+        <ClubInteractionButton/>
+      </Suspense>
+      <Suspense fallback={<ClubMenuSkeleton/>}>
+        <ClubMenu name="소속된 동아리" type="MyClub" timeData={timeData!}/>
+      </Suspense>
+      {(timeData!.createStart <= today && today <= timeData!.createEnd) ? (
         <>
-          <DodamFilledButton
-            size={"Large"}
-            text="결과 확인하기"
-            textTheme="staticWhite"
-            typography={["Body2", "Bold"]}
-            onClick={() => setResultIsOpen(true)}
-          />
-          <DodamModal isOpen={resultIsOpen} background={true}>
-            <Dialog
-              title='동아리 입부를 축하합니다!'
-              text={`창체동아리 ${joinedClub?.find((item) => item.type === EClub.CREATIVE_CLUB)?.name}에 입부하셨습니다.
-              자율동아리 ${joinedClub?.filter((item) => item.type != EClub.CREATIVE_CLUB).map((item) => item.name)}에 입부하셨습니다.`}
-              type={{
-                dialog: "ALERT",
-                close: {
-                  content:'닫기',
-                  onClick: () => setResultIsOpen(false)
-                }
-              }}
-            />
-          </DodamModal>
+          <Suspense fallback={<ClubMenuSkeleton/>}>
+            <ClubMenu name="내 개설 신청" type="LeaderApply" timeData={timeData!}/>
+          </Suspense>
+          <Suspense fallback={<ClubMenuSkeleton/>}>
+            <ClubMenu name="받은 부원 제안" type="Request" timeData={timeData!}/>
+          </Suspense>
         </>
+      ) : (
+        <Suspense fallback={<ClubMenuSkeleton/>}>
+          <ClubMenu name="내 신청" type="StudentApply" timeData={timeData!}/>
+        </Suspense>
       )}
-        <DodamFilledButton
-          size={"Large"}
-          text="동아리 입부 신청하기"
-          textTheme="staticWhite"
-          typography={["Body2", "Bold"]}
-          onClick={()=>navigate('/register')}
-        />
-      <ClubMenu name="소속된 동아리" type="MyClub" time={timeData!}/>
-      <ClubMenu name="내 신청" type="StudentApply" time={timeData!}/>
-      {(myClub!.filter((item) => item.type === EClub.SELF_DIRECT_CLUB).length > 0)
-      && (  
-        <DodamFilledButton
-          size={"Large"}
-          text="자율동아리 관리"
-          textTheme="staticWhite"
-          typography={["Body2", "Bold"]}
-          onClick={handleOpen}
-        />
-      )}
-      <DodamModal
-        isOpen={isOpen}
-        background={true}
-      >
-        <ClubMemberManager close={handleOpen}/>
-      </DodamModal>
+      <Suspense fallback={<ClubInteractionButton type="LOADING"/>}>
+        <ClubInteractionButton type="MYCLUB"/>
+      </Suspense>
     </ClubMenubarContainer>
   )
 }

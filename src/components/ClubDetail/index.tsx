@@ -50,7 +50,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
     isFetching,
   } = useGetClubMemberQuery(type === 'MODAL' ? modalId : +id!)
 
-  const { timeData, timeIsLoading, today } = useClubTime()
+  const { timeData, today } = useClubTime()
   return (
     <S.ClubDetail>
       <S.ClubDetailContainer $type={type}>
@@ -66,8 +66,7 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
         {clubDataIsLoading ||
         leaderIsLoading ||
         clubMemberIsLoading ||
-        isFetching ||
-        timeIsLoading ? (
+        isFetching ? (
           <ClubDetailSkeleton />
         ) : (
           <>

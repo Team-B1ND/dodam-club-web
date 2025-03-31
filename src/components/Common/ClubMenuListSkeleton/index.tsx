@@ -1,11 +1,16 @@
-import { DodamShape } from '@b1nd/dds-web'
+import { DodamColor, DodamShape } from '@b1nd/dds-web'
 import styled from 'styled-components'
 import Shimmer from '../Shimmer'
+import ClubMenuSkeleton from '../ClubMenuSkeleton'
 
 const ClubMenuListSkeleton = () => {
   return (
     <ClubMenuListSkeletonContainer>
-      <Shimmer/>
+      <ClubInteractionButtonSkeleton>
+        <Shimmer/>
+      </ClubInteractionButtonSkeleton>
+      <ClubMenuSkeleton/>
+      <ClubMenuSkeleton/>
     </ClubMenuListSkeletonContainer>
   )
 }
@@ -17,5 +22,17 @@ const ClubMenuListSkeletonContainer = styled.div`
   height: 100%;
   overflow: hidden;
   position: relative;
-  ${DodamShape.Large}
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`
+
+const ClubInteractionButtonSkeleton = styled.div`
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 48px;
+  ${DodamShape.Medium};
+  background-color: ${DodamColor.blue30};
 `

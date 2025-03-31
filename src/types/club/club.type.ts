@@ -78,7 +78,7 @@ export type ClubMenuType = "LeaderApply" | "Request" | "MyClub" | "StudentApply"
 export interface ClubMenuProps {
   name: string;
   type: ClubMenuType;
-  time: ClubTime;
+  timeData: ClubTime;
 }
 
 export interface ClubMenuItemProps {

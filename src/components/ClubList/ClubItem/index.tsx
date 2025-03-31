@@ -7,7 +7,7 @@ const ClubItem = ({ value, isEnded } : ClubProps) => {
   const { subject, name, shortDescription, state, image } = value
   return (
     <S.ClubItem>
-      <S.ClubItemImage src={image} alt='동아리 이미지'/>
+      <S.ClubItemImage src={image} alt='동아리 이미지' />
       <S.ClubItemInfoContainer>
         <span>{subject}</span>
         <S.ClubItemNameState>

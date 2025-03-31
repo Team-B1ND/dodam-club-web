@@ -4,7 +4,9 @@ import { ClubMenuProps} from 'src/types/club/club.type';
 import { EClub } from 'src/enum/club/club.enum';
 import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery, useGetStudentApplyQuery } from 'src/queries/useClub';
 import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/joinRequest.query';
-const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
+import { useClubTime } from 'src/hooks/club/useClubTime';
+
+const ClubMenu = ({ name, type, timeData } : ClubMenuProps) => {
   const { data: myClubApply } = useGetMyClubApplyQuery({enabled:type === 'LeaderApply'})
   const { data: myClub } = useGetMyJoinedClubQuery({enabled:type === 'MyClub'})
   const { data: joinRequestList } = useGetJoinRequestsQuery({enabled:type === 'Request'})
@@ -13,22 +15,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
   return (
     <S.ClubMenuContainer>
       {name}
-        {(type === "Request" && joinRequestList!.length > 0)
-        ? (
-          <S.MyClubList>
-            <ClubMiniList
-              name="창체"
-              type={type}
-              value={joinRequestList!.filter((item) => (item.club.type === EClub.CREATIVE_CLUB))}
-            />
-            <ClubMiniList
-              name="자율"
-              type={type}
-              value={joinRequestList!.filter((item) => (item.club.type === EClub.SELF_DIRECT_CLUB))}
-            />
-          </S.MyClubList>
-        )
-        : (type === "MyClub" && myClub!.length > 0)
+        {(type === "MyClub" && myClub!.length > 0)
         ? (
           <S.MyClubList>
             <ClubMiniList
@@ -40,6 +27,21 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
               name="자율"
               type={type}
               value={myClub!.filter((item) => (item.type === EClub.SELF_DIRECT_CLUB))}
+            />
+          </S.MyClubList>
+        )
+        : (type === "Request" && joinRequestList!.length > 0)
+        ? (
+          <S.MyClubList>
+            <ClubMiniList
+              name="창체"
+              type={type}
+              value={joinRequestList!.filter((item) => (item.club.type === EClub.CREATIVE_CLUB))}
+            />
+            <ClubMiniList
+              name="자율"
+              type={type}
+              value={joinRequestList!.filter((item) => (item.club.type === EClub.SELF_DIRECT_CLUB))}
             />
           </S.MyClubList>
         )
@@ -64,7 +66,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
             <p>아직 동아리 개설을</p>
             <p>신청하지 않았어요!</p>
             <S.ClubCreatePeriod>
-              신청 마감 : {time?.createEnd.replace(/-/g,'.')}
+              신청 마감 : {timeData?.createEnd.replace(/-/g,'.')}
             </S.ClubCreatePeriod>
           </S.MyClubIsNone>
         )
@@ -89,7 +91,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
             <p>아직 동아리에</p>
             <p>신청하지 않았어요!</p>
             <S.ClubCreatePeriod>
-              신청 마감 : {time.applicantEnd.replace(/-/g,'.')}
+              신청 마감 : {timeData!.applicantEnd.replace(/-/g,'.')}
             </S.ClubCreatePeriod>
           </S.MyClubIsNone>
         )

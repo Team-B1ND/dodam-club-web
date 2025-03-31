@@ -11,7 +11,7 @@ const ClubMenuSkeleton = () => {
       <ClubMenuSkeletonLineContainer>
 
       </ClubMenuSkeletonLineContainer>
-      {Array.from({length: 2}).map((_, idx) => 
+      {Array.from({length: 3}).map((_, idx) => 
         <ClubMenuSkeletonLine key={idx}>
           <Shimmer/>
         </ClubMenuSkeletonLine>
