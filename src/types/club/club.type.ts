@@ -57,6 +57,7 @@ export interface ClubResponse {
   type: string;
   teacher: string;
   state: string;
+  myStatus?: string;
   createdAt?: string;
   modifiedAt?: string;
 }
@@ -69,7 +70,7 @@ export interface ClubJoinResponse {
 }
 
 export interface StudentApplyResponse extends ClubJoinResponse {
-  priority: null;
+  priority: null | string;
   introduction: string;
 }
 

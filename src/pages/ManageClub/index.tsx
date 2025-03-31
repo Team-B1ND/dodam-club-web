@@ -91,7 +91,7 @@ const ManageClubPage = () => {
   }, [typeWatch])
 
   useEffect(() => {
-    if (clubDatail) {
+    if (clubDatail && previewUrl == '') {
       setPreviewUrl(clubDatail?.image)
     } else {
       handlers.updateImage(previewUrl)
@@ -137,12 +137,12 @@ const ManageClubPage = () => {
                       id: clubDatail.id,
                     })
                 }else{
-                  if(data.type === EClub.SELF_DIRECT_CLUB && data.studentIds.length < 9){
+                  if(data.type === EClub.SELF_DIRECT_CLUB && data.studentIds.length <= 9){
                     setError('studentIds', { 
                       type: 'selfDirectClub', 
                       message: '자율동아리는 10명 이상의 인원이 개설 가능합니다. ( 자신 포함 )' 
                     })
-                  }else if(data.type === EClub.CREATIVE_CLUB && data.studentIds.length < 4){
+                  }else if(data.type === EClub.CREATIVE_CLUB && data.studentIds.length <= 4){
                     setError('studentIds', { 
                       type: 'creativeClub', 
                       message: '창체동아리는 5명 이상, 18명 이하의 인원으로만 개설 가능합니다. ( 자신 포함 )' 

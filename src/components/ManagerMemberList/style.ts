@@ -23,6 +23,7 @@ export const ManagerMemberMain = styled.div`
 
 export const MemberDescriptionContainer =  styled.div`
   ${DodamShape.Medium}
+  color: ${({ theme }) => theme.labelNormal};
   border: 1px solid ${({ theme }) => theme.lineAlternative};
   padding: 20px;
   height: 100%;

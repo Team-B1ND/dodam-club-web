@@ -38,6 +38,7 @@ export const ClubManagerSelecter = styled.select`
   height: 48px;
   outline: none;
   appearance: none;
+  color: ${({ theme }) => theme.labelNormal};
 `
 
 export const ClubManagerInfoContainer = styled.div`
