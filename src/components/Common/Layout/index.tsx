@@ -13,12 +13,14 @@ const Layout = () => {
 
   return (
     <S.main>
+      <S.PageTemplateContainer>
       <DodamNavBar 
         location="club" 
         handleTheme={handleTheme} 
         logout={logOut}
         currentTheme={currentTheme}/>
       <Outlet/>
+      </S.PageTemplateContainer>
     </S.main>
   )
 }
