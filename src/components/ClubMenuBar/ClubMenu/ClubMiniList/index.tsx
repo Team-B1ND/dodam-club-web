@@ -30,6 +30,14 @@ const ClubMiniList = ({
   if (!value || value.length === 0) {
     return null; 
   }
+
+  if(type ==='StudentApply' && name == '창체'){
+    value.sort((a, b) => 
+      a.priority!.charAt(a.priority!.length-1) < b.priority!.charAt(b.priority!.length-1) 
+        ? -1
+        : 1
+    )
+  }
   
   const [isOpen, setIsopen] = useState({
     REQUEST_ACCEPT: Object.fromEntries(

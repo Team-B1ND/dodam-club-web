@@ -21,7 +21,7 @@ const ManagerMemberList = ({
     isLoading: clubMemberIsLoading,
     isFetching,
     refetch,
-  } = useGetClubJoinRequestsMemberQuery(id ?? 1, { enabled: !id })
+  } = useGetClubJoinRequestsMemberQuery(id ?? 51, { enabled: !id })
   
   const postMemberStatusMutation = usePostMemberStatusMutation()
 
@@ -81,6 +81,7 @@ const ManagerMemberList = ({
                     studentId: selectedMember,
                     status: EClubState.ALLOWED,
                   })
+                  refetch()
                 }}
               />
               <DodamFilledButton
@@ -95,6 +96,7 @@ const ManagerMemberList = ({
                     studentId: selectedMember,
                     status: EClubState.DELETED,
                   })
+                  refetch()
                 }}
               />
             </S.ManageButtonBar>
