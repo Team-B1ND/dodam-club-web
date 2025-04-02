@@ -1,11 +1,8 @@
 import { ReactNode } from "react";
 import {useThemes} from "src/hooks/theme/usetheme";
-import {  DodamGlobalStyles } from "@b1nd/dds-web";
-import { ThemeProvider } from "styled-components";
-import {
-  April_Fools_Day_Dark_Theme,
-  April_Fools_Day_Light_Theme,
-} from "src/styles/theme";
+import {  DodamGlobalStyles, DodamThemeProvider } from "@b1nd/dds-web";
+
+
 
 interface Props {
   children: ReactNode;
@@ -15,17 +12,10 @@ const ThemeProviderContainer = ({ children }: Props) => {
   const { themeColor } = useThemes();
 
   return (
-    // <DodamThemeProvider theme={themeColor}>
-    <ThemeProvider
-      theme={
-        themeColor === "LIGHT"
-          ? April_Fools_Day_Light_Theme
-          : April_Fools_Day_Dark_Theme
-      }>
+    <DodamThemeProvider theme={themeColor}>
       <DodamGlobalStyles />
       {children}
-    </ThemeProvider>
-    // </DodamThemeProvider>
+    </DodamThemeProvider>
   );
 };
 export default ThemeProviderContainer;
