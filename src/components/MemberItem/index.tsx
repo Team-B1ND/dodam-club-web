@@ -23,7 +23,7 @@ const MemberItem = ({value, type, pickerStatus, onClick, isManagerPage}: MemberI
       <div style={{display:'flex', gap:'12px'}}>
         {!profileImage
         ? <Avatar size='large'/>
-        : <S.MemberItemProfileImage src={profileImage} alt='X'/>}
+        : <S.MemberItemProfileImage src={profileImage} alt='profile Image'/>}
         <S.MemberInfoContainer>
           {name}
           <p>{grade}-{room}</p>

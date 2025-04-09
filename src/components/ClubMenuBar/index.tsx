@@ -2,7 +2,7 @@ import ClubMenu from './ClubMenu'
 import styled from 'styled-components'
 import { Suspense } from 'react'
 import { useClubTime } from 'src/hooks/club/useClubTime'
-import ClubMenuSkeleton from '../Common/ClubMenuSkeleton'
+import ClubMenuSkeleton from '../Common/Skeleton/ClubMenuSkeleton'
 import ClubInteractionButton from './ClubInteractionButton'
 
 const ClubMenuBar = () => {

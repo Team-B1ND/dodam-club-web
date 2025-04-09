@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Shimmer from '../Shimmer'
+import Shimmer from '../../Shimmer'
 
 const ClubDetailSkeleton = () => {
   return (

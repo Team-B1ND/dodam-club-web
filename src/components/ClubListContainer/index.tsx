@@ -1,8 +1,8 @@
-import React, { Suspense, useState } from 'react'
+import { Suspense, useState } from 'react'
 import * as S from './style'
-import { DodamSegmentedButton } from '@b1nd/dds-web'
+import { DodamErrorBoundary, DodamSegmentedButton } from '@b1nd/dds-web'
 import ClubList from '../ClubList';
-import ClubItemSkeleton from '../Common/ClubItemSkeleton';
+import ClubItemSkeleton from '../Common/Skeleton/ClubItemSkeleton';
 
 const ClubListContainer = () => {
   const [ isCreativeClubPage, setIsCreativeClubPage ] = useState(true);
@@ -24,11 +24,13 @@ const ClubListContainer = () => {
           onClick={changePage}
         />
       </S.ClubMenu>
-      <S.ClubItemContainer>
-        <Suspense fallback={Array.from({length: 8}).map((_, idx) => <ClubItemSkeleton key={idx}/>)}>
-          <ClubList isCreativeClubPage={isCreativeClubPage}/>
-        </Suspense>
-      </S.ClubItemContainer>
+      <DodamErrorBoundary text="데이터를 불러오는 중 오류가 발생했습니다." showButton={true} >
+        <S.ClubItemContainer>
+            <Suspense fallback={<ClubItemSkeleton count={8}/>}>
+              <ClubList isCreativeClubPage={isCreativeClubPage}/>
+            </Suspense>
+        </S.ClubItemContainer>
+      </DodamErrorBoundary>
 
     </S.ClubListContainer>
   )

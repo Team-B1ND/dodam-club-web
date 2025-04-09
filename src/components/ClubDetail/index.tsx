@@ -11,7 +11,7 @@ import {
   Pen,
   XmarkCircle,
 } from '@b1nd/dds-web'
-import ClubDetailSkeleton from 'src/components/Common/ClubDetailSkeleton'
+import ClubDetailSkeleton from 'src/components/Common/Skeleton/ClubDetailSkeleton'
 import {
   useGetClubLeaderQuery,
   useGetClubMemberQuery,
