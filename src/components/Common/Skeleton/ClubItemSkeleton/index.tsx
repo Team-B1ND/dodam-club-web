@@ -1,24 +1,27 @@
 import styled from 'styled-components'
-import Shimmer from '../Shimmer'
+import Shimmer from '../../Shimmer'
 
-const ClubItemSkeleton = () => {
+const ClubItemSkeleton = ({ count } : { count: number }) => {
   return (
-    <ClubItemContainer>
-      <ClubItemImg>
-        <Shimmer/>
-      </ClubItemImg>
-      <ClubItemInfo>
-        <ClubItemLine>
+    Array.from({length: count}).map((_, idx) => 
+      <ClubItemContainer key={idx}>
+        <ClubItemImg>
           <Shimmer/>
-        </ClubItemLine>
-        <ClubItemLine>
-          <Shimmer/>
-        </ClubItemLine>
-        <ClubItemLine>
-          <Shimmer/>
-        </ClubItemLine>
-      </ClubItemInfo>
-    </ClubItemContainer>
+        </ClubItemImg>
+        <ClubItemInfo>
+          <ClubItemLine>
+            <Shimmer/>
+          </ClubItemLine>
+          <ClubItemLine>
+            <Shimmer/>
+          </ClubItemLine>
+          <ClubItemLine>
+            <Shimmer/>
+          </ClubItemLine>
+        </ClubItemInfo>
+      </ClubItemContainer>
+    )
+    
   )
 }
 
@@ -27,8 +30,10 @@ export default ClubItemSkeleton
 const ClubItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 8px;
-  width: 200px;
+  width: 220px;
   height: 280px;
   overflow: hidden;
 `

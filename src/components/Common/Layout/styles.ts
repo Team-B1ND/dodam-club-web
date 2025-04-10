@@ -4,7 +4,7 @@ export const main = styled.div`
   display: flex;
   height: 100vh;
   width: 100vw;
-  gap: 32px;
+  gap: 10px;
   background-color: ${({ theme }) => theme.backgroundNeutral};
 `
 

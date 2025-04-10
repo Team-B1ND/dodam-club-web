@@ -74,10 +74,12 @@ export interface StudentApplyResponse extends ClubJoinResponse {
   introduction: string;
 }
 
+export type ClubMenuType = "LeaderApply" | "Request" | "MyClub" | "StudentApply"
+
 export interface ClubMenuProps {
   name: string;
-  type: "LeaderApply" | "Request" | "MyClub" | "StudentApply";
-  time: ClubTime;
+  type: ClubMenuType;
+  timeData: ClubTime;
 }
 
 export interface ClubMenuItemProps {

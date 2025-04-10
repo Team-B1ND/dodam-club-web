@@ -6,6 +6,7 @@ export const MemberItemContainer = styled.div`
   min-height: 52px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   flex-grow: 0;
 `
@@ -15,19 +16,10 @@ export const MemberInfoContainer = styled.div`
   flex-direction: column;
   ${DodamTypography.Label.Bold}
   color: ${({ theme }) => theme.labelNormal};
-`
-
-export const MemberGradeAndRoom = styled.div`
-  ${DodamTypography.Caption2.Medium}
-  color: ${({ theme }) => theme.labelAlternative};
-`
-
-export const MemberItemBar = styled.div`
-  flex-grow: 1;
-`
-
-export const MemberItemIconContainer = styled.div`
-  display: flex;
+  > p {
+    ${DodamTypography.Caption2.Medium}
+    color: ${({ theme }) => theme.labelAlternative};
+  }
 `
 
 export const MemberItemProfileImage = styled.img`

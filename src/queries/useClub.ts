@@ -14,6 +14,7 @@ export const useGetClubsQuery = (
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     ...options,
+    suspense: true
   });
 
 export const useGetClubDetailQuery = (
@@ -27,6 +28,7 @@ export const useGetClubDetailQuery = (
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     ...options,
+    suspense: true
   });
 
 export const useGetMyClubApplyQuery = (
@@ -39,6 +41,7 @@ export const useGetMyClubApplyQuery = (
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     ...options,
+    suspense: true
   });
 
 export const useGetStudentApplyQuery = (
@@ -51,6 +54,7 @@ export const useGetStudentApplyQuery = (
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     ...options,
+    suspense: true
   });
 
 export const useGetMyJoinedClubQuery = (
@@ -63,4 +67,5 @@ export const useGetMyJoinedClubQuery = (
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     ...options,
+    suspense: true
   });

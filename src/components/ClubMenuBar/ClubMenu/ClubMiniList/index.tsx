@@ -51,7 +51,6 @@ const ClubMiniList = ({
         [item.id, false])) as { [key: number]: boolean},
   });
   const [requestModal, setRequestModal] = useState<"ACCEPT" | "REJECT" | "CLUB">("ACCEPT");
-  const [miniList] = useState<ClubResponse[] | ClubJoinResponse[] | StudentApplyResponse[]>(value);
 
   const postJoinRequestMutation = usePostJoinRequestMutation()
   const deleteJoinRequestMutation = useDeleteJoinRequestMutation()
@@ -90,7 +89,7 @@ const ClubMiniList = ({
   return (
       <S.ClubListContainer>
         {name}
-        {miniList.map((item) => (
+        {value.map((item) => (
           <S.ClubMiniItem key={item.id}>
             {type === "Request" && isMyClubType(item)
             ? (

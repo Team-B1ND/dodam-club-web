@@ -23,7 +23,7 @@ import {
   useGetMyClubApplyQuery,
 } from 'src/queries/useClub'
 import { useGetAllMemberQuery } from 'src/queries/member/member.query'
-import CreateClubSkeleton from 'src/components/Common/CreateClubSkeleton'
+import CreateClubSkeleton from 'src/components/Common/Skeleton/CreateClubSkeleton'
 
 const ManageClubPage = () => {
   const navigate = useNavigate()
