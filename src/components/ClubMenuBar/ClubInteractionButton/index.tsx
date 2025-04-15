@@ -63,12 +63,10 @@ const ClubInteractionButton = ({ type }: { type?: "MYCLUB" | "LOADING" }) => {
       />
       <DodamModal isOpen={resultIsOpen} background={true}>
         <Dialog
-          title={joinedClub!.length >= 0 ? "동아리 입부를 축하합니다!" : "입부한 동아리가 없습니다."}
-          text={joinedClub!.length >= 0
-            ? `창체동아리 ${joinedClub?.find((item) => item.type === EClub.CREATIVE_CLUB)?.name}에 입부하셨습니다.
-          자율동아리 ${joinedClub
-            ?.filter((item) => item.type != EClub.CREATIVE_CLUB)
-            .map((item) => item.name)}에 입부하셨습니다.`
+          title={joinedClub!.length > 0 ? "동아리 입부를 축하합니다!" : "입부한 동아리가 없습니다."}
+          text={joinedClub!.length > 0
+            ? `창체동아리 ${joinedClub?.find((item) => item.type === EClub.CREATIVE_CLUB)?.name}에 입부하셨습니다.`+"\n"+
+            `${joinedClub!.filter((item) => item.type === EClub.SELF_DIRECT_CLUB).length > 0 && `자율동아리 ${joinedClub?.filter((item) => item.type != EClub.CREATIVE_CLUB).map((item) => item.name)}에 입부하셨습니다.`}`
           : "입부 신청을 하지 않으셨습니다."}
           type={{
             dialog: "ALERT",
