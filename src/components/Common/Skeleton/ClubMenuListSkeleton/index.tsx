@@ -1,6 +1,6 @@
 import { DodamColor, DodamShape } from '@b1nd/dds-web'
 import styled from 'styled-components'
-import Shimmer from '../Shimmer'
+import Shimmer from '../../Shimmer'
 import ClubMenuSkeleton from '../ClubMenuSkeleton'
 
 const ClubMenuListSkeleton = () => {

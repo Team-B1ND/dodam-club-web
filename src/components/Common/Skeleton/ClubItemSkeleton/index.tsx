@@ -3,7 +3,8 @@ import Shimmer from '../../Shimmer'
 
 const ClubItemSkeleton = ({ count } : { count: number }) => {
   return (
-    Array.from({length: count}).map((_, idx) => 
+    <div>
+    {Array.from({length: count}).map((_, idx) => 
       <ClubItemContainer key={idx}>
         <ClubItemImg>
           <Shimmer/>
@@ -20,8 +21,8 @@ const ClubItemSkeleton = ({ count } : { count: number }) => {
           </ClubItemLine>
         </ClubItemInfo>
       </ClubItemContainer>
-    )
-    
+      )}
+    </div>
   )
 }
 
