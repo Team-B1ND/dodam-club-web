@@ -1,4 +1,3 @@
-import React from 'react';
 import { DodamModal } from "@b1nd/dds-web";
 import * as S from './style';
 

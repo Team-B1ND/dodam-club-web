@@ -7,9 +7,3 @@ export const main = styled.div`
   gap: 32px;
   background-color: ${({ theme }) => theme.backgroundNeutral};
 `
-
-export const exampleSidebar = styled.div`
-  width: 250px;
-  height: 100%;
-  background-color: ${({ theme }) => theme.backgroundNormal};
-`
