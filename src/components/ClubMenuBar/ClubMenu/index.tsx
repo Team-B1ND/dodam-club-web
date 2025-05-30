@@ -5,13 +5,14 @@ import { EClub } from 'src/enum/club/club.enum';
 import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery, useGetStudentApplyQuery } from 'src/queries/useClub';
 import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/joinRequest.query';
 import { useClubTime } from 'src/hooks/club/useClubTime';
+import dayjs from 'dayjs';
 
 const ClubMenu = ({ name, type, timeData } : ClubMenuProps) => {
   const { data: myClubApply } = useGetMyClubApplyQuery({enabled:type === 'LeaderApply'})
   const { data: myClub } = useGetMyJoinedClubQuery({enabled:type === 'MyClub'})
   const { data: joinRequestList } = useGetJoinRequestsQuery({enabled:type === 'Request'})
   const { data: studentClubApply } = useGetStudentApplyQuery({enabled:type === 'StudentApply'})
-
+  
   return (
     <S.ClubMenuContainer>
       {name}
@@ -86,7 +87,8 @@ const ClubMenu = ({ name, type, timeData } : ClubMenuProps) => {
           </S.MyClubList>
         )
         : (type === "StudentApply" && studentClubApply!.length <= 0)
-        ? (
+        ? (timeData.applicantEnd > dayjs().format("YYYY-MM-DD")
+          ? (
           <S.MyClubIsNone>
             <p>아직 동아리에</p>
             <p>신청하지 않았어요!</p>
@@ -94,6 +96,12 @@ const ClubMenu = ({ name, type, timeData } : ClubMenuProps) => {
               신청 마감 : {timeData!.applicantEnd.replace(/-/g,'.')}
             </S.ClubCreatePeriod>
           </S.MyClubIsNone>
+          ) : (
+            <S.MyClubIsNone>
+              <p>신청 기간이 끝났어요.</p>
+              <p>내년에 다시 돌아올게요!</p>
+            </S.MyClubIsNone>
+          )
         )
         : (
           <S.ClubDataIsNone>
