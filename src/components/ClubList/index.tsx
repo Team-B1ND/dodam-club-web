@@ -20,7 +20,7 @@ const ClubList = () => {
       <S.ClubItemContainer>
         {isLoading || isFetching || timeIsLoading ? (
           Array.from({ length: 8 }).map((_, idx) => <ClubItemSkeleton key={idx} />)
-        ) : clubData && clubData.length > 0 ? (
+        ) : clubData && clubData.length > 0 && (
           clubData
             .filter((item: ClubResponse) =>
               isCreativeClubPage
@@ -39,13 +39,12 @@ const ClubList = () => {
                   textDecoration: 'none'
                 }}
               >
-                <ClubItem value={item} isEnded={timeData!.applicantStart < today} />
+                <ClubItem value={item} />
               </Link>
             ))
-        ) : (
-          <S.NoClubMessage>올라온 동아리가 없습니다.</S.NoClubMessage>
         )}
       </S.ClubItemContainer>
+      {(clubData && clubData.length === 0) && <S.NoClubMessage>등록된 동아리가 없습니다.</S.NoClubMessage>}
     </S.ClubListContainer>
   );
 };

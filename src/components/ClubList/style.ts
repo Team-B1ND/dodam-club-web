@@ -52,9 +52,10 @@ export const ClubMenu = styled.div`
 `
 
 export const NoClubMessage = styled.div`
-  width: 100%;
-  text-align: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   ${DodamTypography.Body1.Medium};
-  color: ${({theme})=>theme.labelNormal};
-  margin-top: 20px;
+  color: ${({ theme }) => theme.labelNormal};
 `;
