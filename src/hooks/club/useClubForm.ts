@@ -1,5 +1,4 @@
 import { useController, Control, UseFormSetValue, UseFormWatch, UseFormGetValues, UseFormSetError, UseFormClearErrors } from 'react-hook-form';
-import { EClub } from 'src/enum/club/club.enum';
 import { Club } from 'src/types/club/club.type';
 
 interface UseClubFormProps {
@@ -15,9 +14,6 @@ export default function useClubForm({
   control,
   setValue,
   watch,
-  getValues,
-  setError,
-  clearErrors,
 }: UseClubFormProps) {
   // 동아리 이름 필드
   const { field: name, fieldState: nameState } = useController({
@@ -35,34 +31,6 @@ export default function useClubForm({
     }
   });
 
-  // 동아리 유형 필드
-  const { field: type, fieldState: typeState } = useController({
-    name: "type",
-    control,
-    rules: {
-      required: {
-        value: true,
-        message: "동아리 유형 선택은 필수입니다."
-      }
-    }
-  });
-
-  // 동아리 주제 필드
-  const { field: subject, fieldState: subjectState } = useController({
-    name: "subject",
-    control,
-    rules: {
-      required: {
-        value: true,
-        message: "주제는 필수 입력입니다."
-      },
-      maxLength: {
-        value: 4,
-        message: "4자리 이하만 가능합니다."
-      }
-    }
-  });
-
   // 간략 소개 필드
   const { field: shortDescription, fieldState: shortDescriptionState } = useController({
     name: "shortDescription",
@@ -73,7 +41,7 @@ export default function useClubForm({
         message: "간략 소개는 필수 입력입니다."
       },
       maxLength: {
-        value: 14,
+        value: 30,
         message: "14자리 이하만 가능합니다."
       }
     }
@@ -130,21 +98,17 @@ export default function useClubForm({
   return {
     fields: {
       name,
-      type,
-      subject,
       shortDescription,
       image,
       description,
-      studentIds
+      studentIds,
     },
     fieldStates: {
       nameState,
-      typeState,
-      subjectState,
       shortDescriptionState,
       imageState,
       descriptionState,
-      studentIdsState
+      studentIdsState,
     },
     handlers: {
       handleMemberSelect,
