@@ -11,7 +11,6 @@ import {
   Pen,
   XmarkCircle,
 } from '@b1nd/dds-web'
-import MDEditor from '@uiw/react-md-editor'
 import ClubDetailSkeleton from 'src/components/Common/ClubDetailSkeleton'
 import {
   useGetClubLeaderQuery,
@@ -24,9 +23,9 @@ import {
 import { useTheme } from 'styled-components'
 import { ClubDetailType } from 'src/types/club/club.type'
 import { useGetClubDetailQuery } from 'src/queries/useClub'
-import { useGetTime } from 'src/queries/time/time.query'
 import MemberItem from 'src/components/MemberItem'
 import { useClubTime } from 'src/hooks/club/useClubTime'
+
 interface ClubDetailProps {
   type: ClubDetailType
   modalId?: number
@@ -77,9 +76,8 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
               <S.ClubDetailHeaderInfo>
                 <S.ClubDetailHeaderSubject>
                   {clubData!.type === EClub.CREATIVE_CLUB
-                    ? '창체 • '
-                    : '자율 • '}
-                  {clubData!.subject}
+                    ? '창체'
+                    : '자율'}
                 </S.ClubDetailHeaderSubject>
                 <S.ClubDetailHeaderName>
                   {clubData!.name}

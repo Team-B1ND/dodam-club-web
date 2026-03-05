@@ -9,16 +9,10 @@ export interface Club {
   image: string;
   type: string;
   studentIds: number[];
-  state?: string;
+  state?: ClubStatus;
 }
 
-export interface EditClub {
-  name: string;
-  description: string;
-  shortDescription: string;
-  subject: string;
-  image: string;
-}
+export interface EditClub extends Omit<Club, "studentIds" | "state"> {}
 
 export interface ClubMember {
   id: number;
@@ -39,7 +33,6 @@ export interface ClubMemberResponse {
 
 export interface ClubProps {
   value: ClubResponse;
-  isEnded: boolean;
 }
 
 export interface ClubJoinRequest {
@@ -56,7 +49,7 @@ export interface ClubResponse {
   image: string;
   type: string;
   teacher: string;
-  state: string;
+  state: ClubStatus;
   myStatus?: string;
   createdAt?: string;
   modifiedAt?: string;
@@ -65,7 +58,7 @@ export interface ClubResponse {
 export interface ClubJoinResponse {
   id: number;
   clubPermission: string;
-  status: string;
+  status: ClubStatus;
   club: ClubResponse;
 }
 
@@ -98,3 +91,5 @@ export interface ClubMenuItemStudentProps {
 }
 
 export type ClubDetailType = "MODAL" | "PAGE";
+
+export type ClubStatus = `ALLOWED` | `PENDING` | `REJECTED` | `WAITING` | `DELETED`

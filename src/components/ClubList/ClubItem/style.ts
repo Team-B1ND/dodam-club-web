@@ -23,11 +23,6 @@ export const ClubItemInfoContainer = styled.div`
   flex-direction: column;
 `
 
-export const ClubItemSubject = styled.p`
-  ${DodamTypography.Label.Medium}
-  color: ${({ theme }) => theme.labelAlternative};
-`
-
 export const ClubItemNameState = styled.div`
   display: flex;
   justify-content: space-between;

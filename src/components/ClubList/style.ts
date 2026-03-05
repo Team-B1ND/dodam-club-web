@@ -3,7 +3,7 @@ import { DodamShape, DodamTypography, } from "@b1nd/dds-web";
 
 export const ClubListContainer = styled.div`
   flex-grow: 1;
-  width: 100%;
+  min-width: 0;
   height: 100%;
   ${DodamShape.Large};
   display: flex;
@@ -11,12 +11,12 @@ export const ClubListContainer = styled.div`
   padding: 24px;
   background-color: ${({ theme }) => theme.backgroundNormal};
   color: ${({ theme }) => theme.labelNormal};
-
+  gap: 20px;
+  
   &::-webkit-scrollbar {
     display: none;
   }
   
- 
 `
 
 export const ClubListHead = styled.p`
@@ -28,17 +28,16 @@ export const ClubItemContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  height: 600px;
   gap: 16px;
   overflow: hidden;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
   }
-  @media only screen and (max-width: 1250px){
+  @media only screen and (max-width: 1420px){
     grid-template-columns: repeat(3, 1fr);
   } 
-  @media only screen and (max-width: 960px){
+  @media only screen and (max-width: 1220px){
     grid-template-columns: repeat(2, 1fr);
   } 
   @media only screen and (max-width: 740px){
@@ -53,9 +52,10 @@ export const ClubMenu = styled.div`
 `
 
 export const NoClubMessage = styled.div`
-  width: 100%;
-  text-align: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   ${DodamTypography.Body1.Medium};
-  color: ${({theme})=>theme.labelNormal};
-  margin-top: 20px;
+  color: ${({ theme }) => theme.labelNormal};
 `;

@@ -79,11 +79,10 @@ class ClubApi {
     return data.data
   }
 
-  public async postJoinClubByRequestsBatch(requests: Array<{
+  public async postApplyClub(requests: {
     clubId: number;
-    clubPriority?: 'CREATIVE_ACTIVITY_CLUB_1' | 'CREATIVE_ACTIVITY_CLUB_2' | 'CREATIVE_ACTIVITY_CLUB_3' | null;
     introduction: string;
-  }>) {
+  }) {
     await customAxios.post(`/clubs/join-requests`, requests);
   }
 

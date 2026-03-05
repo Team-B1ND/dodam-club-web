@@ -78,7 +78,7 @@ const ClubMenuBar = () => {
       && (  
         <DodamFilledButton
           size={"Large"}
-          text="자율동아리 관리"
+          text="동아리 관리"
           textTheme="staticWhite"
           typography={["Body2", "Bold"]}
           onClick={handleOpen}

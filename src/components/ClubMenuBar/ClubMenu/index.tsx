@@ -5,15 +5,16 @@ import { EClub } from 'src/enum/club/club.enum';
 import { useGetMyClubApplyQuery, useGetMyJoinedClubQuery, useGetStudentApplyQuery } from 'src/queries/useClub';
 import { useGetJoinRequestsQuery } from 'src/queries/joinRequest/joinRequest.query';
 import ClubMenuSkeleton from 'src/components/Common/ClubMenuSkeleton';
+import StudentApplyMenu from 'src/components/ClubMenuBar/ClubMenu/StudentApplyMenu';
+import { Suspense } from 'react';
 
 const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
   const { data: myClubApply, isLoading: applyIsLoading } = useGetMyClubApplyQuery()
   const { data: myClub, isLoading: myClubIsLoading } = useGetMyJoinedClubQuery()
   const { data: joinRequestList, isLoading: joinRequestIsLoading } = useGetJoinRequestsQuery()
-  const { data: studentClubApply, isLoading: studentApplyIsLoading } = useGetStudentApplyQuery()
 
-  return(
-    applyIsLoading || myClubIsLoading || joinRequestIsLoading || studentApplyIsLoading)
+  return (
+    applyIsLoading || myClubIsLoading || joinRequestIsLoading)
   ? (
     <ClubMenuSkeleton/>
   )
@@ -24,7 +25,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
         ? (
           <S.MyClubList>
             <ClubMiniList
-              name="창체"
+              name=""
               type={type}
               value={joinRequestList!.filter((item) => (item.club.type === EClub.CREATIVE_CLUB))}
             />
@@ -39,7 +40,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
         ? (
           <S.MyClubList>
             <ClubMiniList
-              name="창체"
+              name=""
               type={type}
               value={myClub!.filter((item) => (item.type === EClub.CREATIVE_CLUB))}
             />
@@ -54,7 +55,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
         ? (
           <S.MyClubList>
             <ClubMiniList
-              name="창체"
+              name=""
               type={type}
               value={myClubApply!.filter((item) => (item.type === EClub.CREATIVE_CLUB))}
             />
@@ -75,30 +76,11 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
             </S.ClubCreatePeriod>
           </S.MyClubIsNone>
         )
-        : (type === "StudentApply" && studentClubApply!.length > 0)
+        : (type === "StudentApply")
         ? (
-          <S.MyClubList>
-            <ClubMiniList
-              name="창체"
-              type={type}
-              value={studentClubApply!.filter((item) => (item.club.type === EClub.CREATIVE_CLUB))}
-            />
-            <ClubMiniList
-              name="자율"
-              type={type}
-              value={studentClubApply!.filter((item) => (item.club.type === EClub.SELF_DIRECT_CLUB))}
-            />
-          </S.MyClubList>
-        )
-        : (type === "StudentApply" && studentClubApply!.length <= 0)
-        ? (
-          <S.MyClubIsNone>
-            <p>아직 동아리에</p>
-            <p>신청하지 않았어요!</p>
-            <S.ClubCreatePeriod>
-              신청 마감 : {time.applicantEnd.replace(/-/g,'.')}
-            </S.ClubCreatePeriod>
-          </S.MyClubIsNone>
+          <Suspense fallback={<ClubMenuSkeleton/>}>
+            <StudentApplyMenu time={time}/>
+          </Suspense>
         )
         : (
           <S.ClubDataIsNone>
