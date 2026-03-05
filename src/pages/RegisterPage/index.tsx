@@ -1,10 +1,10 @@
-import ApplicationPage from 'src/components/ApplicationPage';
 import * as S from './style';
+import ApplyPage from 'src/pages/ApplyPage';
 
 const RegisterPage = () => {
   return (
     <S.Container>
-      <ApplicationPage />
+      <ApplyPage/>
     </S.Container>
   );
 };
