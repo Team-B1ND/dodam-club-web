@@ -55,7 +55,7 @@ const ClubMenu = ({ name, type, time } : ClubMenuProps) => {
         ? (
           <S.MyClubList>
             <ClubMiniList
-              name="창체"
+              name=""
               type={type}
               value={myClubApply!.filter((item) => (item.type === EClub.CREATIVE_CLUB))}
             />
