@@ -109,6 +109,18 @@ const ManageClubPage = () => {
     console.log(`${fields.description.value} ${fields.name.value} ${fields.shortDescription.value}`)
   }, [fields])
 
+  const onSubmit = (data: Club) => {
+    if (clubDatail) {
+      const { studentIds, state, ...patchData } = data;
+      patchClubMutation.mutate({
+        data: patchData,
+        id: clubDatail.id,
+      });
+    } else {
+      createClubMutation.mutate(data);
+    }
+  }
+
   return (
     <S.CreateClubPaddingContainer>
       <S.CreateClubContainer data-color-mode={currentTheme.toLowerCase()}>
@@ -125,22 +137,7 @@ const ManageClubPage = () => {
           <CreateClubSkeleton />
         ) : (
           <S.CreateClubForm
-            onSubmit={handleSubmit(
-              (data) => {
-                if (clubDatail) {
-                  const { studentIds, state, ...patchData } = data;
-                  patchClubMutation.mutate({
-                    data: patchData,
-                    id: clubDatail.id,
-                  });
-                } else {
-                  createClubMutation.mutate(data);
-                }
-              },
-              () => {
-                B1ndToast.showError("동아리 생성에 실패하였습니다!");
-              },
-            )}
+            onSubmit={handleSubmit(onSubmit, () => B1ndToast.showError("동아리 생성에 실패하였습니다!"))}
           >
             <DodamFilledTextField
               label="동아리명"
