@@ -31,7 +31,7 @@ const ApplyClubDialog = ({
             onClick: () => {
               onSubmit();
               close();
-              nav("/club");
+              nav("/");
               queryClient.invalidateQueries(QUERY_KEYS.joinRequest.getJoinRequests, { refetchInactive: true })
             }
           },
