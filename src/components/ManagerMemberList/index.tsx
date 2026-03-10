@@ -83,6 +83,7 @@ const ManagerMemberList = ({
                   })
                   refetch()
                 }}
+                textTheme="staticWhite"
               />
               <DodamFilledButton
                 size={'Medium'}

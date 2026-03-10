@@ -1,51 +1,34 @@
-import { Close } from '@b1nd/dds-web'
+import { Close, DodamModal } from '@b1nd/dds-web'
 import * as S from './style'
-import { useEffect, useState } from 'react'
-import { EClub, EClubState } from 'src/enum/club/club.enum'
-import { ClubResponse } from 'src/types/club/club.type'
+import { useState } from 'react'
 import ManagerMemberList from 'src/components/ManagerMemberList'
+import { ClubResponse } from 'src/types/club/club.type';
 
-const ClubMemberManager = ({ close, myClub, isLoading }: { close: () => void, myClub: ClubResponse[], isLoading: boolean }) => {
-  const [selectedClub, setSelectedClub] = useState<number>();
+interface ClubMemberManagerProps {
+  close: () => void;
+  isOpen: boolean;
+  myClub: ClubResponse;
+}
+const ClubMemberManager = ({ 
+  close,
+  isOpen,
+  myClub
+}: ClubMemberManagerProps) => {
   const [selectedMember, setSelectedMember] = useState<number>(0);
 
-  useEffect(() => {
-    if (!isLoading) {
-      setSelectedClub(myClub.filter((item) => item.state === EClubState.ALLOWED && item.type === EClub.SELF_DIRECT_CLUB)[0].id)
-    }
-  }, [myClub, isLoading]);
-
-  const handleSelectedClub = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedClub(+e.target.value);
-  };
-
-  if (isLoading) return null; 
-
   return (
-    <S.ClubManager>
-      <S.ClubManagerContainer>
-        <div onClick={close}>
-          <Close $svgStyle={{ cursor: "pointer" }} color="labelNormal" />
-        </div>
-        <S.ClubManagerMain>
-          {myClub.length > 0 && (
-            <S.ClubManagerSelecter
-              value={selectedClub}
-              onChange={(e) => handleSelectedClub(e)}
-            >
-              {myClub!
-                .filter((item) => item.state === EClubState.ALLOWED && item.type === EClub.SELF_DIRECT_CLUB)
-                .map((item, idx) => (
-                  <option key={idx} value={item.id}>{item.name}</option>
-                ))}
-            </S.ClubManagerSelecter>
-          )}
-        </S.ClubManagerMain>
-        <S.ClubManagerInfoContainer>
-          <ManagerMemberList id={selectedClub!} selectedMember={selectedMember!} setSelectedMember={setSelectedMember} />
-        </S.ClubManagerInfoContainer>
-      </S.ClubManagerContainer>
-    </S.ClubManager>
+    <DodamModal isOpen={isOpen} background>
+      <S.ClubManager>
+        <S.ClubManagerContainer>
+          <div onClick={close}>
+            <Close $svgStyle={{ cursor: "pointer" }} color="labelNormal" />
+          </div>
+          <S.ClubManagerInfoContainer>
+            <ManagerMemberList id={myClub?.id} selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
+          </S.ClubManagerInfoContainer>
+        </S.ClubManagerContainer>
+      </S.ClubManager>
+    </DodamModal>
   );
 };
 
