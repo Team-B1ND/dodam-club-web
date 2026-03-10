@@ -1,34 +1,47 @@
-import { useGetStudentApplyQuery } from "src/queries/useClub";
-import { ClubTime } from "src/api/time/time.api";
 import * as S from "./style";
+import { useGetStudentApplyQuery } from "src/queries/useClub";
 import StudentApplyStatusText from "src/components/ClubMenuBar/ClubMenu/StudentApplyMenu/StudentApplyStatusText";
+import { DodamFilledButton } from "@b1nd/dds-web";
+import { useNavigate } from "react-router-dom";
 
 interface StudentApplyMenuProps {
-  time: ClubTime;
+  time: string;
 }
 const StudentApplyMenu = ({
   time
 }: StudentApplyMenuProps) => {
   const { data } =
     useGetStudentApplyQuery();
+  const navigate = useNavigate();
 
   return data!.length > 0 ? (
     <S.MenuItemContainer>
+      <p>내 동아리 정보</p>
       {data?.map((item) => (
         <div>
-          {item.club.name}
+          <p>{item.club.name}</p>
           <StudentApplyStatusText status={item.status} />
         </div>
       ))}
     </S.MenuItemContainer>
   ) : (
-    <S.MyClubIsNone>
-      <p>아직 동아리에</p>
-      <p>신청하지 않았어요!</p>
-      <S.ClubCreatePeriod>
-        신청 마감 : {time.applicantEnd.replace(/-/g, ".")}
-      </S.ClubCreatePeriod>
-    </S.MyClubIsNone>
+    <>
+      <DodamFilledButton
+        size={"Large"}
+        text="동아리 입부 신청하기"
+        textTheme="staticWhite"
+        typography={["Body2", "Bold"]}
+        onClick={() => navigate("/register")}
+      />
+      <S.MyClubIsNone>
+        <p>
+          아직 동아리에 <br /> 신청하지 않았어요!
+        </p>
+        <div>
+          <span>신청 마감 : {time}</span>
+        </div>
+      </S.MyClubIsNone>
+    </>
   );
 }
 
