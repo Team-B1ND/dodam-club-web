@@ -1,25 +1,15 @@
 import * as S from './style'
 import { Link, useParams } from 'react-router-dom'
-import { EClub, EClubState } from 'src/enum/club/club.enum'
 import {
   ArrowLeft,
-  CheckmarkCircleFilled,
-  Clock,
   Close,
-  DodamColor,
-  DodamFilledButton,
   Pen,
-  XmarkCircle,
 } from '@b1nd/dds-web'
 import ClubDetailSkeleton from 'src/components/Common/ClubDetailSkeleton'
 import {
   useGetClubLeaderQuery,
   useGetClubMemberQuery,
 } from 'src/queries/member/member.query'
-import {
-  useDeleteClubApplyMutation,
-  usePostClubApplyMutation,
-} from 'src/queries/clubApply/clubApply.query'
 import { useTheme } from 'styled-components'
 import { ClubDetailType } from 'src/types/club/club.type'
 import { useGetClubDetailQuery } from 'src/queries/useClub'
@@ -35,9 +25,6 @@ interface ClubDetailProps {
 const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
   const { id } = useParams()
   const theme = useTheme()
-
-  const postClubApplyMutation = usePostClubApplyMutation()
-  const deleteClubApplyMutation = useDeleteClubApplyMutation()
 
   const { data: clubData, isLoading: clubDataIsLoading } =
     useGetClubDetailQuery(type === 'MODAL' ? modalId : +id!)
@@ -74,25 +61,8 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
           <>
             <S.ClubDetailHeader>
               <S.ClubDetailHeaderInfo>
-                <S.ClubDetailHeaderSubject>
-                  {clubData!.type === EClub.CREATIVE_CLUB
-                    ? '창체'
-                    : '자율'}
-                </S.ClubDetailHeaderSubject>
                 <S.ClubDetailHeaderName>
                   {clubData!.name}
-                  {(timeData!.createStart <= today &&
-                  today <= timeData!.createEnd) &&
-                  (clubData!.state === EClubState.ALLOWED ? (
-                    <CheckmarkCircleFilled
-                      size={28}
-                      color={DodamColor.green50}
-                    />
-                  ) : clubData!.state === EClubState.REJECTED ? (
-                    <XmarkCircle size={28} color={DodamColor.red50} />
-                  ) : (
-                    <Clock size={28} color={DodamColor.yellow50} />
-                  ))}
                 </S.ClubDetailHeaderName>
                 <S.ClubDetailHeaderShortDescription>
                   {clubData!.shortDescription}
@@ -110,41 +80,6 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             </S.ClubDetailHeader>
             {clubMemberData!.isLeader && (
               <S.ClubDetailMenu>
-                {timeData!.createStart <= today &&
-                  today <= timeData!.createEnd && (
-                    <S.ClubDetailMenuInfoAndButton>
-                      동아리 개설
-                      <S.ClubDetailMenuButton>
-                        <DodamFilledButton
-                          size='Small'
-                          text='승인 신청하기'
-                          typography={['Caption1', 'Bold']}
-                          width={100}
-                          textTheme='staticWhite'
-                          enabled={
-                            ((clubData?.type === EClub.CREATIVE_CLUB ? 5 : 10) <=
-                            clubMemberData!.students.filter(
-                              (item) => item.status === EClubState.ALLOWED
-                            ).length) && (clubData?.state === EClubState.WAITING)
-                          }
-                          onClick={() =>
-                            postClubApplyMutation.mutate(clubData!.id)
-                          }
-                        />
-                        <DodamFilledButton
-                          size='Small'
-                          text='취소하기'
-                          typography={['Caption1', 'Bold']}
-                          width={100}
-                          textTheme='staticWhite'
-                          backgroundColorType='Negative'
-                          onClick={() =>
-                            deleteClubApplyMutation.mutate(clubData!.id)
-                          }
-                        />
-                      </S.ClubDetailMenuButton>
-                    </S.ClubDetailMenuInfoAndButton>
-                  )}
                 <S.ClubDetailEditButton to={`/edit/${clubData?.id}`}>
                   <Pen size={20} color='staticWhite' />
                 </S.ClubDetailEditButton>
