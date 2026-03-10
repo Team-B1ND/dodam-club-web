@@ -51,7 +51,7 @@ export const useGetClubJoinRequestsMemberQuery = (
     AxiosError
   >
 ): UseQueryResult<ClubJoinRequest[], AxiosError> =>
-  useQuery<ClubJoinRequest[], AxiosError>([QUERY_KEYS.clubsMember.getJoinRequestMember, id], () => clubApi.getOthersJoinRequests(id), {
+  useQuery<ClubJoinRequest[], AxiosError>([QUERY_KEYS.clubsMember.getJoinRequestMember, id], () => clubApi.getMyClubJoinRequests(id), {
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
     ...options,

@@ -74,7 +74,7 @@ class ClubApi {
     return data.data
   }
 
-  public async getOthersJoinRequests(id:number) {
+  public async getMyClubJoinRequests(id:number) {
     const { data } = await customAxios.get<baseResponse<ClubJoinRequest[]>>(`clubs/${id}/join-requests`)
     return data.data
   }
@@ -87,7 +87,7 @@ class ClubApi {
   }
 
   public async postMemberStatus(data:postMemberStatusParams) {
-    await customAxios.post(`clubs/status`, data)
+    await customAxios.post(`clubs/members/approve`, data)
   }
 }
 
