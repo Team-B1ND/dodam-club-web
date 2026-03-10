@@ -16,7 +16,7 @@ export const ManagerMemberMain = styled.div`
   gap: 16px;
   justify-content: center;
   align-items: center;
-  & p {
+  > p {
     ${DodamTypography.Headline.Bold}
   }
 `
@@ -42,5 +42,11 @@ export const ManageHandleContainer = styled.div`
 
 export const ManageButtonBar = styled.div`
   display: flex;
+  align-items: center;
   gap: 8px;
+  width: 100%;
+  > p {
+    color: ${({ theme }) => theme.labelAlternative};
+    flex-grow: 1;
+  }
 `

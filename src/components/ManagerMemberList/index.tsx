@@ -5,6 +5,8 @@ import { useEffect } from 'react'
 import { DodamFilledButton } from '@b1nd/dds-web'
 import { usePostMemberStatusMutation } from 'src/queries/manageClub/manageClub.query'
 import { EClubState } from 'src/enum/club/club.enum'
+import dayjs from 'dayjs'
+import { CLUB_PICK_TIMES } from 'src/constants/clubStatus/clubTimes.constant'
 
 interface ManagerMemberList {
   selectedMember: number
@@ -40,7 +42,7 @@ const ManagerMemberList = ({
       refetch()
     }
   }, [postMemberStatusMutation.isSuccess, refetch])
-
+  const canManage = dayjs().isAfter(CLUB_PICK_TIMES.startAt) && dayjs().isBefore(CLUB_PICK_TIMES.endAt)
   return clubMemberIsLoading || isFetching ? (
     <S.ManagerMemberMain>
       <p>loading...</p>
@@ -54,7 +56,7 @@ const ManagerMemberList = ({
               <MemberItem
                 value={item.student}
                 key={idx}
-                type='PICKER'
+                type="PICKER"
                 onClick={handleMemberSelect}
                 pickerStatus={selectedMember === item.student.studentId}
                 isManagerPage={true}
@@ -65,49 +67,50 @@ const ManagerMemberList = ({
             <S.MemberDescriptionContainer>
               {
                 clubMember?.find(
-                  (item) => item.student.studentId === selectedMember
+                  (item) => item.student.studentId === selectedMember,
                 )?.introduce
               }
             </S.MemberDescriptionContainer>
             <S.ManageButtonBar>
+              <p>{canManage || `승인 및 거절은 ${CLUB_PICK_TIMES.startAt.split("T")[0]} 이후에 가능합니다.`}</p>
               <DodamFilledButton
-                size={'Medium'}
-                text='승인'
+                size={"Medium"}
+                text="승인"
                 width={120}
-                enabled={selectedMember !== 0}
+                enabled={selectedMember !== 0 && canManage}
                 onClick={() => {
                   postMemberStatusMutation.mutate({
                     clubId: id,
                     studentId: selectedMember,
                     status: EClubState.ALLOWED,
-                  })
-                  refetch()
+                  });
+                  refetch();
                 }}
                 textTheme="staticWhite"
               />
               <DodamFilledButton
-                size={'Medium'}
-                text='거절'
+                size={"Medium"}
+                text="거절"
                 width={120}
-                backgroundColorType='Negative'
-                enabled={selectedMember !== 0}
+                backgroundColorType="Negative"
+                enabled={selectedMember !== 0 && canManage}
                 onClick={() => {
                   postMemberStatusMutation.mutate({
                     clubId: id,
                     studentId: selectedMember,
                     status: EClubState.DELETED,
-                  })
-                  refetch()
+                  });
+                  refetch();
                 }}
               />
             </S.ManageButtonBar>
           </S.ManageHandleContainer>
         </>
       ) : (
-        <p>신청한 멤버가 없습니다.</p>
+        <p>승인이 필요한 멤버가 없습니다.</p>
       )}
     </S.ManagerMemberMain>
-  )
+  );
 }
 
 export default ManagerMemberList
