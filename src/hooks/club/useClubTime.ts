@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 export const useClubTime = () => {
   const { data: timeData, isLoading: timeIsLoading } = useGetTime()
 
-  const today = dayjs().format('YYYY-MM-DD')
+  const today = dayjs().format('YYYY-MM-DDTHH:MM')
   return {
     timeData,
     timeIsLoading,
