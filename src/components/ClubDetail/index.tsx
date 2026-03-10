@@ -89,13 +89,16 @@ const ClubDetail = ({ type, modalId = 1, close }: ClubDetailProps) => {
             <S.ClubDetailMainContainer>
               <S.ClubDetailMemberList>
                 부원
-                {clubMemberData!.students.map((item) => (
-                  <MemberItem
-                    value={item}
-                    type={clubMemberData?.isLeader ? 'STATUS' : 'LIST'}
-                    key={item.id}
-                  />
-                ))}
+                {clubMemberData!.students
+                  .filter(item => item.status !== "DELETED")
+                  .map((item) => (
+                    <MemberItem
+                      value={item}
+                      type={clubMemberData?.isLeader ? 'STATUS' : 'LIST'}
+                      key={item.id}
+                    />
+                  ))
+                }
               </S.ClubDetailMemberList>
               <S.ClubDetailDescription>
                 설명
