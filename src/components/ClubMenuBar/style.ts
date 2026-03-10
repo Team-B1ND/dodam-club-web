@@ -23,6 +23,7 @@ export const ClubMenubarItem = styled.div`
   align-items: center;
   ${DodamShape.Large};
   background-color: ${({ theme }) => theme.backgroundNormal};
+  color: ${({ theme }) => theme.labelNormal};
   > p {
     ${DodamTypography.Body2.Bold};
     text-align: center;
