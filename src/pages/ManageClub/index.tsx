@@ -103,12 +103,6 @@ const ManageClubPage = () => {
 
   // 필터링된 멤버 리스트
   const filteredMembers = allMember?.filter((item) => item.grade === 2)
-
-  useEffect(() => {
-    console.log(isValid)
-    console.log(`${fields.description.value} ${fields.name.value} ${fields.shortDescription.value}`)
-  }, [fields])
-
   const onSubmit = (data: Club) => {
     if (clubDatail) {
       const { studentIds, state, ...patchData } = data;
@@ -167,7 +161,7 @@ const ManageClubPage = () => {
               supportingText={
                 fieldStates.shortDescriptionState.error
                   ? fieldStates.shortDescriptionState.error.message
-                  : "14자 이하"
+                  : "30자 이하"
               }
               value={fields.shortDescription.value}
               onChange={fields.shortDescription.onChange}
@@ -294,7 +288,7 @@ const ManageClubPage = () => {
                 width={144}
                 textTheme="staticWhite"
                 typography={["Body1", "Bold"]}
-                enabled={isValid && fields.studentIds.value.length !== 0}
+                enabled={isValid}
               />
             </S.CreateClubSubmit>
           </S.CreateClubForm>

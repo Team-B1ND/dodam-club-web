@@ -42,7 +42,7 @@ export default function useClubForm({
       },
       maxLength: {
         value: 30,
-        message: "14자리 이하만 가능합니다."
+        message: "30자리 이하만 가능합니다."
       }
     }
   });
