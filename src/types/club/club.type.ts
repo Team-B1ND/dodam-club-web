@@ -53,6 +53,7 @@ export interface ClubResponse {
   myStatus?: string;
   createdAt?: string;
   modifiedAt?: string;
+  maxMemberCount: number;
 }
 
 export interface ClubJoinResponse {

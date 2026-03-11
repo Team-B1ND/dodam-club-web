@@ -3,16 +3,33 @@ import * as S from "./style"
 import ApplyClubList from "src/components/ApplyClubList"
 import clubApi from "src/api/Club/club.api";
 import ApplyClubDialog from "src/components/ApplyClubDialog";
+import { useNavigate } from "react-router-dom";
+import { B1ndToast } from "@b1nd/b1nd-toastify";
+import { AxiosError } from "axios";
+import { ClubErrorResponse } from "src/types/response/response.type";
+import { useQueryClient } from "react-query";
+import { QUERY_KEYS } from "src/queries/queryKey";
 
 const ApplyPage = () => {
   const [selectedClubId, setSelectedClubId] = useState<number>(0);
   const [selectedClubName, setSelectedClubName] = useState("");
   const [introduce, setIntroduce] = useState("");
-
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
-  
+
+  const nav = useNavigate();
+  const queryClient = useQueryClient();
+
   const submitApply = (id: number) => {
-    clubApi.postApplyClub({clubId: id, introduction: introduce}).catch((e) => console.log(e))
+    clubApi.postApplyClub({
+      clubId: id, 
+      introduction: introduce
+    })
+    .then(() => {
+      queryClient.invalidateQueries(QUERY_KEYS.clubs.getStudentApply, { refetchInactive: true })
+      nav("/")
+    })
+    .catch((e: AxiosError<ClubErrorResponse>) => B1ndToast.showError(`신청에 실패했습니다! ${e.response?.data.message}`))
+    .finally(() => setDialogIsOpen(false));
   }
 
   return (

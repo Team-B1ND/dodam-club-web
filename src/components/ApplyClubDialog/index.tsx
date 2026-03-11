@@ -16,7 +16,7 @@ const ApplyClubDialog = ({
   isOpen,
   close
 }: ApplyClubDialogProps) => {
-  const nav = useNavigate();
+
   const queryClient = useQueryClient();
 
   return (
@@ -30,8 +30,6 @@ const ApplyClubDialog = ({
             content: "제출",
             onClick: () => {
               onSubmit();
-              close();
-              nav("/club");
               queryClient.invalidateQueries(QUERY_KEYS.joinRequest.getJoinRequests, { refetchInactive: true })
             }
           },
