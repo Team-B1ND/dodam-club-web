@@ -10,12 +10,11 @@ const ClubMenuBar = () => {
   const { timeData, timeIsLoading, today } = useClubTime();
   const { data: joinedClub, isLoading: joinedIsLoading } = useGetMyJoinedClubQuery()
   const [isOpen, setIsOpen] = useState(false);
-
   return timeIsLoading || joinedIsLoading ? (
     <S.ClubMenubarContainer>
       <S.ClubMenubarItem>loading...</S.ClubMenubarItem>
     </S.ClubMenubarContainer>
-  ) : dayjs(today).isAfter(timeData!.applicantStart) ? (
+  ) : dayjs().isAfter("2026-03-10") ? (
     <S.ClubMenubarContainer>
       <MyClubManageMenu isOpen={isOpen} setIsOpen={setIsOpen} />
       {joinedClub?.length === 0 ? (
@@ -31,7 +30,8 @@ const ClubMenuBar = () => {
         </S.ClubMenubarItem>
       )}
     </S.ClubMenubarContainer>
-  ) : (
+  ) 
+  : (
     <S.ClubMenubarContainer>
       <S.ClubMenubarItem>
         <p>
