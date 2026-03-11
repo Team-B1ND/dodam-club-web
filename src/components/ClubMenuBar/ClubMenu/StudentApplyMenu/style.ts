@@ -8,8 +8,10 @@ export const MenuItemContainer = styled.div`
   background-color: ${({ theme }) => theme.backgroundNormal};
   padding: 16px;
   ${DodamShape.Large};
+  color: ${({ theme }) => theme.labelNormal};
   > p {
     ${DodamTypography.Headline.Bold}
+    color: ${({ theme }) => theme.labelNormal};
   }
 
   > div {

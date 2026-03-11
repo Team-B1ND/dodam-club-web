@@ -13,7 +13,7 @@ export const TextContainer = styled.div<{
   background-color: ${({ $status, theme }) =>
     $status === "PENDING"
       ? theme.primaryAlternative
-      : $status === "REJECTED"
+      : $status === "REJECTED" || $status === "DELETED"
         ? theme.statusNegative
         : $status === "ALLOWED"
           ? theme.primaryNormal
