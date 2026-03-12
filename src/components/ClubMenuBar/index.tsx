@@ -2,7 +2,6 @@ import * as S from "./style"
 import { useState } from 'react'
 import { useGetMyJoinedClubQuery } from 'src/queries/useClub'
 import { useClubTime } from 'src/hooks/club/useClubTime'
-import dayjs from 'dayjs'
 import MyClubManageMenu from "src/components/ClubMenuBar/ClubMenu/MyClubManageMenu"
 import StudentApplyMenu from "src/components/ClubMenuBar/ClubMenu/StudentApplyMenu"
 
@@ -14,7 +13,7 @@ const ClubMenuBar = () => {
     <S.ClubMenubarContainer>
       <S.ClubMenubarItem>loading...</S.ClubMenubarItem>
     </S.ClubMenubarContainer>
-  ) : dayjs().isAfter("2026-03-10") ? (
+  ) : new Date(today).getTime() > new Date(timeData!.applicantStart).getTime() && new Date(today).getTime() < new Date(timeData!.applicantEnd).getTime() ? (
     <S.ClubMenubarContainer>
       <MyClubManageMenu isOpen={isOpen} setIsOpen={setIsOpen} />
       {joinedClub?.length === 0 ? (

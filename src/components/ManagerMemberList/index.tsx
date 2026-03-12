@@ -72,7 +72,7 @@ const ManagerMemberList = ({
               }
             </S.MemberDescriptionContainer>
             <S.ManageButtonBar>
-              <p>{canManage || `승인 및 거절은 ${CLUB_PICK_TIMES.startAt.split("T")[0]} 이후에 가능합니다.`}</p>
+              <p>{canManage || `승인 및 거절은 ${CLUB_PICK_TIMES.startAt} 이후에 가능합니다.`}</p>
               <DodamFilledButton
                 size={"Medium"}
                 text="승인"

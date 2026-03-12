@@ -12,10 +12,10 @@ const ClubMain = () => {
       <S.ClubListHead>동아리</S.ClubListHead>
       {timeIsLoading ? (
         <>loading....</>
-      // ) : dayjs(today).isBefore(timeData!.applicantStart) ? (
-      //   <S.ClubMessage>
-      //     현재 동아리 개설 기간입니다.
-      //   </S.ClubMessage>
+      ) : new Date(today).getTime() < new Date(timeData!.createEnd).getTime() ? (
+        <S.ClubMessage>
+          현재 동아리 개설 기간입니다.
+        </S.ClubMessage>
       ) : (
         <ClubList/>
       )}
