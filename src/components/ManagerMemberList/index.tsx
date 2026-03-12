@@ -42,7 +42,7 @@ const ManagerMemberList = ({
       refetch()
     }
   }, [postMemberStatusMutation.isSuccess, refetch])
-  const canManage = dayjs().isAfter(CLUB_PICK_TIMES.startAt) && dayjs().isBefore(CLUB_PICK_TIMES.endAt)
+  const canManage = new Date().getTime() < new Date(CLUB_PICK_TIMES.startAt).getTime() && new Date().getTime() > new Date(CLUB_PICK_TIMES.endAt).getTime()
   return clubMemberIsLoading || isFetching ? (
     <S.ManagerMemberMain>
       <p>loading...</p>
@@ -72,7 +72,7 @@ const ManagerMemberList = ({
               }
             </S.MemberDescriptionContainer>
             <S.ManageButtonBar>
-              <p>{canManage || `승인 및 거절은 ${CLUB_PICK_TIMES.startAt} 이후에 가능합니다.`}</p>
+              <p>{canManage || `승인 및 거절은 ${CLUB_PICK_TIMES.startAt.split("T").join(" ")} 이후에 가능합니다.`}</p>
               <DodamFilledButton
                 size={"Medium"}
                 text="승인"

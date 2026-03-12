@@ -1,7 +1,6 @@
 import ClubList from "src/components/ClubMain/ClubList";
 import * as S from "./style";
 import { useClubTime } from "src/hooks/club/useClubTime";
-import dayjs from "dayjs";
 
 
 const ClubMain = () => {
