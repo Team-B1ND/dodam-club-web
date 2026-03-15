@@ -29,6 +29,8 @@ const ClubMenuBar = () => {
         </S.ClubMenubarItem>
       )}
       {new Date(today).getTime() > new Date(timeData!.applicantStart).getTime() && new Date(today).getTime() < new Date(timeData!.applicantEnd).getTime() ? (
+          <></>
+        ) : (
           <S.ClubMenubarItem>
             <p>
               동아리 입부 신청 <br /> 기간이 아닙니다.
@@ -38,8 +40,6 @@ const ClubMenuBar = () => {
               <span>만료: {timeData?.applicantEnd.split("T").join(" ")}</span>
             </div>
           </S.ClubMenubarItem>
-        ) : (
-          <></>
       )}
     </S.ClubMenubarContainer>
   );
