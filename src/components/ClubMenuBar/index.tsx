@@ -13,7 +13,7 @@ const ClubMenuBar = () => {
     <S.ClubMenubarContainer>
       <S.ClubMenubarItem>loading...</S.ClubMenubarItem>
     </S.ClubMenubarContainer>
-  ) : new Date(today).getTime() > new Date(timeData!.applicantStart).getTime() && new Date(today).getTime() < new Date(timeData!.applicantEnd).getTime() ? (
+  ) : (
     <S.ClubMenubarContainer>
       <MyClubManageMenu isOpen={isOpen} setIsOpen={setIsOpen} />
       {joinedClub?.length === 0 ? (
@@ -28,19 +28,19 @@ const ClubMenuBar = () => {
           </div>
         </S.ClubMenubarItem>
       )}
-    </S.ClubMenubarContainer>
-  ) 
-  : (
-    <S.ClubMenubarContainer>
-      <S.ClubMenubarItem>
-        <p>
-          동아리 입부 신청 <br /> 기간이 아닙니다.
-        </p>
-        <div>
-          <span>시작: {timeData?.applicantStart.split("T").join(" ")}</span>
-          <span>만료: {timeData?.applicantEnd.split("T").join(" ")}</span>
-        </div>
-      </S.ClubMenubarItem>
+      {new Date(today).getTime() > new Date(timeData!.applicantStart).getTime() && new Date(today).getTime() < new Date(timeData!.applicantEnd).getTime() ? (
+          <S.ClubMenubarItem>
+            <p>
+              동아리 입부 신청 <br /> 기간이 아닙니다.
+            </p>
+            <div>
+              <span>시작: {timeData?.applicantStart.split("T").join(" ")}</span>
+              <span>만료: {timeData?.applicantEnd.split("T").join(" ")}</span>
+            </div>
+          </S.ClubMenubarItem>
+        ) : (
+          <></>
+      )}
     </S.ClubMenubarContainer>
   );
 }
