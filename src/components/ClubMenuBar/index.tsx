@@ -16,20 +16,21 @@ const ClubMenuBar = () => {
   ) : (
     <S.ClubMenubarContainer>
       <MyClubManageMenu isOpen={isOpen} setIsOpen={setIsOpen} />
-      {joinedClub?.length === 0 ? (
-        <StudentApplyMenu time={timeData!.applicantEnd.split("T").join(" ")} />
-      ) : (
-        <S.ClubMenubarItem>
-          <p>
-            이미 소속된 <br /> 동아리가 존재해요!
-          </p>
-          <div>
-            <span>{`소속 동아리: ${joinedClub?.[0].name}`}</span>
-          </div>
-        </S.ClubMenubarItem>
-      )}
-      {new Date(today).getTime() > new Date(timeData!.applicantStart).getTime() && new Date(today).getTime() < new Date(timeData!.applicantEnd).getTime() ? (
-          <></>
+      {new Date().getTime() > new Date(timeData!.applicantStart).getTime() && new Date().getTime() < new Date(timeData!.applicantEnd).getTime() ? (
+        <>
+          {joinedClub?.length === 0 ? (
+            <StudentApplyMenu time={timeData!.applicantEnd.split("T").join(" ")} />
+          ) : (
+            <S.ClubMenubarItem>
+              <p>
+                이미 소속된 <br /> 동아리가 존재해요!
+              </p>
+              <div>
+                <span>{`소속 동아리: ${joinedClub?.[0].name}`}</span>
+              </div>
+            </S.ClubMenubarItem>
+          )}
+        </>
         ) : (
           <S.ClubMenubarItem>
             <p>
