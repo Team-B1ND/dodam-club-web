@@ -54,6 +54,7 @@ export interface ClubResponse {
   createdAt?: string;
   modifiedAt?: string;
   maxMemberCount: number;
+  isMax: boolean;
 }
 
 export interface ClubJoinResponse {

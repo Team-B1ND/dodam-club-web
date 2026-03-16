@@ -13,7 +13,7 @@ const ApplyClubList = ({
   const { data } = useGetClubsQuery();
   return (
     <S.Container>
-      {data?.map(item => (
+      {data?.filter(item => !item.isMax).map(item => (
         <S.ClubItem $selected={(selectedClubId === item.id).toString()} onClick={() => onClick(item.id, item.name)} key={item.id}>
           {item.name}
         </S.ClubItem>
