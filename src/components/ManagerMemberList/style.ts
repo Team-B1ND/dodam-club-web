@@ -17,6 +17,7 @@ export const ManagerMemberMain = styled.div`
   justify-content: center;
   align-items: center;
   > p {
+    color: ${({ theme }) => theme.labelNormal};
     ${DodamTypography.Headline.Bold}
   }
 `
