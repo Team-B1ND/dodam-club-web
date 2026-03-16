@@ -42,7 +42,7 @@ const ManagerMemberList = ({
       refetch()
     }
   }, [postMemberStatusMutation.isSuccess, refetch])
-  const canManage = new Date().getTime() < new Date(CLUB_PICK_TIMES.startAt).getTime() && new Date().getTime() > new Date(CLUB_PICK_TIMES.endAt).getTime()
+  const canManage = new Date().getTime() > new Date(CLUB_PICK_TIMES.startAt).getTime() && new Date().getTime() < new Date(CLUB_PICK_TIMES.endAt).getTime()
   return clubMemberIsLoading || isFetching ? (
     <S.ManagerMemberMain>
       <p>loading...</p>
