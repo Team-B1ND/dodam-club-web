@@ -15,14 +15,14 @@ const StudentApplyMenu = ({
   const navigate = useNavigate();
 
   return data!.length > 0 ? (
-   {data!.filter(item => item.status === "ALLOWED").length === 0 ? (
+    <>
     <DodamFilledButton
       size={"Large"}
       text="동아리 입부 신청하기"
       textTheme="staticWhite"
       typography={["Body2", "Bold"]} onClick={() => navigate("/register")}
     />
-   ) : ()}
+  
     <S.MenuItemContainer>
       <p>내 동아리 정보</p>
       {data?.map((item) => (
@@ -32,6 +32,7 @@ const StudentApplyMenu = ({
         </div>
       ))}
     </S.MenuItemContainer>
+    </>
   ) : (
 
     <>
