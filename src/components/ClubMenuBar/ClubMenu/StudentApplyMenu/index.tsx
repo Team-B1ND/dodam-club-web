@@ -14,7 +14,7 @@ const StudentApplyMenu = ({
     useGetStudentApplyQuery();
   const navigate = useNavigate();
 
-  return data!.length > 0 ? (
+  return data!.filter(item => item.club.status === "ALLOWED").length === 1 ? (
     <S.MenuItemContainer>
       <p>내 동아리 정보</p>
       {data?.map((item) => (
