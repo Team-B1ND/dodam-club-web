@@ -15,7 +15,7 @@ const StudentApplyMenu = ({
   const navigate = useNavigate();
 
   return data!.length > 0 ? (
-   {data!.filter(item => item.club.status === "ALLOWED").length === 0 ? (
+   {data!.filter(item => item.status === "ALLOWED").length === 0 ? (
     <DodamFilledButton
       size={"Large"}
       text="동아리 입부 신청하기"
